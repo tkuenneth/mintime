@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Min Time</string>
+    <string name="min">min.</string>
+    <string name="sec">sec.</string>
+    <string name="start">Start</string>
+    <string name="resume">Back to time view</string>
+    <string name="template">%1$d %2$s</string>
+
+</resources>

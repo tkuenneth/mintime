@@ -1,0 +1,13 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res/com.thomaskuenneth.mintime"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    
+    <com.thomaskuenneth.mintime.BigTime
+        android:id="@+id/timer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+    
+</FrameLayout>

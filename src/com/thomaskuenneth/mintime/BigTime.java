@@ -1,3 +1,9 @@
+/*
+ * BigTime.java
+ * 
+ * TKWeek (c) Thomas Künneth 2014
+ * Alle Rechte beim Autoren. All rights reserved.
+ */
 package com.thomaskuenneth.mintime;
 
 import android.content.Context;
@@ -5,15 +11,24 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Paint.FontMetrics;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.View;
 
+/**
+ * Diese Klasse realisiert eine Zeitanzeige mit großer Schrift.
+ * 
+ * @author Thomas
+ * 
+ */
 public class BigTime extends View {
 
-	private final Paint paint;
+	private final Paint paint1;
+	private final Paint paint2;
 	private int color;
 	private String text = "";
+	private boolean redAlert;
 
 	public BigTime(Context context) {
 		this(context, null, 0);
@@ -26,34 +41,46 @@ public class BigTime extends View {
 	public BigTime(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 		color = Color.WHITE;
-		TypedArray a = getContext().obtainStyledAttributes(attrs,
-				R.styleable.Counter);
-		int n = a.getIndexCount();
-		for (int i = 0; i < n; i++) {
-			int attr = a.getIndex(i);
-			switch (attr) {
-			case R.styleable.Counter_color:
-				color = a.getColor(i, color);
-				break;
-			default:
-				throw new RuntimeException("Unknown attribute for "
-						+ getClass().toString() + ": " + attr);
-			}
+		TypedArray a = getContext().getTheme().obtainStyledAttributes(attrs,
+				R.styleable.Counter, 0, 0);
+		try {
+			color = a.getColor(R.styleable.Counter_color, color);
+		} finally {
 		}
+		redAlert = false;
 		a.recycle();
-		// Paint für die Textausgabe
-		paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-		paint.setTypeface(Typeface.DEFAULT);
-		paint.setTextAlign(Paint.Align.CENTER);
-		paint.setTextSize(48);
+		// Paint für die Zeitanzeige
+		paint1 = new Paint(Paint.ANTI_ALIAS_FLAG);
+		paint1.setTypeface(Typeface.DEFAULT);
+		paint1.setTextAlign(Paint.Align.CENTER);
+		paint2 = new Paint(paint1);
+	}
+
+	@Override
+	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+		String text = getContext().getString(R.string.template, 999,
+				getContext().getString(R.string.sec));
+		CanvasUtils.calcTextHeight(paint1, w, text);
+		CanvasUtils.calcTextHeight(paint2, w,
+				getContext().getString(R.string.hint));
 	}
 
 	@Override
 	protected void onDraw(Canvas canvas) {
 		float width = getWidth();
 		float height = getHeight();
-		paint.setColor(color);
-		CanvasUtils.drawText(canvas, width / 2, height / 2, text, paint);
+		if (redAlert) {
+			setBackgroundColor(color);
+			paint1.setColor(Color.WHITE);
+			paint2.setColor(Color.WHITE);
+		} else {
+			paint1.setColor(color);
+			paint2.setColor(color);
+		}
+		CanvasUtils.drawText(canvas, width / 2, height / 2, text, paint1);
+		FontMetrics fm = paint2.getFontMetrics();
+		canvas.drawText(getContext().getString(R.string.hint), width / 2,
+				height - 1 - fm.descent, paint2);
 	}
 
 	public void setColor(int color) {
@@ -63,6 +90,11 @@ public class BigTime extends View {
 
 	public void setText(String text) {
 		this.text = text;
+		postInvalidate();
+	}
+
+	public void setRedAlert(boolean redAlert) {
+		this.redAlert = redAlert;
 		postInvalidate();
 	}
 }

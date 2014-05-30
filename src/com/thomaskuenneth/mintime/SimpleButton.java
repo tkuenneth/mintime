@@ -1,3 +1,9 @@
+/*
+ * SimpleButton.java
+ * 
+ * TKWeek (c) Thomas Künneth 2014
+ * Alle Rechte beim Autoren. All rights reserved.
+ */
 package com.thomaskuenneth.mintime;
 
 import android.content.Context;
@@ -5,6 +11,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.View;
@@ -45,7 +52,6 @@ public class SimpleButton extends View {
 		paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		paint.setTypeface(Typeface.DEFAULT);
 		paint.setTextAlign(Paint.Align.CENTER);
-		paint.setTextSize(48);
 		setColor(color);
 	}
 
@@ -54,6 +60,12 @@ public class SimpleButton extends View {
 		float width = getWidth();
 		float height = getHeight();
 		CanvasUtils.drawText(canvas, width / 2, height / 2, text, paint);
+	}
+
+	@Override
+	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+		Point outSize = CanvasUtils.getScreenSize(getContext());
+		paint.setTextSize(outSize.y / 12);
 	}
 
 	public void setColor(int color) {
@@ -65,7 +77,7 @@ public class SimpleButton extends View {
 		this.text = text;
 		postInvalidate();
 	}
-	
+
 	public void setText(int resId) {
 		setText(getContext().getString(resId));
 	}

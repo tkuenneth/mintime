@@ -1,3 +1,9 @@
+/*
+ * Counter.java
+ * 
+ * TKWeek (c) Thomas Künneth 2014
+ * Alle Rechte beim Autoren. All rights reserved.
+ */
 package com.thomaskuenneth.mintime;
 
 import java.util.Timer;
@@ -11,22 +17,28 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 
+/**
+ * Komponente, die einen Zähler repräsentiert. Der Wert kann mit Plus/Minus
+ * eingestellt werden.
+ * 
+ * @author Thomas
+ * 
+ */
 public class Counter extends View {
 
 	private static final int INTERVAL = 500;
 	private static final int INITIAL = 10;
+
 	private boolean useMinutes = true;
 	private boolean increase;
 	private long value = 0;
 	private int times = 0;
-
 	private Timer timer = null;
 	private TimerTask task = null;
+
 	private final Paint paint;
 	private final int color;
 
@@ -63,13 +75,6 @@ public class Counter extends View {
 		paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		paint.setTypeface(Typeface.DEFAULT);
 		paint.setTextAlign(Paint.Align.CENTER);
-
-		WindowManager wm = (WindowManager) getContext().getSystemService(
-				Context.WINDOW_SERVICE);
-		Display display = wm.getDefaultDisplay();
-		Point outSize = new Point();
-		display.getSize(outSize);
-		paint.setTextSize(outSize.y / 12);
 
 		setOnTouchListener(new OnTouchListener() {
 
@@ -133,6 +138,12 @@ public class Counter extends View {
 	}
 
 	@Override
+	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+		Point outSize = CanvasUtils.getScreenSize(getContext());
+		paint.setTextSize(outSize.y / 12);
+	}
+
+	@Override
 	protected void onDraw(Canvas canvas) {
 		float width = getWidth();
 		float height = getHeight();
@@ -144,9 +155,10 @@ public class Counter extends View {
 		paint.setColor(color);
 		CanvasUtils.drawText(canvas, widthSmall + widthLarge / 2, height / 2,
 				info, paint);
-		CanvasUtils.drawText(canvas, widthSmall / 2, height / 2, "-", paint);
+		CanvasUtils.drawText(canvas, widthSmall / 2, height / 2, getContext()
+				.getString(R.string.minus), paint);
 		CanvasUtils.drawText(canvas, widthSmall + widthLarge + widthSmall / 2,
-				height / 2, "+", paint);
+				height / 2, getContext().getString(R.string.plus), paint);
 	}
 
 	@Override
@@ -160,7 +172,7 @@ public class Counter extends View {
 	public long getValueInMillis() {
 		return useMinutes ? value * 60000 : value * 1000;
 	}
-	
+
 	public void setValueInMillis(long value) {
 		value /= 1000;
 		if (value >= 60) {

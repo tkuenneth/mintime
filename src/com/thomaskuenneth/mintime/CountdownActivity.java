@@ -1,3 +1,9 @@
+/*
+ * CountdownActivity.java
+ * 
+ * TKWeek (c) Thomas Künneth 2014
+ * Alle Rechte beim Autoren. All rights reserved.
+ */
 package com.thomaskuenneth.mintime;
 
 import org.json.JSONObject;
@@ -10,6 +16,12 @@ import android.view.View.OnClickListener;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 
+/**
+ * Diese Activity realisiert die Zeitanzeige/Countdown.
+ * 
+ * @author Thomas
+ * 
+ */
 public class CountdownActivity extends Activity {
 
 	private JSONObject data;
@@ -24,14 +36,14 @@ public class CountdownActivity extends Activity {
 
 		timer = (BigTime) findViewById(R.id.timer);
 		timer.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				MinTime.putLongInJSONObject(data, MinTime.RESUMED, -1);
 				finish();
 			}
 		});
-		
+
 		anim = new AlphaAnimation(0.0f, 1.0f);
 		anim.setDuration(1000);
 		anim.setRepeatMode(Animation.REVERSE);
@@ -41,6 +53,7 @@ public class CountdownActivity extends Activity {
 	@Override
 	protected void onPause() {
 		super.onPause();
+		timer.setRedAlert(false);
 		anim.cancel();
 		anim.reset();
 		task.cancel(true);
@@ -56,7 +69,7 @@ public class CountdownActivity extends Activity {
 		if (data == null) {
 			throw new IllegalStateException("data == null");
 		}
-		
+
 		if (MinTime.getLongFromJSONObject(data, MinTime.RESUMED) == -1) {
 			MinTime.putLongInJSONObject(data, MinTime.RESUMED,
 					System.currentTimeMillis());
@@ -73,9 +86,10 @@ public class CountdownActivity extends Activity {
 						if (remaining < 0) {
 							remaining = -remaining;
 						}
-						Thread.sleep(remaining >= 120000 ? 60000 : 1000);
+						Thread.sleep(remaining >= 150000 ? 60000 : 1000);
 					} catch (InterruptedException e) {
-						// keine Log-Ausgabe nötig - der Threas darf ja jederzeit unterbrochen werden
+						// keine Log-Ausgabe nötig - der Threas darf ja
+						// jederzeit unterbrochen werden
 					}
 				}
 				return null;
@@ -88,12 +102,6 @@ public class CountdownActivity extends Activity {
 				if (remaining < 0) {
 					startAnimation = true;
 					remaining = -remaining;
-				}
-				long secs = remaining / 1000;
-				if (secs >= 60) {
-					timer.setText("" + secs / 60 + " Minuten");
-				} else {
-					timer.setText("" + secs + " Sekunden");
 				}
 				long elapsed = getElpased();
 				int color;
@@ -108,8 +116,17 @@ public class CountdownActivity extends Activity {
 					color = R.color.red;
 				}
 				timer.setColor(getResources().getColor(color));
+				long secs = remaining / 1000;
+				if (secs >= 60) {
+					timer.setText(getString(R.string.template, secs / 60,
+							getString(R.string.min)));
+				} else {
+					timer.setText(getString(R.string.template, secs,
+							getString(R.string.sec)));
+				}
 				if (startAnimation) {
 					timer.startAnimation(anim);
+					timer.setRedAlert(true);
 				}
 			}
 		};

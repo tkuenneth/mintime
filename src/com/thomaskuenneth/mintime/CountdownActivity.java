@@ -52,8 +52,8 @@ public class CountdownActivity extends Activity {
 
 	@Override
 	protected void onPause() {
-		super.onPause();
 		timer.setRedAlert(false);
+		super.onPause();
 		anim.cancel();
 		anim.reset();
 		task.cancel(true);
@@ -79,7 +79,7 @@ public class CountdownActivity extends Activity {
 
 			@Override
 			protected Void doInBackground(Void... params) {
-				while (!isCancelled()) {
+				while (!isCancelled() && (data != null)) {
 					try {
 						long remaining = getRemaining();
 						publishProgress(remaining);
@@ -97,36 +97,38 @@ public class CountdownActivity extends Activity {
 
 			@Override
 			protected void onProgressUpdate(Long... values) {
-				long remaining = values[0];
-				boolean startAnimation = false;
-				if (remaining < 0) {
-					startAnimation = true;
-					remaining = -remaining;
-				}
-				long elapsed = getElpased();
-				int color;
-				if (elapsed <= MinTime.getLongFromJSONObject(data,
-						MinTime.COUNTER1)) {
-					color = R.color.green;
-				} else if (elapsed <= (MinTime.getLongFromJSONObject(data,
-						MinTime.COUNTER1) + MinTime.getLongFromJSONObject(data,
-						MinTime.COUNTER2))) {
-					color = R.color.orange;
-				} else {
-					color = R.color.red;
-				}
-				timer.setColor(getResources().getColor(color));
-				long secs = remaining / 1000;
-				if (secs >= 60) {
-					timer.setText(getString(R.string.template, secs / 60,
-							getString(R.string.min)));
-				} else {
-					timer.setText(getString(R.string.template, secs,
-							getString(R.string.sec)));
-				}
-				if (startAnimation) {
-					timer.startAnimation(anim);
-					timer.setRedAlert(true);
+				if (data != null) {
+					long remaining = values[0];
+					boolean startAnimation = false;
+					if (remaining < 0) {
+						startAnimation = true;
+						remaining = -remaining;
+					}
+					long elapsed = getElpased();
+					int color;
+					if (elapsed <= MinTime.getLongFromJSONObject(data,
+							MinTime.COUNTER1)) {
+						color = R.color.green;
+					} else if (elapsed <= (MinTime.getLongFromJSONObject(data,
+							MinTime.COUNTER1) + MinTime.getLongFromJSONObject(
+							data, MinTime.COUNTER2))) {
+						color = R.color.orange;
+					} else {
+						color = R.color.red;
+					}
+					timer.setColor(getResources().getColor(color));
+					long secs = remaining / 1000;
+					if (secs >= 60) {
+						timer.setText(getString(R.string.template, secs / 60,
+								getString(R.string.min)));
+					} else {
+						timer.setText(getString(R.string.template, secs,
+								getString(R.string.sec)));
+					}
+					if (startAnimation) {
+						timer.startAnimation(anim);
+						timer.setRedAlert(true);
+					}
 				}
 			}
 		};

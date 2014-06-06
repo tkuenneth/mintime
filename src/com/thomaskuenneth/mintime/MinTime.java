@@ -1,3 +1,9 @@
+/*
+ * MinTime.java
+ * 
+ * TKWeek (c) Thomas Künneth 2014
+ * Alle Rechte beim Autoren. All rights reserved.
+ */
 package com.thomaskuenneth.mintime;
 
 import java.io.ByteArrayOutputStream;
@@ -16,6 +22,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+/**
+ * Dies ist die Hauptactivity der App.
+ * 
+ * @author Thomas
+ * 
+ */
 public class MinTime extends Activity {
 
 	private static final String TAG = MinTime.class.getSimpleName();
@@ -47,16 +59,19 @@ public class MinTime extends Activity {
 			public void onClick(View v) {
 				Intent intent = new Intent(MinTime.this,
 						CountdownActivity.class);
-				putLongInJSONObject(data, COUNTER1, counter1.getValueInMillis());
-				putLongInJSONObject(data, COUNTER2, counter2.getValueInMillis());
-				putLongInJSONObject(data, COUNTER3, counter3.getValueInMillis());
-				if (saveJSONObject(MinTime.this, data)) {
+				if (save()) {
 					startActivity(intent);
 				} else {
 					// TODO: Meldung ausgeben?
 				}
 			}
 		});
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		save();
 	}
 
 	@Override
@@ -145,6 +160,13 @@ public class MinTime extends Activity {
 		} catch (JSONException e) {
 			Log.e(TAG, "Fehler beim Schreiben von " + name, e);
 		}
+	}
+
+	private boolean save() {
+		putLongInJSONObject(data, COUNTER1, counter1.getValueInMillis());
+		putLongInJSONObject(data, COUNTER2, counter2.getValueInMillis());
+		putLongInJSONObject(data, COUNTER3, counter3.getValueInMillis());
+		return saveJSONObject(this, data);
 	}
 
 }

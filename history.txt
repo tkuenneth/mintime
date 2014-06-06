@@ -1,0 +1,2 @@
+1.01
+- kleiner Bugfix: vor dem Start des Countdowns wurden u. U. die aktuellen Einstellungen nicht gespeichert

@@ -9,7 +9,7 @@
         android:id="@+id/counter1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.25"
+        android:layout_weight="0.2"
         custom:color="@com.thomaskuenneth.mintime:color/green"
         />
     
@@ -17,7 +17,7 @@
         android:id="@+id/counter2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.25"
+        android:layout_weight="0.2"
         custom:color="@com.thomaskuenneth.mintime:color/orange"
         />
     
@@ -25,15 +25,22 @@
         android:id="@+id/counter3"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.25"
+        android:layout_weight="0.2"
         custom:color="@com.thomaskuenneth.mintime:color/red"
         />
         	    
     <com.thomaskuenneth.mintime.SimpleButton
+        android:id="@+id/total"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"
+        />
+    	    
+    <com.thomaskuenneth.mintime.SimpleButton
         android:id="@+id/start_or_resume"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.25"
+        android:layout_weight="0.2"
         />
     
 </LinearLayout>

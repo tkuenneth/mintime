@@ -23,7 +23,7 @@ import android.view.WindowManager;
 public class CanvasUtils {
 
 	/**
-	 * Zeichnet einen Text, der in einer bounding box hentriert wird.
+	 * Zeichnet einen Text, der in einer bounding box zentriert wird.
 	 * 
 	 * @param canvas
 	 *            Canvas
@@ -76,11 +76,11 @@ public class CanvasUtils {
 		int last = size;
 		boolean first = true;
 		int offset = 0;
-		while (last > 4) {
+		while (last > 8) {
 			paint.setTextSize(size);
 			float currentWidth = paint.measureText(text);
 			if (first) {
-				offset = currentWidth < width ? 4 : -4;
+				offset = currentWidth < width ? 8 : -8;
 				first = false;
 			} else {
 				if (offset > 0) {

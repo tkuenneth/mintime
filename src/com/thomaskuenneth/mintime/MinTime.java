@@ -6,11 +6,10 @@
  */
 package com.thomaskuenneth.mintime;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,8 +18,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.widget.Toast;
 
 /**
  * Dies ist die Hauptactivity der App.
@@ -32,141 +37,266 @@ public class MinTime extends Activity {
 
 	private static final String TAG = MinTime.class.getSimpleName();
 	private static final String FILENAME = TAG + ".dat";
+	private static final String FILENAME_DISTRIBUTIONS = TAG + ".dst";
+	private static final String DST = "distributions";
 
 	public static final String COUNTER1 = "counter1";
 	public static final String COUNTER2 = "counter2";
 	public static final String COUNTER3 = "counter3";
 	public static final String RESUMED = "resumed";
+	
+	public static final long ONE_MINUTE = 60000l;
 
 	private Counter counter1, counter2, counter3;
-	private SimpleButton start;
-	
+	private SimpleButton total, start;
+
 	private JSONObject data;
+	private List<String> distributions;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-
-		counter1 = (Counter) findViewById(R.id.counter1);
-		counter2 = (Counter) findViewById(R.id.counter2);
-		counter3 = (Counter) findViewById(R.id.counter3);
-
+		
+		total = (SimpleButton) findViewById(R.id.total);
 		start = (SimpleButton) findViewById(R.id.start_or_resume);
 		start.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(MinTime.this,
-						CountdownActivity.class);
-				if (save()) {
+				if (updateAndSaveData()) {
+					Intent intent = new Intent(MinTime.this,
+							CountdownActivity.class);
 					startActivity(intent);
 				} else {
-					// TODO: Meldung ausgeben?
+					Toast.makeText(MinTime.this, R.string.error1,
+							Toast.LENGTH_LONG).show();
 				}
 			}
 		});
+
+		OnClickListener l = new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				updateTotal();
+			}
+		};
+		counter1 = (Counter) findViewById(R.id.counter1);
+		counter1.setOnClickListener(l);
+		counter2 = (Counter) findViewById(R.id.counter2);
+		counter2.setOnClickListener(l);
+		counter3 = (Counter) findViewById(R.id.counter3);
+		counter3.setOnClickListener(l);
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		save();
+		updateAndSaveData();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		data = loadJSONObject(this);
+		// die zuletzt eingegebenen Daten
+		data = loadData(this);
 		if (data == null) {
 			data = new JSONObject();
-			putLongInJSONObject(data, COUNTER1, 0);
-			putLongInJSONObject(data, COUNTER2, 0);
-			putLongInJSONObject(data, COUNTER3, 0);
-			putLongInJSONObject(data, RESUMED, -1);
+			updateData(ONE_MINUTE, ONE_MINUTE, ONE_MINUTE);
+			JSONUtils.putLongInJSONObject(data, RESUMED, -1);
 		}
-		if (getLongFromJSONObject(data, RESUMED) == -1) {
+		if (JSONUtils.getLongFromJSONObject(data, RESUMED) == -1) {
 			start.setText(R.string.start);
 		} else {
 			start.setText(R.string.resume);
 		}
-		counter1.setValueInMillis(getLongFromJSONObject(data, COUNTER1));
-		counter2.setValueInMillis(getLongFromJSONObject(data, COUNTER2));
-		counter3.setValueInMillis(getLongFromJSONObject(data, COUNTER3));
+		updateViews(JSONUtils.getLongFromJSONObject(data, COUNTER1),
+				JSONUtils.getLongFromJSONObject(data, COUNTER2),
+				JSONUtils.getLongFromJSONObject(data, COUNTER3));
+		// die gespeicherten Verteilungen
+		loadDistributions();
+		// Gesamtdauer anzeigen
+		updateTotal();
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		updateData();
+		menu.removeGroup(1);
+		for (String d : distributions) {
+			String[] vals = d.split("\\|");
+			final long val1 = Long.parseLong(vals[0]);
+			final long val2 = Long.parseLong(vals[1]);
+			final long val3 = Long.parseLong(vals[2]);
+			String dd = getString(R.string.template_two_dashes,
+					millisToPrettyString(this, val1), millisToPrettyString(this, val2), millisToPrettyString(this, val3));
+			MenuItem item = menu.add(1, Menu.NONE, Menu.NONE, dd);
+			item.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+			item.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+
+				@Override
+				public boolean onMenuItemClick(MenuItem item) {
+					updateViews(val1, val2, val3);
+					return true;
+				}
+			});
+		}
+		final String distribution = createDistribution();
+		if (isSavedDistribution(distribution)) {
+			MenuItem delete = menu
+					.add(1, Menu.NONE, Menu.NONE, R.string.delete);
+			delete.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+			delete.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+
+				@Override
+				public boolean onMenuItemClick(MenuItem item) {
+					distributions.remove(distribution);
+					saveDistributions();
+					return true;
+				}
+			});
+		} else {
+			MenuItem save = menu.add(1, Menu.NONE, Menu.NONE, R.string.save);
+			save.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+			save.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+
+				@Override
+				public boolean onMenuItemClick(MenuItem item) {
+					distributions.add(distribution);
+					saveDistributions();
+					return true;
+				}
+			});
+		}
+		return super.onPrepareOptionsMenu(menu);
+	}
+
+	public static String millisToPrettyString(Context context, long millis) {
+		long secs = millis / 1000;
+		long m = secs / 60;
+		long s = secs % 60;
+		StringBuilder sb = new StringBuilder();
+		if (m > 0) {
+			sb.append(context.getString(R.string.template, m,
+					context.getString(R.string.min)));
+		}
+		if ((s > 0) || (m == 0)) {
+			if (sb.length() > 0) {
+				sb.append(" ");
+			}
+			sb.append(context.getString(R.string.template, s,
+					context.getString(R.string.sec)));
+		}
+		return sb.toString();
+	}
+
+	public static boolean saveData(Context context, JSONObject data) {
+		return JSONUtils.saveJSONObject(context, data, FILENAME);
+	}
+
+	public static JSONObject loadData(Context context) {
+		return JSONUtils.loadJSONObject(context, FILENAME);
+	}
+
+	private void updateViews(long val1, long val2, long val3) {
+		counter1.setValueInMillis(val1);
+		counter2.setValueInMillis(val2);
+		counter3.setValueInMillis(val3);
+	}
+
+	/**
+	 * Diese Methode schreibt die aktuellen Eingaben der Views in die
+	 * Datenstruktur.
+	 */
+	private void updateData() {
+		updateData(counter1.getValueInMillis(), counter2.getValueInMillis(),
+				counter3.getValueInMillis());
 	}
 	
-	public static boolean saveJSONObject(Context context, JSONObject data) {
-		boolean result = false;
-		FileOutputStream out = null;
-		try {
-			out = context.openFileOutput(FILENAME, Context.MODE_PRIVATE);
-			out.write(data.toString().getBytes());
-			out.flush();
-			result = true;
-		} catch (IOException e) {
-			Log.e(TAG, "Fehler beim Schreiben der Daten", e);
-		} finally {
-			if (out != null) {
-				try {
-					out.close();
-				} catch (IOException e) {
-					Log.e(TAG, "Fehler beim Schließen der Datei", e);
-				}
-			}
-		}
-		return result;
+	/**
+	 * Diese Methode schreibt die übergebenen Werte in die Datenstruktur.
+	 * 
+	 * @param val1
+	 *            Wert für {@code COUNTER1}
+	 * @param val2
+	 *            Wert für {@code COUNTER2}
+	 * @param val3
+	 *            Wert für {@code COUNTER3}
+	 */
+	private void updateData(long val1, long val2, long val3) {
+		JSONUtils.putLongInJSONObject(data, COUNTER1, val1);
+		JSONUtils.putLongInJSONObject(data, COUNTER2, val2);
+		JSONUtils.putLongInJSONObject(data, COUNTER3, val3);
 	}
 
-	public static JSONObject loadJSONObject(Context context) {
-		JSONObject data = null;
-		FileInputStream in = null;
-		try {
-			in = context.openFileInput(FILENAME);
-			ByteArrayOutputStream bytes = new ByteArrayOutputStream(128);
-			int i;
-			while ((i = in.read()) != -1) {
-				bytes.write(i);
-			}
-			String json = new String(bytes.toByteArray());
-			data = new JSONObject(json);
-		} catch (Throwable tr) { // IOException, JSONException
-			Log.e(TAG, "Fehler beim Einlesen der Daten", tr);
-		} finally {
-			if (in != null) {
-				try {
-					in.close();
-				} catch (IOException e) {
-					Log.e(TAG, "Fehler beim Schließen der Datei", e);
-				}
-			}
-		}
-		return data;
+	private boolean updateAndSaveData() {
+		updateData();
+		return saveData(this, data);
 	}
 
-	public static long getLongFromJSONObject(JSONObject data, String name) {
-		long result = -1;
+	private boolean saveDistributions() {
+		JSONObject data = new JSONObject();
+		JSONArray array = new JSONArray();
+		for (String s : distributions) {
+			array.put(s);
+		}
 		try {
-			result = data.getLong(name);
+			data.put(DST, array);
+			return JSONUtils.saveJSONObject(this, data, FILENAME_DISTRIBUTIONS);
 		} catch (JSONException e) {
-			Log.e(TAG, "Fehler beim Lesen von " + name, e);
+			Log.e(TAG, "Fehler beim Schreiben der Zeitverteilungen", e);
 		}
-		return result;
+		return false;
 	}
 
-	public static void putLongInJSONObject(JSONObject data, String name,
-			long value) {
-		try {
-			data.put(name, value);
-		} catch (JSONException e) {
-			Log.e(TAG, "Fehler beim Schreiben von " + name, e);
+	/**
+	 * Liest Zeitverteilungen ein. Hierzu wird der Instanzvariable
+	 * {@code distributions} eine neue Instanz einer {@code List<String>}
+	 * zugewiesen und mit den Verteilungen gefüllt.
+	 * 
+	 * @return liefert {@code true} wenn die Verteilungen fehlerfrei eingelesen
+	 *         wurden, sonst {@code false}
+	 */
+	private boolean loadDistributions() {
+		distributions = new ArrayList<String>();
+		JSONObject data = JSONUtils
+				.loadJSONObject(this, FILENAME_DISTRIBUTIONS);
+		if (data != null) {
+			try {
+				JSONArray array = data.getJSONArray(DST);
+				for (int i = 0; i < array.length(); i++) {
+					distributions.add(array.getString(i));
+				}
+				return true;
+			} catch (JSONException e) {
+				Log.e(TAG, "Fehler beim Lesen der Zeitverteilungen", e);
+			}
 		}
+		return false;
 	}
 
-	private boolean save() {
-		putLongInJSONObject(data, COUNTER1, counter1.getValueInMillis());
-		putLongInJSONObject(data, COUNTER2, counter2.getValueInMillis());
-		putLongInJSONObject(data, COUNTER3, counter3.getValueInMillis());
-		return saveJSONObject(this, data);
+	private String createDistribution() {
+		long c1 = JSONUtils.getLongFromJSONObject(data, COUNTER1);
+		long c2 = JSONUtils.getLongFromJSONObject(data, COUNTER2);
+		long c3 = JSONUtils.getLongFromJSONObject(data, COUNTER3);
+		return Long.toString(c1) + "|" + Long.toString(c2) + "|"
+				+ Long.toString(c3);
 	}
 
+	private boolean isSavedDistribution(String distribution) {
+		for (String d : distributions) {
+			if (d.equals(distribution)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private void updateTotal() {
+		long val1 = counter1.getValueInMillis();
+		long val2 = counter2.getValueInMillis();
+		long val3 = counter3.getValueInMillis();
+		total.setText(millisToPrettyString(this, val1 + val2 + val3));
+	}
 }

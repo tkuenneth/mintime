@@ -30,7 +30,7 @@ import android.view.View;
 public class Counter extends View {
 
 	private static final int INTERVAL = 500;
-	private static final int INITIAL = 10;
+	private static final int INITIAL = 200;
 
 	private boolean useMinutes = true;
 	private boolean increase;
@@ -129,6 +129,7 @@ public class Counter extends View {
 				case MotionEvent.ACTION_UP:
 					cancelTimer();
 					postInvalidate();
+					performClick();
 					return true;
 				default:
 					return false;
@@ -149,9 +150,7 @@ public class Counter extends View {
 		float height = getHeight();
 		float widthSmall = width * .15f;
 		float widthLarge = width * .7f;
-		Context context = getContext();
-		String info = context.getString(R.string.template, value,
-				context.getString(useMinutes ? R.string.min : R.string.sec));
+		String info = MinTime.millisToPrettyString(getContext(), getValueInMillis());
 		paint.setColor(color);
 		CanvasUtils.drawText(canvas, widthSmall + widthLarge / 2, height / 2,
 				info, paint);
@@ -170,7 +169,7 @@ public class Counter extends View {
 	}
 
 	public long getValueInMillis() {
-		return useMinutes ? value * 60000 : value * 1000;
+		return useMinutes ? value * MinTime.ONE_MINUTE : value * 1000;
 	}
 
 	public void setValueInMillis(long value) {

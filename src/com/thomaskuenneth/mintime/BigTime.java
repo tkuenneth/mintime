@@ -58,8 +58,8 @@ public class BigTime extends View {
 
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-		String text = getContext().getString(R.string.template, 999,
-				getContext().getString(R.string.sec));
+		String text = MinTime.millisToPrettyString(getContext(),
+				MinTime.ONE_MINUTE * 999);
 		CanvasUtils.calcTextHeight(paint1, w, text);
 		CanvasUtils.calcTextHeight(paint2, w,
 				getContext().getString(R.string.hint));

@@ -1,2 +1,8 @@
+1.02
+- Icons mit höheren dpi hatten falschen Dateinamen
+- Abkürzungen für Minute und Sekunde standardkonform
+- Zeitverteilungen könnn gespeichert werden
+- initiale Verzögerung für +/- auf 200 Millisekunden erhöht: Werte werden durch kurzes Antippen des Bildschirms nicht mehr verstellt
+
 1.01
 - kleiner Bugfix: vor dem Start des Countdowns wurden u. U. die aktuellen Einstellungen nicht gespeichert

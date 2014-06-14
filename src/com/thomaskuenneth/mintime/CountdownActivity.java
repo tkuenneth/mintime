@@ -39,7 +39,7 @@ public class CountdownActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				MinTime.putLongInJSONObject(data, MinTime.RESUMED, -1);
+				JSONUtils.putLongInJSONObject(data, MinTime.RESUMED, -1);
 				finish();
 			}
 		});
@@ -58,20 +58,20 @@ public class CountdownActivity extends Activity {
 		anim.reset();
 		task.cancel(true);
 		task = null;
-		MinTime.saveJSONObject(this, data);
+		MinTime.saveData(this, data);
 		data = null;
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		data = MinTime.loadJSONObject(this);
+		data = MinTime.loadData(this);
 		if (data == null) {
 			throw new IllegalStateException("data == null");
 		}
 
-		if (MinTime.getLongFromJSONObject(data, MinTime.RESUMED) == -1) {
-			MinTime.putLongInJSONObject(data, MinTime.RESUMED,
+		if (JSONUtils.getLongFromJSONObject(data, MinTime.RESUMED) == -1) {
+			JSONUtils.putLongInJSONObject(data, MinTime.RESUMED,
 					System.currentTimeMillis());
 		}
 
@@ -106,11 +106,11 @@ public class CountdownActivity extends Activity {
 					}
 					long elapsed = getElpased();
 					int color;
-					if (elapsed <= MinTime.getLongFromJSONObject(data,
+					if (elapsed <= JSONUtils.getLongFromJSONObject(data,
 							MinTime.COUNTER1)) {
 						color = R.color.green;
-					} else if (elapsed <= (MinTime.getLongFromJSONObject(data,
-							MinTime.COUNTER1) + MinTime.getLongFromJSONObject(
+					} else if (elapsed <= (JSONUtils.getLongFromJSONObject(data,
+							MinTime.COUNTER1) + JSONUtils.getLongFromJSONObject(
 							data, MinTime.COUNTER2))) {
 						color = R.color.orange;
 					} else {
@@ -136,16 +136,16 @@ public class CountdownActivity extends Activity {
 	}
 
 	private long getEnd() {
-		long resumed = MinTime.getLongFromJSONObject(data, MinTime.RESUMED);
-		long total = MinTime.getLongFromJSONObject(data, MinTime.COUNTER1)
-				+ MinTime.getLongFromJSONObject(data, MinTime.COUNTER2)
-				+ MinTime.getLongFromJSONObject(data, MinTime.COUNTER3);
+		long resumed = JSONUtils.getLongFromJSONObject(data, MinTime.RESUMED);
+		long total = JSONUtils.getLongFromJSONObject(data, MinTime.COUNTER1)
+				+ JSONUtils.getLongFromJSONObject(data, MinTime.COUNTER2)
+				+ JSONUtils.getLongFromJSONObject(data, MinTime.COUNTER3);
 		return resumed + total;
 	}
 
 	private long getElpased() {
 		return System.currentTimeMillis()
-				- MinTime.getLongFromJSONObject(data, MinTime.RESUMED);
+				- JSONUtils.getLongFromJSONObject(data, MinTime.RESUMED);
 	}
 
 	private long getRemaining() {

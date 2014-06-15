@@ -20,11 +20,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.widget.Toast;
 
 /**
@@ -44,7 +42,7 @@ public class MinTime extends Activity {
 	public static final String COUNTER2 = "counter2";
 	public static final String COUNTER3 = "counter3";
 	public static final String RESUMED = "resumed";
-	
+
 	public static final long ONE_MINUTE = 60000l;
 
 	private Counter counter1, counter2, counter3;
@@ -57,7 +55,7 @@ public class MinTime extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		
+
 		total = (SimpleButton) findViewById(R.id.total);
 		start = (SimpleButton) findViewById(R.id.start_or_resume);
 		start.setOnClickListener(new OnClickListener() {
@@ -76,7 +74,7 @@ public class MinTime extends Activity {
 		});
 
 		OnClickListener l = new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				updateTotal();
@@ -116,8 +114,6 @@ public class MinTime extends Activity {
 				JSONUtils.getLongFromJSONObject(data, COUNTER3));
 		// die gespeicherten Verteilungen
 		loadDistributions();
-		// Gesamtdauer anzeigen
-		updateTotal();
 	}
 
 	@Override
@@ -130,7 +126,9 @@ public class MinTime extends Activity {
 			final long val2 = Long.parseLong(vals[1]);
 			final long val3 = Long.parseLong(vals[2]);
 			String dd = getString(R.string.template_two_dashes,
-					millisToPrettyString(this, val1), millisToPrettyString(this, val2), millisToPrettyString(this, val3));
+					millisToPrettyString(this, val1),
+					millisToPrettyString(this, val2),
+					millisToPrettyString(this, val3));
 			MenuItem item = menu.add(1, Menu.NONE, Menu.NONE, dd);
 			item.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 			item.setOnMenuItemClickListener(new OnMenuItemClickListener() {
@@ -203,6 +201,7 @@ public class MinTime extends Activity {
 		counter1.setValueInMillis(val1);
 		counter2.setValueInMillis(val2);
 		counter3.setValueInMillis(val3);
+		updateTotal(val1, val2, val3);
 	}
 
 	/**
@@ -213,7 +212,7 @@ public class MinTime extends Activity {
 		updateData(counter1.getValueInMillis(), counter2.getValueInMillis(),
 				counter3.getValueInMillis());
 	}
-	
+
 	/**
 	 * Diese Methode schreibt die übergebenen Werte in die Datenstruktur.
 	 * 
@@ -292,11 +291,15 @@ public class MinTime extends Activity {
 		}
 		return false;
 	}
-	
+
 	private void updateTotal() {
 		long val1 = counter1.getValueInMillis();
 		long val2 = counter2.getValueInMillis();
 		long val3 = counter3.getValueInMillis();
+		updateTotal(val1, val2, val3);
+	}
+
+	private void updateTotal(long val1, long val2, long val3) {
 		total.setText(millisToPrettyString(this, val1 + val2 + val3));
 	}
 }

@@ -1,3 +1,7 @@
+1.03
+- beim Übergang von grün nach orange und auf rot vibriert das Gerät
+- Bugfix: Gesamtzeit wurde nach Menüauswahl nicht aktualisiert
+
 1.02
 - Icons mit höheren dpi hatten falschen Dateinamen
 - Abkürzungen für Minute und Sekunde standardkonform

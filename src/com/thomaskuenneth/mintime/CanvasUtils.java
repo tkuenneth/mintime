@@ -55,9 +55,7 @@ public class CanvasUtils {
 		WindowManager wm = (WindowManager) context
 				.getSystemService(Context.WINDOW_SERVICE);
 		Display display = wm.getDefaultDisplay();
-		Point outSize = new Point();
-		display.getSize(outSize);
-		return outSize;
+		return new Point(display.getWidth(), display.getHeight());
 	}
 
 	/**

@@ -130,7 +130,6 @@ public class MinTime extends Activity {
 					millisToPrettyString(this, val2),
 					millisToPrettyString(this, val3));
 			MenuItem item = menu.add(1, Menu.NONE, Menu.NONE, dd);
-			item.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 			item.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 
 				@Override
@@ -144,7 +143,6 @@ public class MinTime extends Activity {
 		if (isSavedDistribution(distribution)) {
 			MenuItem delete = menu
 					.add(1, Menu.NONE, Menu.NONE, R.string.delete);
-			delete.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 			delete.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 
 				@Override
@@ -156,7 +154,6 @@ public class MinTime extends Activity {
 			});
 		} else {
 			MenuItem save = menu.add(1, Menu.NONE, Menu.NONE, R.string.save);
-			save.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 			save.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 
 				@Override

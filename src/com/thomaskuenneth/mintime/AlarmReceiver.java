@@ -1,7 +1,7 @@
 /*
  * AlarmReceiver.java
  * 
- * TKWeek (c) Thomas Künneth 2014
+ * Min Time (c) Thomas Künneth 2014
  * Alle Rechte beim Autoren. All rights reserved.
  */
 package com.thomaskuenneth.mintime;

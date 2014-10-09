@@ -1,7 +1,7 @@
 /*
  * CountdownActivity.java
  * 
- * TKWeek (c) Thomas Künneth 2014
+ * Min Time (c) Thomas Künneth 2014
  * Alle Rechte beim Autoren. All rights reserved.
  */
 package com.thomaskuenneth.mintime;
@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -29,19 +30,23 @@ import android.view.animation.Animation;
  */
 public class CountdownActivity extends Activity {
 
+	public static final int NOTIFICATION_ID = 29082311;
+	public static final long NOTIFICATION_INTERVAL_IN_MILLIS = 60000l;
+
 	private static final long[] PATTERN1 = new long[] { 0, 800, 800, 800, 800,
 			800 };
 
 	private static final long[] PATTERN2 = new long[] { 0, 500, 500, 500, 500,
 			500, 500, 500 };
-
+	
 	private JSONObject data;
 	private BigTime timer;
 	private AsyncTask<Void, Long, Void> task;
 	private Animation anim;
 
 	private AlarmManager alarmMgr;
-	private PendingIntent alarmIntentOrange, alarmIntentRed;
+	private PendingIntent alarmIntentOrange, alarmIntentRed,
+			alarmIntentRepeating;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +58,14 @@ public class CountdownActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				JSONUtils.putLongInJSONObject(data, MinTime.RESUMED, -1);
 				cancelAlarms();
+				JSONUtils.putLongInJSONObject(data, MinTime.RESUMED, -1);
+				NotificationManager m = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+				m.cancel(NOTIFICATION_ID);
+				Intent intent = new Intent(CountdownActivity.this,
+						MinTime.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
 				finish();
 			}
 		});
@@ -95,10 +106,17 @@ public class CountdownActivity extends Activity {
 				- JSONUtils.getLongFromJSONObject(data, MinTime.RESUMED);
 		elapsedRealtime -= offset;
 
+		// wiederkehrender Alarm
+		Intent intentRepeating = new Intent(this, RepeatingAlarm.class);
+		intentRepeating.putExtra(MinTime.END, getEnd());
+		alarmIntentRepeating = PendingIntent.getBroadcast(this, 3,
+				intentRepeating, PendingIntent.FLAG_UPDATE_CURRENT);
+		// Eintritt in die Phase orange
 		Intent intentOrange = new Intent(this, AlarmReceiver.class);
 		intentOrange.putExtra(AlarmReceiver.PATTERN, PATTERN1);
 		alarmIntentOrange = PendingIntent
 				.getBroadcast(this, 1, intentOrange, 0);
+		// Eintritt in die Phase rot
 		Intent intentRed = new Intent(this, AlarmReceiver.class);
 		intentRed.putExtra(AlarmReceiver.PATTERN, PATTERN2);
 		alarmIntentRed = PendingIntent.getBroadcast(this, 2, intentRed, 0);
@@ -115,6 +133,9 @@ public class CountdownActivity extends Activity {
 			alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, elapsedRealtime
 					+ phaseGreen + phaseOrange, alarmIntentRed);
 		}
+		alarmMgr.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+				elapsedRealtime + phaseGreen, NOTIFICATION_INTERVAL_IN_MILLIS,
+				alarmIntentRepeating);
 		task = new AsyncTask<Void, Long, Void>() {
 
 			@Override
@@ -178,6 +199,7 @@ public class CountdownActivity extends Activity {
 	private void cancelAlarms() {
 		alarmMgr.cancel(alarmIntentOrange);
 		alarmMgr.cancel(alarmIntentRed);
+		alarmMgr.cancel(alarmIntentRepeating);
 	}
 
 	private long getTotal() {

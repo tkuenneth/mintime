@@ -1,7 +1,7 @@
 /*
  * MinTime.java
  * 
- * TKWeek (c) Thomas Künneth 2014
+ * Min Time (c) Thomas Künneth 2014
  * Alle Rechte beim Autoren. All rights reserved.
  */
 package com.thomaskuenneth.mintime;
@@ -42,6 +42,7 @@ public class MinTime extends Activity {
 	public static final String COUNTER2 = "counter2";
 	public static final String COUNTER3 = "counter3";
 	public static final String RESUMED = "resumed";
+	public static final String END = "end";
 
 	public static final long ONE_MINUTE = 60000l;
 

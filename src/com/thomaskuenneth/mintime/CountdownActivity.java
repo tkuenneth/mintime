@@ -38,7 +38,7 @@ public class CountdownActivity extends Activity {
 
 	private static final long[] PATTERN2 = new long[] { 0, 500, 500, 500, 500,
 			500, 500, 500 };
-	
+
 	private JSONObject data;
 	private BigTime timer;
 	private AsyncTask<Void, Long, Void> task;
@@ -109,17 +109,19 @@ public class CountdownActivity extends Activity {
 		// wiederkehrender Alarm
 		Intent intentRepeating = new Intent(this, RepeatingAlarm.class);
 		intentRepeating.putExtra(MinTime.END, getEnd());
-		alarmIntentRepeating = PendingIntent.getBroadcast(this, 3,
-				intentRepeating, PendingIntent.FLAG_UPDATE_CURRENT);
+		alarmIntentRepeating = PendingIntent.getBroadcast(this,
+				MinTime.RQ_ALARM_REPEATING, intentRepeating,
+				PendingIntent.FLAG_UPDATE_CURRENT);
 		// Eintritt in die Phase orange
 		Intent intentOrange = new Intent(this, AlarmReceiver.class);
 		intentOrange.putExtra(AlarmReceiver.PATTERN, PATTERN1);
-		alarmIntentOrange = PendingIntent
-				.getBroadcast(this, 1, intentOrange, 0);
+		alarmIntentOrange = PendingIntent.getBroadcast(this,
+				MinTime.RQ_ALARM_ORANGE, intentOrange, 0);
 		// Eintritt in die Phase rot
 		Intent intentRed = new Intent(this, AlarmReceiver.class);
 		intentRed.putExtra(AlarmReceiver.PATTERN, PATTERN2);
-		alarmIntentRed = PendingIntent.getBroadcast(this, 2, intentRed, 0);
+		alarmIntentRed = PendingIntent.getBroadcast(this, MinTime.RQ_ALARM_RED,
+				intentRed, 0);
 		cancelAlarms();
 		long phaseGreen = JSONUtils.getLongFromJSONObject(data,
 				MinTime.COUNTER1);

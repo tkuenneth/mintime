@@ -33,6 +33,9 @@ import android.widget.Toast;
  */
 public class MinTime extends Activity {
 
+	public static final int RQ_ALARM_ORANGE = 1;
+	public static final int RQ_ALARM_RED = 2;
+	public static final int RQ_ALARM_REPEATING = 3;
 	public static final int RQ_NOTIFICATION = 4;
 
 	private static final String TAG = MinTime.class.getSimpleName();

@@ -6,13 +6,12 @@
  */
 package com.thomaskuenneth.mintime;
 
-import android.annotation.SuppressLint;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 
 /**
  * Diese Klasse stellt eine Benachrichtigung dar.
@@ -22,7 +21,6 @@ import android.content.Intent;
  */
 public class RepeatingAlarm extends BroadcastReceiver {
 
-	@SuppressLint("NewApi")
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		long end = intent.getLongExtra(MinTime.END, -1);
@@ -49,15 +47,16 @@ public class RepeatingAlarm extends BroadcastReceiver {
 							PendingIntent.FLAG_CANCEL_CURRENT);
 			String str = context.getString(resId, mins,
 					context.getString(R.string.min));
-			Notification n = new Notification.Builder(context).setOngoing(true)
+			NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(
+					context).setPriority(NotificationCompat.PRIORITY_HIGH)
 					.setContentTitle(context.getString(R.string.app_name))
 					.setContentText(str)
 					.setSmallIcon(R.drawable.ic_launcher_mintime)
-					.setContentIntent(notificationClickedIntent)
-					.setOngoing(true).build();
-			NotificationManager mNotificationManager = (NotificationManager) context
-					.getSystemService(Context.NOTIFICATION_SERVICE);
-			mNotificationManager.notify(CountdownActivity.NOTIFICATION_ID, n);
+					.setContentIntent(notificationClickedIntent);
+			NotificationManagerCompat notificationManager = NotificationManagerCompat
+					.from(context);
+			notificationManager.notify(CountdownActivity.NOTIFICATION_ID,
+					notificationBuilder.build());
 		}
 	}
 }

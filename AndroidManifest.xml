@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.thomaskuenneth.mintime"
-    android:versionCode="5"
-    android:versionName="1.04" >
+    android:versionCode="6"
+    android:versionName="1.05" >
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="19" />
@@ -22,9 +22,14 @@
         <activity
             android:name="com.thomaskuenneth.mintime.CountdownActivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:launchMode="singleInstance"
         />
         <receiver
             android:name="com.thomaskuenneth.mintime.AlarmReceiver"
+            android:enabled="true"
+        />
+        <receiver
+            android:name="com.thomaskuenneth.mintime.RepeatingAlarm"
             android:enabled="true"
         />
         </application>

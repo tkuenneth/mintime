@@ -33,6 +33,8 @@ import android.widget.Toast;
  */
 public class MinTime extends Activity {
 
+	public static final int RQ_NOTIFICATION = 4;
+
 	private static final String TAG = MinTime.class.getSimpleName();
 	private static final String FILENAME = TAG + ".dat";
 	private static final String FILENAME_DISTRIBUTIONS = TAG + ".dst";

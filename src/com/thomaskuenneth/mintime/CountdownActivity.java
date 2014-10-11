@@ -96,19 +96,21 @@ public class CountdownActivity extends Activity {
 			throw new IllegalStateException("data == null");
 		}
 
+		long now = System.currentTimeMillis();
 		if (JSONUtils.getLongFromJSONObject(data, MinTime.RESUMED) == -1) {
-			JSONUtils.putLongInJSONObject(data, MinTime.RESUMED,
-					System.currentTimeMillis());
+			JSONUtils.putLongInJSONObject(data, MinTime.RESUMED, now);
 		}
 
 		long elapsedRealtime = SystemClock.elapsedRealtime();
-		long offset = System.currentTimeMillis()
+		long offset = now
 				- JSONUtils.getLongFromJSONObject(data, MinTime.RESUMED);
 		elapsedRealtime -= offset;
 
 		// wiederkehrender Alarm
 		Intent intentRepeating = new Intent(this, RepeatingAlarm.class);
 		intentRepeating.putExtra(MinTime.END, getEnd());
+		intentRepeating.putExtra(MinTime.RESUMED,
+				JSONUtils.getLongFromJSONObject(data, MinTime.RESUMED));
 		alarmIntentRepeating = PendingIntent.getBroadcast(this,
 				MinTime.RQ_ALARM_REPEATING, intentRepeating,
 				PendingIntent.FLAG_UPDATE_CURRENT);

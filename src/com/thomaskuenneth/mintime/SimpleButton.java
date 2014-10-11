@@ -1,7 +1,7 @@
 /*
  * SimpleButton.java
  * 
- * TKWeek (c) Thomas Künneth 2014
+ * Min Time (c) Thomas Künneth 2014
  * Alle Rechte beim Autoren. All rights reserved.
  */
 package com.thomaskuenneth.mintime;
@@ -16,6 +16,11 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.View;
 
+/**
+ * Diese Klasse repräsentiert einen einfachen Button ohne Effekte.
+ * 
+ * @author Thomas
+ */
 public class SimpleButton extends View {
 
 	private final Paint paint;

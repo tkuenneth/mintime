@@ -1,57 +1,45 @@
+1.06
+- auf Marshmallow umgestellt
+
 1.05
-- Benachrichtigungen hinzugefügt
+- Benachrichtigungen hinzugefÃ¼gt
 
 1.04
-- ab Froyo (API Level 8) lauffähig
+- ab Froyo (API Level 8) lauffÃ¤hig
 
 1.03
-- beim Übergang von grün nach orange und auf rot vibriert das Gerät
-- Bugfix: Gesamtzeit wurde nach Menüauswahl nicht aktualisiert
+- beim Ãœbergang von grÃ¼n nach orange und auf rot vibriert das GerÃ¤t
+- Bugfix: Gesamtzeit wurde nach MenÃ¼auswahl nicht aktualisiert
 
 1.02
-- Icons mit höheren dpi hatten falschen Dateinamen
-- Abkürzungen für Minute und Sekunde standardkonform
-- Zeitverteilungen könnn gespeichert werden
-- initiale Verzögerung für +/- auf 200 Millisekunden erhöht: Werte werden durch kurzes Antippen des Bildschirms nicht mehr verstellt
+- Icons mit hÃ¶heren dpi hatten falschen Dateinamen
+- AbkÃ¼rzungen fÃ¼r Minute und Sekunde standardkonform
+- Zeitverteilungen kÃ¶nnen gespeichert werden
+- initiale VerzÃ¶gerung fÃ¼r +/- auf 200 Millisekunden erhÃ¶ht: Werte werden durch kurzes Antippen des Bildschirms nicht mehr verstellt
 
 1.01
 - kleiner Bugfix: vor dem Start des Countdowns wurden u. U. die aktuellen Einstellungen nicht gespeichert
 
 
 Ideen:
-Robert Bräutigam:
-Hallo Thomas,
 
-sehr schön und einfach, und auch ohne Permissions finde ich sehr cool.
-
-Ein Paar Sachen die ich finde würde es noch besser machen:
+Ein Paar Sachen die ich finde wï¿½rde es noch besser machen:
 - Zeiten einstellen: es sieht einfach aus, und das ist auch gut so, aber es ist zu frustrierend es auszuwarten bis alles aufgestellt ist..
-  Ich wünschte ich könnte einfach schneller meine Zeit einstellen
-- Es ist nicht ersichtlich ob die Zeiten zusammenaddiert sind, oder separat gezählt werden
-- Es ist nicht sichtbar ob die Zeit läuft wenn du startest. Ein blinkendes doppelpunkt, oder ein kleines Bild das sich bewegt würde hier helfen um zu sehen dass es tatsächlich was macht.
+  Ich wï¿½nschte ich kï¿½nnte einfach schneller meine Zeit einstellen
+- Es ist nicht ersichtlich ob die Zeiten zusammenaddiert sind, oder separat gezï¿½hlt werden
+- Es ist nicht sichtbar ob die Zeit lï¿½uft wenn du startest. Ein blinkendes doppelpunkt, oder ein kleines Bild das sich bewegt wï¿½rde hier helfen um zu sehen dass es tatsï¿½chlich was macht.
 
-Für die Punkte 1-2, wäre es vielleicht besser eine Zeitlinie die rot, gelb und grüne abschnitte hat... Wenn man am ende "zieht" erweitern sich automatisch alle 3 abschnitte, und man könnte die einzelne "grenzen" auch ziehen. Hauptsache dass ich einfach die richtige zeit mit "swipe" erwischen kann, und nicht abwarten muss.
+Fï¿½r die Punkte 1-2, wï¿½re es vielleicht besser eine Zeitlinie die rot, gelb und grï¿½ne abschnitte hat... Wenn man am ende "zieht" erweitern sich automatisch alle 3 abschnitte, und man kï¿½nnte die einzelne "grenzen" auch ziehen. Hauptsache dass ich einfach die richtige zeit mit "swipe" erwischen kann, und nicht abwarten muss.
 
 Robert.
 
 Frank Ganske:
 Hallo Thomas,
 
-Feedback:
-Schicke kleine App. Sie könnte auch als Kurzzeitwecker für die 
-Pommodoro-Arbeitstechnik verwendet werden.
-
-Ist-Zustand:
-  o Das Icon ist schick und professionell. IMHO
-  o Das Layout ist zweckmäßig, nicht überladen.
-  ? Ein Alarm zeigt die Activity, falls sie im Hintergrund beendet wurde.
 
 Anregungen:
   * Nach der Installation ist ein 45(?) Minuten Vortrag eingestellt.
-  * Zeiten können auch über die Tastatur eingegeben werden.
-  * Eine Animation zeigt an, dass die Zeit läuft.
-  * Gespeicherte Profile können ausgewählt werden.
-  * Profile können dupliziert und angepasst werden.
+  * Zeiten kï¿½nnen auch ï¿½ber die Tastatur eingegeben werden.
+  * Eine Animation zeigt an, dass die Zeit lï¿½uft.
+  * Profile kï¿½nnen dupliziert und angepasst werden.
   * Der Ton zum Ereignis kann eingestellt werden.
-
-Gruß Frank

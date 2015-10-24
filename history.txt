@@ -1,4 +1,5 @@
 1.06
+- in Android Studio-Projekt umgewandelt
 - auf Marshmallow umgestellt
 
 1.05

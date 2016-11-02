@@ -19,7 +19,7 @@ import android.view.WindowManager;
  *
  * @author Thomas
  */
-public class CanvasUtils {
+class CanvasUtils {
 
     /**
      * Zeichnet einen Text, der in einer bounding box zentriert wird.
@@ -30,8 +30,8 @@ public class CanvasUtils {
      * @param text   der auszugebende Text
      * @param paint  vorkonfigurierte Paint-Instanz
      */
-    public static void drawText(Canvas canvas, float posX, float posY,
-                                String text, Paint paint) {
+    static void drawText(Canvas canvas, float posX, float posY,
+                         String text, Paint paint) {
         Rect bounds = new Rect();
         paint.getTextBounds(text, 0, text.length(), bounds);
         float textY = posY - (float) bounds.top - (float) bounds.height() / 2f;
@@ -44,7 +44,7 @@ public class CanvasUtils {
      * @param context Context
      * @return Bildschirmgröße in Pixel
      */
-    public static Point getScreenSize(Context context) {
+    static Point getScreenSize(Context context) {
         WindowManager wm = (WindowManager) context
                 .getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
@@ -59,7 +59,7 @@ public class CanvasUtils {
      * @param width maximale Breite
      * @param text  Text
      */
-    public static void calcTextHeight(Paint paint, int width, String text) {
+    static void calcTextHeight(Paint paint, int width, String text) {
         int size = 48;
         int last = size;
         boolean first = true;

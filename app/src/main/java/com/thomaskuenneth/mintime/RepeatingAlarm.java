@@ -36,7 +36,7 @@ public class RepeatingAlarm extends BroadcastReceiver {
 			} else {
 				resId = R.string.left;
 			}
-			long secs = (remaining / 1000l);
+			long secs = (remaining / 1000L);
 			long mins = secs / 60;
 			if (mins == 0) {
 				mins = notification_mins;

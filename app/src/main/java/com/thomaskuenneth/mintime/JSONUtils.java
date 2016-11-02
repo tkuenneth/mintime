@@ -24,11 +24,11 @@ import java.io.IOException;
  *
  * @author Thomas
  */
-public class JSONUtils {
+class JSONUtils {
 
     private static final String TAG = JSONUtils.class.getSimpleName();
 
-    public static long getLongFromJSONObject(JSONObject data, String name) {
+    static long getLongFromJSONObject(JSONObject data, String name) {
         long result = -1;
         try {
             result = data.getLong(name);
@@ -38,8 +38,8 @@ public class JSONUtils {
         return result;
     }
 
-    public static void putLongInJSONObject(JSONObject data, String name,
-                                           long value) {
+    static void putLongInJSONObject(JSONObject data, String name,
+                                    long value) {
         try {
             data.put(name, value);
         } catch (JSONException e) {
@@ -47,8 +47,8 @@ public class JSONUtils {
         }
     }
 
-    public static boolean saveJSONObject(Context context, JSONObject data,
-                                         String filename) {
+    static boolean saveJSONObject(Context context, JSONObject data,
+                                  String filename) {
         boolean result = false;
         FileOutputStream out = null;
         try {
@@ -70,7 +70,7 @@ public class JSONUtils {
         return result;
     }
 
-    public static JSONObject loadJSONObject(Context context, String filename) {
+    static JSONObject loadJSONObject(Context context, String filename) {
         JSONObject data = null;
         FileInputStream in = null;
         try {

@@ -48,7 +48,7 @@ public class MinTime extends Activity {
     public static final String RESUMED = "resumed";
     public static final String END = "end";
 
-    public static final long ONE_MINUTE = 60000l;
+    public static final long ONE_MINUTE = 60000L;
 
     private Counter counter1, counter2, counter3;
     private SimpleButton total, start;

@@ -9,21 +9,21 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.2"
-        custom:mintime_color="@com.thomaskuenneth.mintime:color/green" />
+        custom:mintime_color="@color/green" />
 
     <com.thomaskuenneth.mintime.Counter
         android:id="@+id/counter2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.2"
-        custom:mintime_color="@com.thomaskuenneth.mintime:color/orange" />
+        custom:mintime_color="@color/orange" />
 
     <com.thomaskuenneth.mintime.Counter
         android:id="@+id/counter3"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.2"
-        custom:mintime_color="@com.thomaskuenneth.mintime:color/red" />
+        custom:mintime_color="@color/red" />
 
     <com.thomaskuenneth.mintime.SimpleButton
         android:id="@+id/total"

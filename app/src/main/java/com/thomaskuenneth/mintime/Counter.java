@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Typeface;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -75,64 +76,60 @@ public class Counter extends View {
         paint.setTypeface(Typeface.DEFAULT);
         paint.setTextAlign(Paint.Align.CENTER);
 
-        setOnTouchListener(new OnTouchListener() {
+        setOnTouchListener((v, event) -> {
+            int x = (int) event.getX();
+            int halfWidth = v.getWidth() / 2;
+            increase = (x >= halfWidth);
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    timer = new Timer();
+                    task = new TimerTask() {
 
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                int x = (int) event.getX();
-                int halfWidth = v.getWidth() / 2;
-                increase = (x >= halfWidth);
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        timer = new Timer();
-                        task = new TimerTask() {
-
-                            @Override
-                            public void run() {
-                                int increment = 1;
-                                if (times < 5) {
-                                    times += 1;
-                                } else {
-                                    if ((value % 5) == 0) {
-                                        if (increase || (value >= 10)) {
-                                            increment = 5;
-                                        }
+                        @Override
+                        public void run() {
+                            int increment = 1;
+                            if (times < 5) {
+                                times += 1;
+                            } else {
+                                if ((value % 5) == 0) {
+                                    if (increase || (value >= 10)) {
+                                        increment = 5;
                                     }
                                 }
-                                if (increase) {
-                                    value += increment;
-                                } else {
-                                    value -= increment;
-                                }
-                                if (value < 1) {
-                                    if (useMinutes) {
-                                        useMinutes = false;
-                                        value = 59;
-                                    } else {
-                                        value = 0;
-                                    }
-                                } else if (value > 59) {
-                                    if (!useMinutes) {
-                                        useMinutes = true;
-                                        value = 1;
-                                        times = 0;
-                                    }
-                                }
-                                postInvalidate();
                             }
+                            if (increase) {
+                                value += increment;
+                            } else {
+                                value -= increment;
+                            }
+                            if (value < 1) {
+                                if (useMinutes) {
+                                    useMinutes = false;
+                                    value = 59;
+                                } else {
+                                    value = 0;
+                                }
+                            } else if (value > 59) {
+                                if (!useMinutes) {
+                                    useMinutes = true;
+                                    value = 1;
+                                    times = 0;
+                                }
+                            }
+                            postInvalidate();
+                        }
 
-                        };
-                        times = 0;
-                        timer.schedule(task, INITIAL, INTERVAL);
-                        return true;
-                    case MotionEvent.ACTION_UP:
-                        cancelTimer();
-                        postInvalidate();
-                        performClick();
-                        return true;
-                    default:
-                        return false;
-                }
+                    };
+                    times = 0;
+                    timer.schedule(task, INITIAL, INTERVAL);
+                    return true;
+                case MotionEvent.ACTION_UP:
+                    cancelTimer();
+                    postInvalidate();
+                    performClick();
+                    return true;
+                default:
+                    return false;
             }
         });
     }
@@ -160,7 +157,7 @@ public class Counter extends View {
     }
 
     @Override
-    protected void onVisibilityChanged(View changedView, int visibility) {
+    protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
         super.onVisibilityChanged(changedView, visibility);
         if (visibility != View.VISIBLE) {
             cancelTimer();

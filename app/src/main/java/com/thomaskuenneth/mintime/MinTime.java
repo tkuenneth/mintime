@@ -1,6 +1,6 @@
 /*
  * MinTime.java
- * 
+ *
  * Min Time (c) Thomas Künneth 2014 - 2015
  * Alle Rechte beim Autoren. All rights reserved.
  */
@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,7 +31,7 @@ import java.util.List;
  *
  * @author Thomas
  */
-public class MinTime extends Activity {
+public class MinTime extends AppCompatActivity {
 
     public static final int RQ_ALARM_ORANGE = 1;
     public static final int RQ_ALARM_RED = 2;
@@ -61,8 +62,8 @@ public class MinTime extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        total = (SimpleButton) findViewById(R.id.total);
-        start = (SimpleButton) findViewById(R.id.start_or_resume);
+        total = findViewById(R.id.total);
+        start = findViewById(R.id.start_or_resume);
         start.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -85,11 +86,11 @@ public class MinTime extends Activity {
                 updateTotal();
             }
         };
-        counter1 = (Counter) findViewById(R.id.counter1);
+        counter1 = findViewById(R.id.counter1);
         counter1.setOnClickListener(l);
-        counter2 = (Counter) findViewById(R.id.counter2);
+        counter2 = findViewById(R.id.counter2);
         counter2.setOnClickListener(l);
-        counter3 = (Counter) findViewById(R.id.counter3);
+        counter3 = findViewById(R.id.counter3);
         counter3.setOnClickListener(l);
     }
 
@@ -233,7 +234,7 @@ public class MinTime extends Activity {
         return saveData(this, data);
     }
 
-    private boolean saveDistributions() {
+    private void saveDistributions() {
         JSONObject data = new JSONObject();
         JSONArray array = new JSONArray();
         for (String s : distributions) {
@@ -241,22 +242,18 @@ public class MinTime extends Activity {
         }
         try {
             data.put(DST, array);
-            return JSONUtils.saveJSONObject(this, data, FILENAME_DISTRIBUTIONS);
+            JSONUtils.saveJSONObject(this, data, FILENAME_DISTRIBUTIONS);
         } catch (JSONException e) {
             Log.e(TAG, "Fehler beim Schreiben der Zeitverteilungen", e);
         }
-        return false;
     }
 
     /**
      * Liest Zeitverteilungen ein. Hierzu wird der Instanzvariable
      * {@code distributions} eine neue Instanz einer {@code List<String>}
      * zugewiesen und mit den Verteilungen gefüllt.
-     *
-     * @return liefert {@code true} wenn die Verteilungen fehlerfrei eingelesen
-     * wurden, sonst {@code false}
      */
-    private boolean loadDistributions() {
+    private void loadDistributions() {
         distributions = new ArrayList<>();
         JSONObject data = JSONUtils
                 .loadJSONObject(this, FILENAME_DISTRIBUTIONS);
@@ -266,12 +263,10 @@ public class MinTime extends Activity {
                 for (int i = 0; i < array.length(); i++) {
                     distributions.add(array.getString(i));
                 }
-                return true;
             } catch (JSONException e) {
                 Log.e(TAG, "Fehler beim Lesen der Zeitverteilungen", e);
             }
         }
-        return false;
     }
 
     private String createDistribution() {

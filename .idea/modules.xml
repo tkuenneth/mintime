@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MinTime.iml" filepath="$PROJECT_DIR$/MinTime.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/min-time.iml" filepath="$PROJECT_DIR$/min-time.iml" />
     </modules>
   </component>
 </project>

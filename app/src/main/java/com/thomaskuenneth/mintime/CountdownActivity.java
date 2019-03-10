@@ -1,6 +1,6 @@
 /*
  * CountdownActivity.java
- * 
+ *
  * Min Time (c) Thomas Künneth 2014 - 2015
  * Alle Rechte beim Autoren. All rights reserved.
  */
@@ -30,7 +30,7 @@ import org.json.JSONObject;
 public class CountdownActivity extends Activity {
 
     public static final int NOTIFICATION_ID = 29082311;
-    public static final long NOTIFICATION_INTERVAL_IN_MILLIS = 60000l;
+    public static final long NOTIFICATION_INTERVAL_IN_MILLIS = 60000L;
 
     private static final long[] PATTERN1 = new long[]{0, 800, 800, 800, 800,
             800};
@@ -52,7 +52,7 @@ public class CountdownActivity extends Activity {
         super.onCreate(savedInstanceState);
         alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         setContentView(R.layout.countdown);
-        timer = (BigTime) findViewById(R.id.timer);
+        timer = findViewById(R.id.timer);
         timer.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -60,7 +60,9 @@ public class CountdownActivity extends Activity {
                 cancelAlarms();
                 JSONUtils.putLongInJSONObject(data, MinTime.RESUMED, -1);
                 NotificationManager m = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                m.cancel(NOTIFICATION_ID);
+                if (m != null) {
+                    m.cancel(NOTIFICATION_ID);
+                }
                 Intent intent = new Intent(CountdownActivity.this,
                         MinTime.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

@@ -1,6 +1,6 @@
 /*
  * CanvasUtils.java
- * 
+ *
  * TKWeek (c) Thomas Künneth 2014 - 2015
  * Alle Rechte beim Autoren. All rights reserved.
  */
@@ -45,10 +45,15 @@ class CanvasUtils {
      * @return Bildschirmgröße in Pixel
      */
     static Point getScreenSize(Context context) {
+        Point result = new Point();
         WindowManager wm = (WindowManager) context
                 .getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-        return new Point(display.getWidth(), display.getHeight());
+        if (wm != null) {
+            Display display = wm.getDefaultDisplay();
+            result.x = display.getWidth();
+            result.y = display.getHeight();
+        }
+        return result;
     }
 
     /**

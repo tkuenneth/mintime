@@ -36,7 +36,7 @@ public class SimpleButton extends View {
 
     public SimpleButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        int color = Color.WHITE;
+        int color = Color.BLACK;
         TypedArray a = getContext().obtainStyledAttributes(attrs,
                 R.styleable.SimpleButton);
         int n = a.getIndexCount();

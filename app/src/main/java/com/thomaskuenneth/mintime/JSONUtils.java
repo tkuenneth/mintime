@@ -1,7 +1,7 @@
 /*
  * JSONUtils.java
- * 
- * TKWeek (c) Thomas Künneth 2014 - 2015
+ *
+ * Min Time (c) Thomas Künneth 2014 - 2019
  * Alle Rechte beim Autoren. All rights reserved.
  */
 package com.thomaskuenneth.mintime;
@@ -29,13 +29,12 @@ class JSONUtils {
     private static final String TAG = JSONUtils.class.getSimpleName();
 
     static long getLongFromJSONObject(JSONObject data, String name) {
-        long result = -1;
         try {
-            result = data.getLong(name);
+            return data.getLong(name);
         } catch (JSONException e) {
             Log.e(TAG, "Fehler beim Lesen von " + name, e);
         }
-        return result;
+        return -1;
     }
 
     static void putLongInJSONObject(JSONObject data, String name,
@@ -49,25 +48,14 @@ class JSONUtils {
 
     static boolean saveJSONObject(Context context, JSONObject data,
                                   String filename) {
-        boolean result = false;
-        FileOutputStream out = null;
-        try {
-            out = context.openFileOutput(filename, Context.MODE_PRIVATE);
+        try (FileOutputStream out = context.openFileOutput(filename, Context.MODE_PRIVATE)) {
             out.write(data.toString().getBytes());
             out.flush();
-            result = true;
+            return true;
         } catch (IOException e) {
             Log.e(TAG, "Fehler beim Schreiben der Daten", e);
-        } finally {
-            if (out != null) {
-                try {
-                    out.close();
-                } catch (IOException e) {
-                    Log.e(TAG, "Fehler beim Schließen der Datei", e);
-                }
-            }
         }
-        return result;
+        return false;
     }
 
     static JSONObject loadJSONObject(Context context, String filename) {

@@ -1,7 +1,7 @@
 /*
  * Counter.java
  * 
- * TKWeek (c) Thomas Künneth 2014 - 2015
+ * TKWeek (c) Thomas Künneth 2014 - 2019
  * Alle Rechte beim Autoren. All rights reserved.
  */
 package com.thomaskuenneth.mintime;
@@ -13,7 +13,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Typeface;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -137,7 +137,7 @@ public class Counter extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         Point outSize = CanvasUtils.getScreenSize(getContext());
-        paint.setTextSize(outSize.y / 12);
+        paint.setTextSize(outSize.y / 12f);
     }
 
     @Override
@@ -177,11 +177,6 @@ public class Counter extends View {
             this.value = value;
             useMinutes = false;
         }
-        postInvalidate();
-    }
-
-    public void setValue(int value) {
-        this.value = value;
         postInvalidate();
     }
 

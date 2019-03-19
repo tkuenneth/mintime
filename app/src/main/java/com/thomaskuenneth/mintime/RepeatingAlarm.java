@@ -1,7 +1,7 @@
 /*
  * RepeatingAlarm.java
  *
- * Min Time (c) Thomas Künneth 2014 - 2015
+ * Min Time (c) Thomas Künneth 2014 - 2019
  * Alle Rechte beim Autoren. All rights reserved.
  */
 package com.thomaskuenneth.mintime;
@@ -10,8 +10,8 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 /**
  * Diese Klasse stellt eine Benachrichtigung dar.

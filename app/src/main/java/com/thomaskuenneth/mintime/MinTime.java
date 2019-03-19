@@ -1,21 +1,17 @@
 /*
  * MinTime.java
  *
- * Min Time (c) Thomas Künneth 2014 - 2015
+ * Min Time (c) Thomas Künneth 2014 - 2019
  * Alle Rechte beim Autoren. All rights reserved.
  */
 package com.thomaskuenneth.mintime;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MenuItem.OnMenuItemClickListener;
-import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
@@ -25,6 +21,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Dies ist die Hauptactivity der App.
@@ -64,28 +62,18 @@ public class MinTime extends AppCompatActivity {
 
         total = findViewById(R.id.total);
         start = findViewById(R.id.start_or_resume);
-        start.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (updateAndSaveData()) {
-                    Intent intent = new Intent(MinTime.this,
-                            CountdownActivity.class);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(MinTime.this, R.string.error1,
-                            Toast.LENGTH_LONG).show();
-                }
+        start.setOnClickListener(v -> {
+            if (updateAndSaveData()) {
+                Intent intent = new Intent(MinTime.this,
+                        CountdownActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(MinTime.this, R.string.error1,
+                        Toast.LENGTH_LONG).show();
             }
         });
 
-        OnClickListener l = new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                updateTotal();
-            }
-        };
+        OnClickListener l = v -> updateTotal();
         counter1 = findViewById(R.id.counter1);
         counter1.setOnClickListener(l);
         counter2 = findViewById(R.id.counter2);
@@ -136,38 +124,26 @@ public class MinTime extends AppCompatActivity {
                     millisToPrettyString(this, val2),
                     millisToPrettyString(this, val3));
             MenuItem item = menu.add(1, Menu.NONE, Menu.NONE, dd);
-            item.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    updateViews(val1, val2, val3);
-                    return true;
-                }
+            item.setOnMenuItemClickListener(item1 -> {
+                updateViews(val1, val2, val3);
+                return true;
             });
         }
         final String distribution = createDistribution();
         if (isSavedDistribution(distribution)) {
             MenuItem delete = menu
                     .add(1, Menu.NONE, Menu.NONE, R.string.delete);
-            delete.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    distributions.remove(distribution);
-                    saveDistributions();
-                    return true;
-                }
+            delete.setOnMenuItemClickListener(item -> {
+                distributions.remove(distribution);
+                saveDistributions();
+                return true;
             });
         } else {
             MenuItem save = menu.add(1, Menu.NONE, Menu.NONE, R.string.save);
-            save.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    distributions.add(distribution);
-                    saveDistributions();
-                    return true;
-                }
+            save.setOnMenuItemClickListener(item -> {
+                distributions.add(distribution);
+                saveDistributions();
+                return true;
             });
         }
         return super.onPrepareOptionsMenu(menu);

@@ -1,6 +1,6 @@
 /*
  * AlarmReceiver.java
- * 
+ *
  * Min Time (c) Thomas Künneth 2014 - 2015
  * Alle Rechte beim Autoren. All rights reserved.
  */

@@ -1,7 +1,7 @@
 /*
  * CountdownActivity.java
  *
- * Min Time (c) Thomas Künneth 2014 - 2015
+ * Min Time (c) Thomas Künneth 2014 - 2019
  * Alle Rechte beim Autoren. All rights reserved.
  */
 package com.thomaskuenneth.mintime;
@@ -12,11 +12,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 
@@ -27,7 +24,7 @@ import org.json.JSONObject;
  *
  * @author Thomas
  */
-public class CountdownActivity extends Activity {
+public class CountdownActivity extends Activity implements CountdownApi {
 
     public static final int NOTIFICATION_ID = 29082311;
     public static final long NOTIFICATION_INTERVAL_IN_MILLIS = 60000L;
@@ -40,8 +37,8 @@ public class CountdownActivity extends Activity {
 
     private JSONObject data;
     private BigTime timer;
-    private AsyncTask<Void, Long, Void> task;
     private Animation anim;
+    private boolean taskShouldBeRunning;
 
     private AlarmManager alarmMgr;
     private PendingIntent alarmIntentOrange, alarmIntentRed,
@@ -53,22 +50,18 @@ public class CountdownActivity extends Activity {
         alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         setContentView(R.layout.countdown);
         timer = findViewById(R.id.timer);
-        timer.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                cancelAlarms();
-                JSONUtils.putLongInJSONObject(data, MinTime.RESUMED, -1);
-                NotificationManager m = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                if (m != null) {
-                    m.cancel(NOTIFICATION_ID);
-                }
-                Intent intent = new Intent(CountdownActivity.this,
-                        MinTime.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
+        timer.setOnClickListener(v -> {
+            cancelAlarms();
+            JSONUtils.putLongInJSONObject(data, MinTime.RESUMED, -1);
+            NotificationManager m = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            if (m != null) {
+                m.cancel(NOTIFICATION_ID);
             }
+            Intent intent = new Intent(CountdownActivity.this,
+                    MinTime.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
         });
 
         anim = new AlphaAnimation(0.0f, 1.0f);
@@ -83,8 +76,7 @@ public class CountdownActivity extends Activity {
         super.onPause();
         anim.cancel();
         anim.reset();
-        task.cancel(true);
-        task = null;
+        taskShouldBeRunning = false;
         MinTime.saveData(this, data);
         data = null;
     }
@@ -141,63 +133,8 @@ public class CountdownActivity extends Activity {
         alarmMgr.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                 elapsedRealtime + phaseGreen, NOTIFICATION_INTERVAL_IN_MILLIS,
                 alarmIntentRepeating);
-        task = new AsyncTask<Void, Long, Void>() {
-
-            @Override
-            protected Void doInBackground(Void... params) {
-                while (!isCancelled() && (data != null)) {
-                    try {
-                        long remaining = getRemaining();
-                        publishProgress(remaining);
-                        if (remaining < 0) {
-                            remaining = -remaining;
-                        }
-                        Thread.sleep(remaining >= 150000 ? 60000 : 1000);
-                    } catch (InterruptedException e) {
-                        // keine Log-Ausgabe nötig - der Thread darf ja
-                        // jederzeit unterbrochen werden
-                    }
-                }
-                return null;
-            }
-
-            @Override
-            protected void onProgressUpdate(Long... values) {
-                if (data != null) {
-                    long remaining = values[0];
-                    boolean startAnimation = false;
-                    if (remaining < 0) {
-                        startAnimation = true;
-                        remaining = -remaining;
-                    }
-                    long elapsed = getElpased();
-                    int color;
-                    if (elapsed <= JSONUtils.getLongFromJSONObject(data,
-                            MinTime.COUNTER1)) {
-                        color = R.color.green;
-                    } else if (elapsed <= (JSONUtils.getLongFromJSONObject(
-                            data, MinTime.COUNTER1) + JSONUtils
-                            .getLongFromJSONObject(data, MinTime.COUNTER2))) {
-                        color = R.color.orange;
-                    } else {
-                        color = R.color.red;
-                    }
-                    timer.setColor(getResources().getColor(color));
-                    long secs = remaining / 1000;
-                    if (secs >= 60) {
-                        timer.setText(getString(R.string.template, secs / 60,
-                                getString(R.string.min)));
-                    } else {
-                        timer.setText(getString(R.string.template, secs,
-                                getString(R.string.sec)));
-                    }
-                    if (startAnimation) {
-                        timer.startAnimation(anim);
-                        timer.setRedAlert(true);
-                    }
-                }
-            }
-        };
+        taskShouldBeRunning = true;
+        CountdownTask task = new CountdownTask(this);
         task.execute();
     }
 
@@ -219,13 +156,29 @@ public class CountdownActivity extends Activity {
         return resumed + total;
     }
 
-    private long getElpased() {
+    public long getElpased() {
         return System.currentTimeMillis()
                 - JSONUtils.getLongFromJSONObject(data, MinTime.RESUMED);
     }
 
-    private long getRemaining() {
+    public long getRemaining() {
         long end = getEnd();
         return end - System.currentTimeMillis();
+    }
+
+    public BigTime getTimer() {
+        return timer;
+    }
+
+    public JSONObject getData() {
+        return data;
+    }
+
+    public Animation getAnimation() {
+        return anim;
+    }
+
+    public boolean taskShouldBeRunning() {
+        return taskShouldBeRunning;
     }
 }

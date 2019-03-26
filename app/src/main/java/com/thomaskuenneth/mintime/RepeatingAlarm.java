@@ -6,10 +6,14 @@
  */
 package com.thomaskuenneth.mintime;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
@@ -24,9 +28,9 @@ public class RepeatingAlarm extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        initChannels(context);
         long end = intent.getLongExtra(MinTime.END, -1);
         long now = System.currentTimeMillis();
-        long resumed = intent.getLongExtra(MinTime.RESUMED, now);
         if (end != -1) {
             long notification_mins = CountdownActivity.NOTIFICATION_INTERVAL_IN_MILLIS / 1000 / 60;
             long remaining = end - now;
@@ -52,15 +56,29 @@ public class RepeatingAlarm extends BroadcastReceiver {
                     context.getString(R.string.min));
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(
                     context, CHANNEL_ID).setPriority(NotificationCompat.PRIORITY_HIGH)
-                    .setContentTitle(context.getString(R.string.app_name))
-                    .setContentText(str)
-                    .setWhen(resumed)
+              //      .setContentTitle(context.getString(R.string.app_name))
+                    .setContentTitle(str)
                     .setSmallIcon(R.drawable.ic_launcher_mintime)
+                    .setOngoing(true)
                     .setContentIntent(notificationClickedIntent);
             NotificationManagerCompat notificationManager = NotificationManagerCompat
                     .from(context);
             notificationManager.notify(CountdownActivity.NOTIFICATION_ID,
                     notificationBuilder.build());
+        }
+    }
+
+    private void initChannels(Context context) {
+        if (Build.VERSION.SDK_INT >= 26) {
+            NotificationManager nm =
+                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            if (nm != null) {
+                NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
+                        context.getString(R.string.app_name),
+                        NotificationManager.IMPORTANCE_HIGH);
+                channel.setDescription(context.getString(R.string.app_name));
+                nm.createNotificationChannel(channel);
+            }
         }
     }
 }

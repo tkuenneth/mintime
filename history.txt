@@ -1,3 +1,6 @@
+1.2
+- tap on plus/minus are immediately recognized
+
 1.06
 - in Android Studio-Projekt umgewandelt
 - auf Marshmallow umgestellt

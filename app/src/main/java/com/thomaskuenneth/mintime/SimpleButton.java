@@ -1,7 +1,7 @@
 /*
  * SimpleButton.java
- * 
- * Min Time (c) Thomas Künneth 2014 - 2015
+ *
+ * Min Time (c) Thomas Künneth 2014 - 2019
  * Alle Rechte beim Autoren. All rights reserved.
  */
 package com.thomaskuenneth.mintime;
@@ -70,7 +70,7 @@ public class SimpleButton extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         Point outSize = CanvasUtils.getScreenSize(getContext());
-        paint.setTextSize(outSize.y / 12);
+        paint.setTextSize(outSize.y / 12f);
     }
 
     public void setColor(int color) {

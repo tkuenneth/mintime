@@ -30,7 +30,6 @@ import java.util.TimerTask;
 public class Counter extends View {
 
     private static final int INTERVAL = 500;
-    private static final int INITIAL = 200;
 
     private boolean useMinutes = true;
     private boolean increase;
@@ -121,7 +120,7 @@ public class Counter extends View {
 
                     };
                     times = 0;
-                    timer.schedule(task, INITIAL, INTERVAL);
+                    timer.schedule(task, 0, INTERVAL);
                     return true;
                 case MotionEvent.ACTION_UP:
                     cancelTimer();

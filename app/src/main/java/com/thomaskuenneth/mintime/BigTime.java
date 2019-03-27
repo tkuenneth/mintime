@@ -1,7 +1,7 @@
 /*
  * BigTime.java
- * 
- * Min Time (c) Thomas Künneth 2014 - 2015
+ *
+ * Min Time (c) Thomas Künneth 2014 - 2019
  * Alle Rechte beim Autoren. All rights reserved.
  */
 package com.thomaskuenneth.mintime;
@@ -11,7 +11,6 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Paint.FontMetrics;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -27,7 +26,6 @@ public class BigTime extends View {
     private static final String TAG = BigTime.class.getSimpleName();
 
     private final Paint paint1;
-    private final Paint paint2;
     private int color;
     private String text = "";
     private boolean redAlert;
@@ -56,7 +54,6 @@ public class BigTime extends View {
         paint1 = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint1.setTypeface(Typeface.DEFAULT);
         paint1.setTextAlign(Paint.Align.CENTER);
-        paint2 = new Paint(paint1);
     }
 
     @Override
@@ -64,8 +61,6 @@ public class BigTime extends View {
         String text = MinTime.millisToPrettyString(getContext(),
                 MinTime.ONE_MINUTE * 999);
         CanvasUtils.calcTextHeight(paint1, w, text);
-        CanvasUtils.calcTextHeight(paint2, w,
-                getContext().getString(R.string.hint));
     }
 
     @Override
@@ -75,15 +70,10 @@ public class BigTime extends View {
         if (redAlert) {
             setBackgroundColor(color);
             paint1.setColor(Color.WHITE);
-            paint2.setColor(Color.WHITE);
         } else {
             paint1.setColor(color);
-            paint2.setColor(color);
         }
         CanvasUtils.drawText(canvas, width / 2, height / 2, text, paint1);
-        FontMetrics fm = paint2.getFontMetrics();
-        canvas.drawText(getContext().getString(R.string.hint), width / 2,
-                height - 1 - fm.descent, paint2);
     }
 
     public void setColor(int color) {

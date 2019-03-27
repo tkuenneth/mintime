@@ -30,6 +30,7 @@ public class RepeatingAlarm extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         initChannels(context);
         long end = intent.getLongExtra(MinTime.END, -1);
+        long resumed = intent.getLongExtra(MinTime.RESUMED, -1);
         long now = System.currentTimeMillis();
         if (end != -1) {
             long notification_mins = CountdownActivity.NOTIFICATION_INTERVAL_IN_MILLIS / 1000 / 60;
@@ -54,12 +55,19 @@ public class RepeatingAlarm extends BroadcastReceiver {
                             PendingIntent.FLAG_UPDATE_CURRENT);
             String str = context.getString(resId, mins,
                     context.getString(R.string.min));
-            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(
-                    context, CHANNEL_ID).setPriority(NotificationCompat.PRIORITY_HIGH)
-              //      .setContentTitle(context.getString(R.string.app_name))
+            StringBuilder sb = new StringBuilder();
+            if (resumed != -1) {
+                long elapsed = now - resumed;
+                long running = (elapsed + 59999) / 60000;
+                sb.append(context.getString(R.string.running, running));
+            }
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     .setContentTitle(str)
+                    .setShowWhen(false)
                     .setSmallIcon(R.drawable.ic_launcher_mintime)
                     .setOngoing(true)
+                    .setContentText(sb.toString())
                     .setContentIntent(notificationClickedIntent);
             NotificationManagerCompat notificationManager = NotificationManagerCompat
                     .from(context);
@@ -69,14 +77,14 @@ public class RepeatingAlarm extends BroadcastReceiver {
     }
 
     private void initChannels(Context context) {
-        if (Build.VERSION.SDK_INT >= 26) {
-            NotificationManager nm =
-                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationManager nm = context.getSystemService(NotificationManager.class);
             if (nm != null) {
                 NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
                         context.getString(R.string.app_name),
                         NotificationManager.IMPORTANCE_HIGH);
-                channel.setDescription(context.getString(R.string.app_name));
+                channel.setDescription(context.getString(R.string.notification_channel_descr));
+                channel.setImportance(NotificationManager.IMPORTANCE_LOW);
                 nm.createNotificationChannel(channel);
             }
         }

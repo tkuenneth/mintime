@@ -1,13 +1,21 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:keepScreenOn="true"
-    >
-    
+    android:keepScreenOn="true">
+
+    <Button
+        android:id="@+id/tap_here"
+        android:textSize="32sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/hint" />
+
     <com.thomaskuenneth.mintime.BigTime
         android:id="@+id/timer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
-    
-</FrameLayout>
+        android:layout_height="0dp"
+        android:layout_above="@id/tap_here"
+        android:layout_alignParentTop="true" />
+
+</RelativeLayout>

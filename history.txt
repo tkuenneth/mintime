@@ -1,5 +1,7 @@
 1.2
 - tap on plus/minus are immediately recognized
+- targets the latest api level
+- improved notification
 
 1.06
 - in Android Studio-Projekt umgewandelt

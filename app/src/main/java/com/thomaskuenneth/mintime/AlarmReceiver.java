@@ -27,12 +27,11 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     @TargetApi(23)
     public void onReceive(Context context, Intent intent) {
-        if ((Build.VERSION.SDK_INT < 23) ||
+        if ((Build.VERSION.SDK_INT < Build.VERSION_CODES.M) ||
                 (context.checkSelfPermission(Manifest.permission.VIBRATE) == PackageManager.PERMISSION_GRANTED)) {
             final long[] pattern = intent.getLongArrayExtra(PATTERN);
             if (pattern != null) {
-                Vibrator v = (Vibrator) context
-                        .getSystemService(Context.VIBRATOR_SERVICE);
+                Vibrator v = context.getSystemService(Vibrator.class);
                 if (v != null) {
                     v.vibrate(pattern, -1);
                 }

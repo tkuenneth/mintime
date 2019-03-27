@@ -15,14 +15,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="64111e6a-d747-4bc2-bf59-e98b175cdee3" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_delete.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_save.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/BigTime.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/BigTime.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/CountdownActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/CountdownActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/CountdownApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/CountdownApi.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/CountdownTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/CountdownTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/countdown.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/countdown.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/MinTime.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/MinTime.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -90,16 +87,16 @@
           <entry key="project.closed" value="12" />
           <entry key="project.open.time.0" value="2" />
           <entry key="project.open.time.2" value="1" />
-          <entry key="project.open.time.4" value="5" />
+          <entry key="project.open.time.4" value="6" />
           <entry key="project.open.time.5" value="3" />
           <entry key="project.open.time.8" value="1" />
-          <entry key="project.opened" value="12" />
+          <entry key="project.opened" value="13" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="gradle" value="4" />
-          <entry key="java" value="49" />
+          <entry key="java" value="50" />
           <entry key="md" value="1" />
           <entry key="png" value="1" />
           <entry key="txt" value="1" />
@@ -110,7 +107,7 @@
         <counts>
           <entry key="Groovy" value="4" />
           <entry key="Image" value="1" />
-          <entry key="JAVA" value="49" />
+          <entry key="JAVA" value="50" />
           <entry key="PLAIN_TEXT" value="2" />
           <entry key="XML" value="8" />
         </counts>
@@ -118,7 +115,7 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="gradle" value="17" />
-          <entry key="java" value="1445" />
+          <entry key="java" value="1502" />
           <entry key="txt" value="113" />
           <entry key="xml" value="341" />
         </counts>
@@ -126,7 +123,7 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="Groovy" value="17" />
-          <entry key="JAVA" value="1445" />
+          <entry key="JAVA" value="1502" />
           <entry key="PLAIN_TEXT" value="113" />
           <entry key="XML" value="341" />
         </counts>
@@ -141,28 +138,15 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/CountdownTask.java">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/MinTime.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="437">
-              <caret line="69" column="57" selection-start-line="69" selection-start-column="57" selection-end-line="69" selection-end-column="57" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/CountdownApi.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="17" column="30" selection-start-line="17" selection-start-column="30" selection-end-line="17" selection-end-column="30" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/build.gradle">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" column="24" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="24" />
+            <state relative-caret-position="345">
+              <caret line="129" selection-start-line="129" selection-end-line="129" />
+              <folding>
+                <element signature="e#0#9235#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#4498#4513#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -2454,7 +2438,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/CanvasUtils.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/main.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/JSONUtils.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/MinTime.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/Counter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/MyInterface.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/MyAsyncTask.java" />
@@ -2470,6 +2453,7 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/CountdownActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/BigTime.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/CountdownTask.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/MinTime.java" />
       </list>
     </option>
   </component>
@@ -2483,23 +2467,43 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView">
-        <subPane>
-          <expand>
-            <path>
-              <item name="min-time" type="1abcf292:AndroidViewProjectNode" />
-              <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="min-time" type="b2602c69:ProjectViewProjectNode" />
               <item name="min-time" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="AndroidView">
+        <subPane>
+          <expand>
+            <path>
+              <item name="min-time" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+            </path>
+            <path>
+              <item name="min-time" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+            </path>
+            <path>
+              <item name="min-time" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="mintime" type="cbb59c9e:AndroidPsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="min-time" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="res" type="d4f16f75:AndroidResFolderNode" />
+            </path>
+            <path>
+              <item name="min-time" type="1abcf292:AndroidViewProjectNode" />
+              <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
             </path>
           </expand>
           <select />
@@ -2628,9 +2632,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="797" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49898168" visible="true" weight="0.22818312" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49898168" visible="true" weight="0.22818312" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Build Variants" order="3" sideWeight="0.50101835" side_tool="true" weight="0.24804688" />
@@ -2646,7 +2649,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Build" order="7" sideWeight="0.49872774" visible="true" weight="0.20527859" />
-      <window_info anchor="bottom" id="Android Profiler" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Android Profiler" order="8" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50127226" side_tool="true" weight="0.2572759" />
       <window_info anchor="bottom" id="Logcat" order="10" weight="0.3270073" />
       <window_info anchor="bottom" id="Version Control" order="11" />
@@ -2683,12 +2686,12 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/main.xml">
+      <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-302">
           <caret line="4" selection-start-line="4" selection-end-line="4" />
         </state>
       </provider>
-      <provider editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/gradle.properties">
       <provider selected="true" editor-type-id="text-editor" />
@@ -2763,17 +2766,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/MinTime.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="178" column="17" selection-start-line="178" selection-start-column="17" selection-end-line="178" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#9235#0" expanded="true" />
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -2825,12 +2817,12 @@
       <provider editor-type-id="android-manifest" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/countdown.xml">
+      <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
           <caret line="19" selection-start-line="19" selection-end-line="19" />
         </state>
       </provider>
-      <provider editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/CountdownActivity.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -2874,6 +2866,18 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
           <caret line="6" column="24" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/MinTime.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="129" selection-start-line="129" selection-end-line="129" />
+          <folding>
+            <element signature="e#0#9235#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#4498#4513#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -126,6 +126,7 @@ public class MinTime extends AppCompatActivity {
             MenuItem item = menu.add(1, Menu.NONE, Menu.NONE, dd);
             item.setOnMenuItemClickListener(item1 -> {
                 updateViews(val1, val2, val3);
+                invalidateOptionsMenu();
                 return true;
             });
         }
@@ -133,16 +134,22 @@ public class MinTime extends AppCompatActivity {
         if (isSavedDistribution(distribution)) {
             MenuItem delete = menu
                     .add(1, Menu.NONE, Menu.NONE, R.string.delete);
+            delete.setIcon(R.drawable.ic_delete);
+            delete.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
             delete.setOnMenuItemClickListener(item -> {
                 distributions.remove(distribution);
                 saveDistributions();
+                invalidateOptionsMenu();
                 return true;
             });
         } else {
             MenuItem save = menu.add(1, Menu.NONE, Menu.NONE, R.string.save);
+            save.setIcon(R.drawable.ic_save);
+            save.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
             save.setOnMenuItemClickListener(item -> {
                 distributions.add(distribution);
                 saveDistributions();
+                invalidateOptionsMenu();
                 return true;
             });
         }
@@ -267,6 +274,7 @@ public class MinTime extends AppCompatActivity {
         long val2 = counter2.getValueInMillis();
         long val3 = counter3.getValueInMillis();
         updateTotal(val1, val2, val3);
+        invalidateOptionsMenu();
     }
 
     private void updateTotal(long val1, long val2, long val3) {

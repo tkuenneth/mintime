@@ -67,8 +67,8 @@ class CountdownTask extends AsyncTask<Void, Long, Void> {
                 timer.setText(i.getString(R.string.template, secs,
                         i.getString(R.string.sec)));
             }
-            if (startAnimation) {
-                timer.startAnimation(i.getAnimation());
+            if ((startAnimation) && !timer.isRedAlert()) {
+                timer.startAnimation(i.prepareAnimation());
                 timer.setRedAlert(true);
             }
         }

@@ -4,7 +4,7 @@ android {
 
     defaultConfig {
         applicationId "com.thomaskuenneth.mintime"
-        minSdkVersion 14
+        minSdkVersion 21
         targetSdkVersion 28
         version = "1.2"
         versionCode 10

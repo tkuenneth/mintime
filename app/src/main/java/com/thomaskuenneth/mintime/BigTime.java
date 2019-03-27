@@ -27,7 +27,7 @@ public class BigTime extends View {
 
     private final Paint paint1;
     private int color;
-    private String text = "";
+    private String text;
     private boolean redAlert;
 
     public BigTime(Context context) {
@@ -40,6 +40,7 @@ public class BigTime extends View {
 
     public BigTime(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        text = "";
         color = Color.WHITE;
         TypedArray a = getContext().getTheme().obtainStyledAttributes(attrs,
                 R.styleable.Counter, 0, 0);
@@ -89,5 +90,9 @@ public class BigTime extends View {
     public void setRedAlert(boolean redAlert) {
         this.redAlert = redAlert;
         postInvalidate();
+    }
+
+    public boolean isRedAlert() {
+        return redAlert;
     }
 }

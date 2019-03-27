@@ -11,8 +11,8 @@
 
         <activity
             android:name="com.thomaskuenneth.mintime.MinTime"
-            android:theme="@style/Theme.AppCompat.DayNight"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:theme="@style/Theme.AppCompat.DayNight">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -22,7 +22,7 @@
         <activity
             android:name="com.thomaskuenneth.mintime.CountdownActivity"
             android:launchMode="singleInstance"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
 
         <receiver
             android:name="com.thomaskuenneth.mintime.AlarmReceiver"

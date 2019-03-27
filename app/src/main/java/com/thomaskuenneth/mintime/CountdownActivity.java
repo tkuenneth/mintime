@@ -6,25 +6,28 @@
  */
 package com.thomaskuenneth.mintime;
 
-import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.widget.TextView;
 
 import org.json.JSONObject;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Diese Activity realisiert die Zeitanzeige/Countdown.
  *
  * @author Thomas
  */
-public class CountdownActivity extends Activity implements CountdownApi {
+public class CountdownActivity extends AppCompatActivity implements CountdownApi {
 
     public static final int NOTIFICATION_ID = 29082311;
     public static final long NOTIFICATION_INTERVAL_IN_MILLIS = 60000L;
@@ -39,6 +42,7 @@ public class CountdownActivity extends Activity implements CountdownApi {
     private BigTime timer;
     private Animation anim;
     private boolean taskShouldBeRunning;
+    private TextView tapHere;
 
     private AlarmManager alarmMgr;
     private PendingIntent alarmIntentOrange, alarmIntentRed,
@@ -50,7 +54,8 @@ public class CountdownActivity extends Activity implements CountdownApi {
         alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         setContentView(R.layout.countdown);
         timer = findViewById(R.id.timer);
-        timer.setOnClickListener(v -> {
+        tapHere = findViewById(R.id.tap_here);
+        tapHere.setOnClickListener(v -> {
             cancelAlarms();
             JSONUtils.putLongInJSONObject(data, MinTime.RESUMED, -1);
             NotificationManager m = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -84,6 +89,7 @@ public class CountdownActivity extends Activity implements CountdownApi {
     @Override
     protected void onResume() {
         super.onResume();
+        tapHere.setTextColor(Color.BLACK);
         data = MinTime.loadData(this);
         if (data == null) {
             throw new IllegalStateException("data == null");
@@ -174,7 +180,8 @@ public class CountdownActivity extends Activity implements CountdownApi {
         return data;
     }
 
-    public Animation getAnimation() {
+    public Animation prepareAnimation() {
+        tapHere.setTextColor(Color.WHITE);
         return anim;
     }
 

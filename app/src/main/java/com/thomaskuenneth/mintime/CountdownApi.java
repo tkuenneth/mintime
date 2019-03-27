@@ -15,7 +15,7 @@ public interface CountdownApi {
 
     JSONObject getData();
 
-    Animation getAnimation();
+    Animation prepareAnimation();
 
     boolean taskShouldBeRunning();
 

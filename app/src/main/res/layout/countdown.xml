@@ -3,19 +3,20 @@
     android:layout_height="match_parent"
     android:keepScreenOn="true">
 
-    <Button
-        android:id="@+id/tap_here"
-        android:textSize="32sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="@string/hint" />
-
     <com.thomaskuenneth.mintime.BigTime
         android:id="@+id/timer"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_above="@id/tap_here"
-        android:layout_alignParentTop="true" />
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/tap_here"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#00ffffff"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="@string/hint"
+        android:textSize="32sp" />
 
 </RelativeLayout>

@@ -137,7 +137,7 @@ public class CountdownActivity extends AppCompatActivity implements CountdownApi
                     + phaseGreen + phaseOrange, alarmIntentRed);
         }
         alarmMgr.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                elapsedRealtime + phaseGreen, NOTIFICATION_INTERVAL_IN_MILLIS,
+                elapsedRealtime /* + phaseGreen */, NOTIFICATION_INTERVAL_IN_MILLIS,
                 alarmIntentRepeating);
         taskShouldBeRunning = true;
         CountdownTask task = new CountdownTask(this);

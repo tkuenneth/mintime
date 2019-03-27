@@ -1,7 +1,9 @@
 1.2
-- tap on plus/minus are immediately recognized
+- taps on plus/minus are immediately recognized
 - targets the latest api level
 - improved notification
+- save and delete icons added
+- tap and swipe to directly set a time between 1 and 90 minutes
 
 1.06
 - in Android Studio-Projekt umgewandelt

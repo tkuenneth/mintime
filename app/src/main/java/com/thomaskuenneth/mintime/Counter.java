@@ -32,7 +32,7 @@ public class Counter extends View {
 
     private static final int INTERVAL_LONG = 500;
     private static final int SWIPE_MAX_MINUTES = 90;
-    private static final int INTERVAL_SHORT = 100;
+    private static final int INTERVAL_SHORT = 80;
     private static final int DELAY = 200;
 
     private boolean useMinutes = true;
@@ -137,7 +137,7 @@ public class Counter extends View {
                             @Override
                             public void run() {
                                 int segmentSize = v.getWidth() / SWIPE_MAX_MINUTES;
-                                value = (long) lastX / segmentSize;
+                                value = (long) (lastX + segmentSize - 1) / segmentSize;
                                 if (value < 1) {
                                     value = 1;
                                 } else if (value > SWIPE_MAX_MINUTES) {

@@ -153,6 +153,19 @@ public class MinTime extends AppCompatActivity {
                 return true;
             });
         }
+        if ((counter1.getValueInMillis() > 0) ||
+                (counter2.getValueInMillis() > 0) ||
+                (counter3.getValueInMillis() > 0)) {
+            MenuItem clear = menu
+                    .add(1, Menu.NONE, Menu.NONE, R.string.clear);
+            clear.setIcon(R.drawable.ic_clear);
+            clear.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            clear.setOnMenuItemClickListener(item -> {
+                updateViews(0, 0, 0);
+                invalidateOptionsMenu();
+                return true;
+            });
+        }
         return super.onPrepareOptionsMenu(menu);
     }
 

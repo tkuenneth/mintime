@@ -1,3 +1,6 @@
+1.2a
+- Clear icon added
+
 1.2
 - taps on plus/minus are immediately recognized
 - targets the latest api level

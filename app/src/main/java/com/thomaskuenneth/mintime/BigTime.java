@@ -15,6 +15,7 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 /**
  * Diese Klasse realisiert eine Zeitanzeige mit großer Schrift.
@@ -41,7 +42,8 @@ public class BigTime extends View {
     public BigTime(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         text = "";
-        color = Color.WHITE;
+        TextView tv = new TextView(context);
+        color = tv.getCurrentTextColor();
         TypedArray a = getContext().getTheme().obtainStyledAttributes(attrs,
                 R.styleable.Counter, 0, 0);
         try {

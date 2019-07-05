@@ -1,7 +1,7 @@
 /*
  * CanvasUtils.java
  *
- * TKWeek (c) Thomas Künneth 2014 - 2015
+ * TKWeek (c) Thomas Künneth 2014 - 2019
  * Alle Rechte beim Autoren. All rights reserved.
  */
 package com.thomaskuenneth.mintime;
@@ -50,8 +50,7 @@ class CanvasUtils {
                 .getSystemService(Context.WINDOW_SERVICE);
         if (wm != null) {
             Display display = wm.getDefaultDisplay();
-            result.x = display.getWidth();
-            result.y = display.getHeight();
+            display.getSize(result);
         }
         return result;
     }

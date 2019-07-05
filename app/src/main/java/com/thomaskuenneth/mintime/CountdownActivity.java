@@ -89,7 +89,8 @@ public class CountdownActivity extends AppCompatActivity implements CountdownApi
     @Override
     protected void onResume() {
         super.onResume();
-        tapHere.setTextColor(Color.BLACK);
+        TextView tv = new TextView(this);
+        tapHere.setTextColor(tv.getCurrentTextColor());
         data = MinTime.loadData(this);
         if (data == null) {
             throw new IllegalStateException("data == null");

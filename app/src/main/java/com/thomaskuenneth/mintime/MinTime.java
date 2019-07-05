@@ -15,14 +15,14 @@ import android.view.MenuItem;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Dies ist die Hauptactivity der App.
@@ -269,8 +269,7 @@ public class MinTime extends AppCompatActivity {
         long c1 = JSONUtils.getLongFromJSONObject(data, COUNTER1);
         long c2 = JSONUtils.getLongFromJSONObject(data, COUNTER2);
         long c3 = JSONUtils.getLongFromJSONObject(data, COUNTER3);
-        return Long.toString(c1) + "|" + Long.toString(c2) + "|"
-                + Long.toString(c3);
+        return c1 + "|" + c2 + "|" + c3;
     }
 
     private boolean isSavedDistribution(String distribution) {

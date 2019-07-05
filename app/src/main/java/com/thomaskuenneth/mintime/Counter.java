@@ -62,13 +62,11 @@ public class Counter extends View {
         int n = a.getIndexCount();
         for (int i = 0; i < n; i++) {
             int attr = a.getIndex(i);
-            switch (attr) {
-                case R.styleable.Counter_mintime_color:
-                    _color = a.getColor(i, _color);
-                    break;
-                default:
-                    throw new RuntimeException("Unknown attribute for "
-                            + getClass().toString() + ": " + attr);
+            if (attr == R.styleable.Counter_mintime_color) {
+                _color = a.getColor(i, _color);
+            } else {
+                throw new RuntimeException("Unknown attribute for "
+                        + getClass().toString() + ": " + attr);
             }
         }
         a.recycle();

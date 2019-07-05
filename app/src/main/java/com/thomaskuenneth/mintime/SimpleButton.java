@@ -9,12 +9,12 @@ package com.thomaskuenneth.mintime;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.TextView;
 
 /**
  * Diese Klasse repräsentiert einen einfachen Button ohne Effekte.
@@ -36,20 +36,17 @@ public class SimpleButton extends View {
 
     public SimpleButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        int color = Color.BLACK;
         TypedArray a = getContext().obtainStyledAttributes(attrs,
                 R.styleable.SimpleButton);
         int n = a.getIndexCount();
         for (int i = 0; i < n; i++) {
             int attr = a.getIndex(i);
-            switch (attr) {
-                case R.styleable.SimpleButton_text:
-                    text = a.getString(i);
-                    setText(text);
-                    break;
-                default:
-                    throw new RuntimeException("Unknown attribute for "
-                            + getClass().toString() + ": " + attr);
+            if (attr == R.styleable.SimpleButton_text) {
+                text = a.getString(i);
+                setText(text);
+            } else {
+                throw new RuntimeException("Unknown attribute for "
+                        + getClass().toString() + ": " + attr);
             }
         }
         a.recycle();
@@ -57,7 +54,9 @@ public class SimpleButton extends View {
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setTypeface(Typeface.DEFAULT);
         paint.setTextAlign(Paint.Align.CENTER);
-        setColor(color);
+
+        TextView tv = new TextView(context);
+        setColor(tv.getCurrentTextColor());
     }
 
     @Override

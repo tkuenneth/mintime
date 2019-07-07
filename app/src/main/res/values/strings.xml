@@ -5,7 +5,7 @@
     <string name="min">min</string>
     <string name="sec">s</string>
     <string name="start">Start</string>
-    <string name="resume">To time view</string>
+    <string name="resume">Proceed</string>
     <string name="template">%1$d %2$s</string>
     <string name="template_two_dashes">%1$s - %2$s - %3$s</string>
     <string name="plus">+</string>

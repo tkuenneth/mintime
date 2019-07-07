@@ -12,7 +12,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,7 +30,8 @@ import java.util.List;
  *
  * @author Thomas
  */
-public class MinTime extends AppCompatActivity {
+public class MinTime extends AppCompatActivity
+        implements ValueUpdater {
 
     public static final int RQ_ALARM_ORANGE = 1;
     public static final int RQ_ALARM_RED = 2;
@@ -50,7 +52,8 @@ public class MinTime extends AppCompatActivity {
     public static final long ONE_MINUTE = 60000L;
 
     private Counter counter1, counter2, counter3;
-    private SimpleButton total, start;
+    private TextView total;
+    private Button start;
 
     private JSONObject data;
     private List<String> distributions;
@@ -73,13 +76,12 @@ public class MinTime extends AppCompatActivity {
             }
         });
 
-        OnClickListener l = v -> updateTotal();
         counter1 = findViewById(R.id.counter1);
-        counter1.setOnClickListener(l);
+        counter1.setValueUpdator(this);
         counter2 = findViewById(R.id.counter2);
-        counter2.setOnClickListener(l);
+        counter2.setValueUpdator(this);
         counter3 = findViewById(R.id.counter3);
-        counter3.setOnClickListener(l);
+        counter3.setValueUpdator(this);
     }
 
     @Override
@@ -174,11 +176,11 @@ public class MinTime extends AppCompatActivity {
         long m = secs / 60;
         long s = secs % 60;
         StringBuilder sb = new StringBuilder();
-        if (m > 0) {
+        if (m >= 0) {
             sb.append(context.getString(R.string.template, m,
                     context.getString(R.string.min)));
         }
-        if ((s > 0) || (m == 0)) {
+        if (s > 0) {
             if (sb.length() > 0) {
                 sb.append(" ");
             }
@@ -281,7 +283,8 @@ public class MinTime extends AppCompatActivity {
         return false;
     }
 
-    private void updateTotal() {
+    @Override
+    public void updateValue() {
         long val1 = counter1.getValueInMillis();
         long val2 = counter2.getValueInMillis();
         long val3 = counter3.getValueInMillis();

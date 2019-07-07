@@ -3,9 +3,5 @@
    <declare-styleable name="Counter">
 		<attr name="mintime_color" format="color" />
    </declare-styleable>
-    
-   <declare-styleable name="SimpleButton">
-       <attr name="text" format="string" />
-   </declare-styleable>
-   
+
 </resources>

@@ -6,13 +6,9 @@
  */
 package com.thomaskuenneth.mintime;
 
-import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.Rect;
-import android.view.Display;
-import android.view.WindowManager;
 
 /**
  * Diese Klasse enthält statische Methoden für die Arbeit mit Canvas-Objekten.
@@ -36,23 +32,6 @@ class CanvasUtils {
         paint.getTextBounds(text, 0, text.length(), bounds);
         float textY = posY - (float) bounds.top - (float) bounds.height() / 2f;
         canvas.drawText(text, posX, textY, paint);
-    }
-
-    /**
-     * Liefert die Bildschirmgröße in Pixel.
-     *
-     * @param context Context
-     * @return Bildschirmgröße in Pixel
-     */
-    static Point getScreenSize(Context context) {
-        Point result = new Point();
-        WindowManager wm = (WindowManager) context
-                .getSystemService(Context.WINDOW_SERVICE);
-        if (wm != null) {
-            Display display = wm.getDefaultDisplay();
-            display.getSize(result);
-        }
-        return result;
     }
 
     /**

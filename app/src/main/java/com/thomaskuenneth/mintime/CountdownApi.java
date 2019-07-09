@@ -1,3 +1,9 @@
+/*
+ * CountdownApi.java
+ *
+ * Min Time (c) Thomas Künneth 2019
+ * Alle Rechte beim Autoren. All rights reserved.
+ */
 package com.thomaskuenneth.mintime;
 
 import android.content.res.Resources;

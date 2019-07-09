@@ -294,5 +294,6 @@ public class MinTime extends AppCompatActivity
 
     private void updateTotal(long val1, long val2, long val3) {
         total.setText(millisToPrettyString(this, val1 + val2 + val3));
+        start.setEnabled(val1 + val2 + val3 > 0);
     }
 }

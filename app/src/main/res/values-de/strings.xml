@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="min">min</string>
+    <string name="sec">s</string>
+    <string name="start">Start</string>
+    <string name="resume">Weiter</string>
+    <string name="hint">Zum Beenden hier tippen</string>
+    <string name="delete">L\u00f6schen</string>
+    <string name="save">Speichern</string>
+    <string name="error1">Daten konnten nicht gespeichert werden</string>
+    <string name="overrun">Ca. %1$d %2$s \u00fcberzogen</string>
+    <string name="left">Ca. %1$d %2$s verbleibend</string>
+    <string name="running">Seit %1$d Minuten laufend</string>
+    <string name="notification_channel_descr">Min Time Benachrichtigungen</string>
+    <string name="clear">Leeren</string>
+
+</resources>

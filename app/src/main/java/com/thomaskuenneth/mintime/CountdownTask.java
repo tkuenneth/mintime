@@ -1,6 +1,13 @@
+/*
+ * CountdownTask.java
+ *
+ * Min Time (c) Thomas Künneth 2015
+ * Alle Rechte beim Autoren. All rights reserved.
+ */
 package com.thomaskuenneth.mintime;
 
 import android.os.AsyncTask;
+import android.os.Build;
 
 import org.json.JSONObject;
 
@@ -58,7 +65,11 @@ class CountdownTask extends AsyncTask<Void, Long, Void> {
             } else {
                 color = R.color.red;
             }
-            timer.setColor(i.getResources().getColor(color, null));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                timer.setColor(i.getResources().getColor(color, null));
+            } else {
+                timer.setColor(i.getResources().getColor(color));
+            }
             long secs = remaining / 1000;
             if (secs >= 60) {
                 timer.setText(i.getString(R.string.template, secs / 60,

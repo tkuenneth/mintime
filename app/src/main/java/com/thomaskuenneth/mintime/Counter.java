@@ -24,14 +24,11 @@ import android.widget.TextView;
  */
 public class Counter extends FrameLayout {
 
-    private boolean useMinutes = true;
-    private long value = 0;
-    private int times = 0;
-
+    private boolean useMinutes;
+    private long value;
     private TextView text;
     private SeekBar seekbar;
-
-    private ValueUpdater cb = null;
+    private ValueUpdater cb;
 
     public Counter(Context context) {
         this(context, null, 0);
@@ -73,8 +70,11 @@ public class Counter extends FrameLayout {
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                value = i;
-                updateUIAndNotifyListener();
+                if (b) {
+                    value = i;
+                    useMinutes = true;
+                }
+                updateUIAndNotifyListener(false);
             }
 
             @Override
@@ -93,14 +93,14 @@ public class Counter extends FrameLayout {
 
     public void setValueInMillis(long value) {
         value /= 1000;
-        if (value >= 60) {
+        if ((value >= 60) || (value == 0)) {
             this.value = value / 60;
             useMinutes = true;
         } else {
             this.value = value;
             useMinutes = false;
         }
-        updateUIAndNotifyListener();
+        updateUIAndNotifyListener(true);
     }
 
     public void setValueUpdator(ValueUpdater updater) {
@@ -108,43 +108,28 @@ public class Counter extends FrameLayout {
     }
 
     private void changeValue(boolean increase) {
-        int increment = 1;
-        if (times < 5) {
-            times += 1;
-        } else {
-            if ((value % 5) == 0) {
-                if (increase || (value >= 10)) {
-                    increment = 5;
-                }
-            }
-        }
-        if (increase) {
-            value += increment;
-        } else {
-            value -= increment;
-        }
+        value += increase ? 1 : -1;
         if (value < 0) {
             if (useMinutes) {
                 useMinutes = false;
-                value = 59;
-            } else {
-                value = 0;
             }
-        } else if (value > 59) {
-            if (!useMinutes) {
-                useMinutes = true;
-                value = 0;
-                times = 0;
-            }
+            value = 59;
+        } else if ((value > 90) && useMinutes) {
+            value = 0;
+        } else if ((value > 59) && !useMinutes) {
+            useMinutes = true;
+            value = 0;
         }
-        updateUIAndNotifyListener();
+        updateUIAndNotifyListener(true);
     }
 
-    private void updateUIAndNotifyListener() {
-        if (useMinutes) {
-            seekbar.setProgress((int) value);
-        } else {
-            seekbar.setProgress(0);
+    private void updateUIAndNotifyListener(boolean updateSeekBar) {
+        if (updateSeekBar) {
+            if (useMinutes) {
+                seekbar.setProgress((int) value);
+            } else {
+                seekbar.setProgress(0);
+            }
         }
         text.setText(MinTime.millisToPrettyString(getContext(), getValueInMillis()));
         if (cb != null) {

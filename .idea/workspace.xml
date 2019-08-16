@@ -28,15 +28,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="64111e6a-d747-4bc2-bf59-e98b175cdee3" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Screenshots/01.png" beforeDir="false" afterPath="$PROJECT_DIR$/Screenshots/01.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Screenshots/02.png" beforeDir="false" afterPath="$PROJECT_DIR$/Screenshots/02.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Screenshots/03.png" beforeDir="false" afterPath="$PROJECT_DIR$/Screenshots/03.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Screenshots/04.png" beforeDir="false" afterPath="$PROJECT_DIR$/Screenshots/04.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Screenshots/05.png" beforeDir="false" afterPath="$PROJECT_DIR$/Screenshots/05.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Screenshots/06.png" beforeDir="false" afterPath="$PROJECT_DIR$/Screenshots/06.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -44,6 +40,10 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DefaultGradleProjectSettings">
+    <option name="isMigrated" value="true" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="7.3_Foldable_API_29" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -131,15 +131,17 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="y" value="24" />
-    <option name="width" value="1728" />
+    <option name="y" value="20" />
+    <option name="width" value="1730" />
     <option name="height" value="960" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
+    <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
@@ -196,8 +198,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -208,6 +208,7 @@
     <property name="ExportApk.BuildVariants" value="release" />
     <property name="ExportApk.SignV1" value="true" />
     <property name="ExportApk.SignV2" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="SHOW_ALL_PROCESSES" value="true" />
     <property name="ScreenshotViewer.SavePath" value="$USER_HOME$/Desktop" />
     <property name="android.project.structure.last.selected" value="app" />
@@ -218,7 +219,7 @@
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.0" />
-    <property name="settings.editor.selected.configurable" value="android.sdk-updates" />
+    <property name="settings.editor.selected.configurable" value="preferences.updates" />
     <property name="sync.plugin.last.upgrade.timestamp" value="1552041464431" />
   </component>
   <component name="RecentsManager">
@@ -334,9 +335,9 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49552238" visible="true" weight="0.28178138" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49552238" visible="true" weight="0.28120807" />
       <window_info id="Structure" order="1" sideWeight="0.5044776" side_tool="true" weight="0.28178138" />
       <window_info id="Designer" order="2" />
       <window_info id="Build Variants" order="3" sideWeight="0.50101835" side_tool="true" weight="0.24777327" />
@@ -352,10 +353,10 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Build" order="7" sideWeight="0.49872774" weight="0.37833038" />
-      <window_info anchor="bottom" id="Android Profiler" order="8" />
+      <window_info anchor="bottom" id="Build" order="7" sideWeight="0.49872774" visible="true" weight="0.37818697" />
+      <window_info anchor="bottom" id="Android Profiler" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50127226" side_tool="true" weight="0.25577265" />
-      <window_info active="true" anchor="bottom" id="Logcat" order="10" visible="true" weight="0.40497336" />
+      <window_info anchor="bottom" id="Logcat" order="10" weight="0.4036827" />
       <window_info anchor="bottom" id="Version Control" order="11" />
       <window_info anchor="bottom" id="Terminal" order="12" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -364,7 +365,7 @@
       <window_info anchor="right" id="Capture Analysis" order="3" />
       <window_info anchor="right" id="Preview" order="4" weight="0.3295302" />
       <window_info anchor="right" id="Device File Explorer" order="5" side_tool="true" weight="0.32955465" />
-      <window_info anchor="right" id="Assistant" order="6" weight="0.3295302" />
+      <window_info active="true" anchor="right" id="Assistant" order="6" visible="true" weight="0.3295302" />
       <window_info anchor="right" id="Gradle" order="7" weight="0.32874495" />
       <window_info anchor="right" id="Palette&#9;" order="8" />
       <window_info anchor="right" id="Theme Preview" order="9" />
@@ -423,12 +424,12 @@
     <entry file="file://$USER_HOME$/Desktop/01.png" />
     <entry file="jar://$USER_HOME$/Library/Android/sdk/platforms/android-29/android.jar!/android/view/Display.class" />
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider editor-type-id="android-manifest" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
           <caret line="14" column="54" lean-forward="true" selection-start-line="14" selection-start-column="54" selection-end-line="14" selection-end-column="54" />
         </state>
       </provider>
+      <provider editor-type-id="android-manifest" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/colors.xml">
       <provider selected="true" editor-type-id="text-editor">
@@ -689,16 +690,10 @@
     <entry file="file://$USER_HOME$/Desktop/device-2019-07-09-210439.png" />
     <entry file="file://$USER_HOME$/Desktop/device-2019-07-09-210631.png" />
     <entry file="file://$USER_HOME$/Desktop/device-2019-07-09-210647.png" />
-    <entry file="file://$USER_HOME$/Desktop/device-2019-07-09-210716.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
+    <entry file="file://$USER_HOME$/Desktop/device-2019-07-09-210716.png" />
     <entry file="file://$USER_HOME$/Desktop/device-2019-07-09-210746.png" />
     <entry file="file://$USER_HOME$/Desktop/device-2019-07-09-210905.png" />
-    <entry file="file://$USER_HOME$/Desktop/device-2019-07-09-211013.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$USER_HOME$/Desktop/device-2019-07-09-212323.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
+    <entry file="file://$USER_HOME$/Desktop/device-2019-07-09-211013.png" />
+    <entry file="file://$USER_HOME$/Desktop/device-2019-07-09-212323.png" />
   </component>
 </project>

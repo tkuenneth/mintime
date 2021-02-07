@@ -31,31 +31,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="64111e6a-d747-4bc2-bf59-e98b175cdee3" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/AlarmReceiver.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/AlarmReceiver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/CountdownActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/CountdownActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/CountdownTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/CountdownTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/Counter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/Counter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/JSONUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/JSONUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/RepeatingAlarm.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/RepeatingAlarm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/history.txt" beforeDir="false" afterPath="$PROJECT_DIR$/history.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Screenshots/01.png" beforeDir="false" afterPath="$PROJECT_DIR$/Screenshots/01.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Screenshots/02.png" beforeDir="false" afterPath="$PROJECT_DIR$/Screenshots/02.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\tkuen\.android\avd\8_Fold-out_API_30.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\tkuen\.android\avd\Pixel_2_API_30_1.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />

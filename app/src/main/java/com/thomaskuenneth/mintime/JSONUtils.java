@@ -1,7 +1,7 @@
 /*
  * JSONUtils.java
  *
- * Min Time (c) Thomas Künneth 2014 - 2019
+ * Min Time (c) Thomas Künneth 2014 - 2021
  * Alle Rechte beim Autoren. All rights reserved.
  */
 package com.thomaskuenneth.mintime;
@@ -70,7 +70,7 @@ class JSONUtils {
                 while ((i = in.read()) != -1) {
                     bytes.write(i);
                 }
-                String json = new String(bytes.toByteArray());
+                String json = bytes.toString();
                 data = new JSONObject(json);
             }
         } catch (Throwable tr) { // IOException, JSONException

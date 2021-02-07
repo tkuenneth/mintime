@@ -1,7 +1,7 @@
 /*
  * RepeatingAlarm.java
  *
- * Min Time (c) Thomas Künneth 2014 - 2019
+ * Min Time (c) Thomas Künneth 2014 - 2021
  * Alle Rechte beim Autoren. All rights reserved.
  */
 package com.thomaskuenneth.mintime;
@@ -52,7 +52,7 @@ public class RepeatingAlarm extends BroadcastReceiver {
             PendingIntent notificationClickedIntent = PendingIntent
                     .getActivity(context, MinTime.RQ_NOTIFICATION,
                             intentCountDownActivity,
-                            PendingIntent.FLAG_UPDATE_CURRENT);
+                            PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
             String str = context.getString(resId, mins,
                     context.getString(R.string.min));
             StringBuilder sb = new StringBuilder();

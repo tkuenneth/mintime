@@ -1,3 +1,10 @@
+1.4.1
+- targetSdkVersion is now 30
+- minSdkVersion is now 23
+- some library upgrades
+- fixed version: null
+- Fixed some Lint warnings
+
 1.4
 - German translation
 - Use native SeekBar for faster time selection

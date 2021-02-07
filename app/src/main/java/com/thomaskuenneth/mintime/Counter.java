@@ -1,7 +1,7 @@
 /*
  * Counter.java
  *
- * TKWeek (c) Thomas Künneth 2014 - 2019
+ * TKWeek (c) Thomas Künneth 2014 - 2021
  * Alle Rechte beim Autoren. All rights reserved.
  */
 package com.thomaskuenneth.mintime;
@@ -24,10 +24,11 @@ import android.widget.TextView;
  */
 public class Counter extends FrameLayout {
 
+    private final TextView text;
+    private final SeekBar seekbar;
+
     private boolean useMinutes;
     private long value;
-    private TextView text;
-    private SeekBar seekbar;
     private ValueUpdater cb;
 
     public Counter(Context context) {

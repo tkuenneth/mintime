@@ -1,7 +1,7 @@
 /*
  * CountdownActivity.java
  *
- * Min Time (c) Thomas Künneth 2014 - 2019
+ * Min Time (c) Thomas Künneth 2014 - 2021
  * Alle Rechte beim Autoren. All rights reserved.
  */
 package com.thomaskuenneth.mintime;
@@ -18,9 +18,9 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.TextView;
 
-import org.json.JSONObject;
-
 import androidx.appcompat.app.AppCompatActivity;
+
+import org.json.JSONObject;
 
 /**
  * Diese Activity realisiert die Zeitanzeige/Countdown.
@@ -37,6 +37,7 @@ public class CountdownActivity extends AppCompatActivity implements CountdownApi
 
     private static final long[] PATTERN2 = new long[]{0, 500, 500, 500, 500,
             500, 500, 500};
+    private static final int INTENT_FLAGS = PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE;
 
     private JSONObject data;
     private BigTime timer;
@@ -113,17 +114,17 @@ public class CountdownActivity extends AppCompatActivity implements CountdownApi
                 JSONUtils.getLongFromJSONObject(data, MinTime.RESUMED));
         alarmIntentRepeating = PendingIntent.getBroadcast(this,
                 MinTime.RQ_ALARM_REPEATING, intentRepeating,
-                PendingIntent.FLAG_UPDATE_CURRENT);
+                INTENT_FLAGS);
         // Eintritt in die Phase orange
         Intent intentOrange = new Intent(this, AlarmReceiver.class);
         intentOrange.putExtra(AlarmReceiver.PATTERN, PATTERN1);
         alarmIntentOrange = PendingIntent.getBroadcast(this,
-                MinTime.RQ_ALARM_ORANGE, intentOrange, 0);
+                MinTime.RQ_ALARM_ORANGE, intentOrange, INTENT_FLAGS);
         // Eintritt in die Phase rot
         Intent intentRed = new Intent(this, AlarmReceiver.class);
         intentRed.putExtra(AlarmReceiver.PATTERN, PATTERN2);
         alarmIntentRed = PendingIntent.getBroadcast(this, MinTime.RQ_ALARM_RED,
-                intentRed, 0);
+                intentRed, INTENT_FLAGS);
         cancelAlarms();
         long phaseGreen = JSONUtils.getLongFromJSONObject(data,
                 MinTime.COUNTER1);

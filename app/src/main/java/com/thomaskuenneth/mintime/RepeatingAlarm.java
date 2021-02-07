@@ -65,7 +65,7 @@ public class RepeatingAlarm extends BroadcastReceiver {
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     .setContentTitle(str)
                     .setShowWhen(false)
-                    .setSmallIcon(R.drawable.ic_launcher_mintime)
+                    .setSmallIcon(R.drawable.ic_mintime_monochrome)
                     .setOngoing(true)
                     .setContentText(sb.toString())
                     .setContentIntent(notificationClickedIntent);

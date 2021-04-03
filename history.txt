@@ -1,6 +1,7 @@
 1.4.2
 - fixed some Lint warnings
 - added a "Finish" button
+- "0 - 0 - 0" can no longer be saved
 
 1.4.1
 - targetSdkVersion is now 30

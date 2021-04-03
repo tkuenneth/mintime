@@ -158,7 +158,9 @@ public class MinTime extends AppCompatActivity
                 invalidateOptionsMenu();
                 return true;
             });
-        } else {
+        } else if ((counter1.getValueInMillis() > 0) ||
+                (counter2.getValueInMillis() > 0) ||
+                (counter3.getValueInMillis() > 0)) {
             MenuItem save = menu.add(1, Menu.NONE, Menu.NONE, R.string.save);
             save.setIcon(R.drawable.ic_save);
             save.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);

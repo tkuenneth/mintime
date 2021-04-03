@@ -1,3 +1,6 @@
+1.4.2
+- fixed some Lint warnings
+
 1.4.1
 - targetSdkVersion is now 30
 - minSdkVersion is now 23

@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,6 +55,7 @@ public class MinTime extends AppCompatActivity
     private Counter counter1, counter2, counter3;
     private TextView total;
     private Button start;
+    private Button finish;
 
     private JSONObject data;
     private List<String> distributions;
@@ -69,11 +71,21 @@ public class MinTime extends AppCompatActivity
             if (updateAndSaveData()) {
                 Intent intent = new Intent(MinTime.this,
                         CountdownActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
             } else {
                 Toast.makeText(MinTime.this, R.string.error1,
                         Toast.LENGTH_LONG).show();
             }
+        });
+
+        finish = findViewById(R.id.finish);
+        finish.setOnClickListener(v -> {
+            Intent intent = new Intent(MinTime.this,
+                    CountdownActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            intent.putExtra(CountdownActivity.KEY_FINISH, true);
+            startActivity(intent);
         });
 
         counter1 = findViewById(R.id.counter1);
@@ -100,11 +112,13 @@ public class MinTime extends AppCompatActivity
             updateData(ONE_MINUTE, ONE_MINUTE, ONE_MINUTE);
             JSONUtils.putLongInJSONObject(data, RESUMED, -1);
         }
-        if (JSONUtils.getLongFromJSONObject(data, RESUMED) == -1) {
-            start.setText(R.string.start);
-        } else {
+        boolean isResumed = JSONUtils.getLongFromJSONObject(data, RESUMED) != -1;
+        if (isResumed) {
             start.setText(R.string.resume);
+        } else {
+            start.setText(R.string.start);
         }
+        finish.setVisibility(isResumed ? View.VISIBLE : View.GONE);
         updateViews(JSONUtils.getLongFromJSONObject(data, COUNTER1),
                 JSONUtils.getLongFromJSONObject(data, COUNTER2),
                 JSONUtils.getLongFromJSONObject(data, COUNTER3));

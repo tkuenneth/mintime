@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Min Time</string>
+    <string name="app_name" translatable="false">Min Time</string>
     <string name="min">min</string>
     <string name="sec">s</string>
     <string name="start">Start</string>
     <string name="resume">Proceed</string>
-    <string name="template">%1$d %2$s</string>
-    <string name="template_two_dashes">%1$s - %2$s - %3$s</string>
-    <string name="plus">+</string>
-    <string name="minus">-</string>
+    <string name="template" translatable="false">%1$d %2$s</string>
+    <string name="template_two_dashes" translatable="false">%1$s - %2$s - %3$s</string>
+    <string name="plus" translatable="false">+</string>
+    <string name="minus" translatable="false">-</string>
     <string name="hint">Tap here to finish</string>
     <string name="delete">Delete</string>
     <string name="save">Save</string>
@@ -19,5 +19,6 @@
     <string name="running">Running for %1$d minutes</string>
     <string name="notification_channel_descr">Min Time reminders</string>
     <string name="clear">Clear</string>
+    <string name="finish">Finish</string>
 
 </resources>

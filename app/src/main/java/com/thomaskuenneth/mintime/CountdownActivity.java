@@ -28,6 +28,7 @@ import org.json.JSONObject;
  */
 public class CountdownActivity extends AppCompatActivity implements CountdownApi {
 
+    public static final String KEY_FINISH = "finish";
     public static final int NOTIFICATION_ID = 29082311;
     public static final long NOTIFICATION_INTERVAL_IN_MILLIS = 60000L;
 
@@ -125,24 +126,35 @@ public class CountdownActivity extends AppCompatActivity implements CountdownApi
         alarmIntentRed = PendingIntent.getBroadcast(this, MinTime.RQ_ALARM_RED,
                 intentRed, INTENT_FLAGS);
         cancelAlarms();
-        long phaseGreen = JSONUtils.getLongFromJSONObject(data,
-                MinTime.COUNTER1);
-        long phaseOrange = JSONUtils.getLongFromJSONObject(data,
-                MinTime.COUNTER2);
-        if (offset <= phaseGreen) {
-            alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, elapsedRealtime
-                    + phaseGreen, alarmIntentOrange);
+
+        boolean shouldFinish = false;
+        Intent intent = getIntent();
+        if (intent != null) {
+            shouldFinish = intent.hasExtra(KEY_FINISH);
         }
-        if (offset <= phaseGreen + phaseOrange) {
-            alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, elapsedRealtime
-                    + phaseGreen + phaseOrange, alarmIntentRed);
+        if (shouldFinish) {
+            tapHere.performClick();
+        } else {
+            long phaseGreen = JSONUtils.getLongFromJSONObject(data,
+                    MinTime.COUNTER1);
+            long phaseOrange = JSONUtils.getLongFromJSONObject(data,
+                    MinTime.COUNTER2);
+            if (offset <= phaseGreen) {
+                alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, elapsedRealtime
+                        + phaseGreen, alarmIntentOrange);
+            }
+            if (offset <= phaseGreen + phaseOrange) {
+                alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, elapsedRealtime
+                        + phaseGreen + phaseOrange, alarmIntentRed);
+            }
+            alarmMgr.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                    elapsedRealtime /* + phaseGreen */, NOTIFICATION_INTERVAL_IN_MILLIS,
+                    alarmIntentRepeating);
+
+            taskShouldBeRunning = true;
+            CountdownTask task = new CountdownTask(this);
+            task.execute();
         }
-        alarmMgr.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                elapsedRealtime /* + phaseGreen */, NOTIFICATION_INTERVAL_IN_MILLIS,
-                alarmIntentRepeating);
-        taskShouldBeRunning = true;
-        CountdownTask task = new CountdownTask(this);
-        task.execute();
     }
 
     private void cancelAlarms() {

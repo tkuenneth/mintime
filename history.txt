@@ -1,5 +1,6 @@
 1.4.2
 - fixed some Lint warnings
+- added a "Finish" button
 
 1.4.1
 - targetSdkVersion is now 30

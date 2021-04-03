@@ -190,7 +190,7 @@ public class MinTime extends AppCompatActivity
         long m = secs / 60;
         long s = secs % 60;
         StringBuilder sb = new StringBuilder();
-        if (m >= 0) {
+        if ((m > 0) || (s == 0)) {
             sb.append(context.getString(R.string.template, m,
                     context.getString(R.string.min)));
         }

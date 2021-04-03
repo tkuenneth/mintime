@@ -9,7 +9,6 @@ package com.thomaskuenneth.mintime;
 import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -52,14 +51,14 @@ public class CountdownActivity extends AppCompatActivity implements CountdownApi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmMgr = getSystemService(AlarmManager.class);
         setContentView(R.layout.countdown);
         timer = findViewById(R.id.timer);
         tapHere = findViewById(R.id.tap_here);
         tapHere.setOnClickListener(v -> {
             cancelAlarms();
             JSONUtils.putLongInJSONObject(data, MinTime.RESUMED, -1);
-            NotificationManager m = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationManager m = getSystemService(NotificationManager.class);
             if (m != null) {
                 m.cancel(NOTIFICATION_ID);
             }

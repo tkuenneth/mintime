@@ -42,7 +42,7 @@ import java.util.List;
  * @author Thomas
  */
 public class MinTime extends AppCompatActivity
-        implements ValueUpdater, CountdownApi {
+        implements ValueUpdater {
 
     public static final int NOTIFICATION_ID = 29082311;
     public static final int RQ_ALARM_ORANGE = 1;

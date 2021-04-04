@@ -13,11 +13,11 @@ import androidx.preference.PreferenceManager;
 
 class CountdownTask extends AsyncTask<Void, Long, Void> {
 
-    private final CountdownApi i;
+    private final MinTime i;
 
     private final SharedPreferences prefs;
 
-    CountdownTask(CountdownApi i) {
+    CountdownTask(MinTime i) {
         this.i = i;
         prefs = PreferenceManager.getDefaultSharedPreferences(i.getBaseContext());
         i.getTimer().setRedAlert(false);

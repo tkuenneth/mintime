@@ -92,7 +92,7 @@ public class MinTime extends AppCompatActivity
         setContentView(view);
         // setup
         binding.start.setOnClickListener(v -> {
-            prefs.edit().putLong(MinTime.RESUMED, System.currentTimeMillis()).apply();
+            prefs.edit().putLong(RESUMED, System.currentTimeMillis()).apply();
             configureAlarms();
             updateUI();
         });
@@ -105,7 +105,7 @@ public class MinTime extends AppCompatActivity
             if (m != null) {
                 m.cancel(NOTIFICATION_ID);
             }
-            prefs.edit().putLong(MinTime.RESUMED, -1).apply();
+            prefs.edit().putLong(RESUMED, -1).apply();
             cancelAlarms();
             stopAnimationAndTask();
             updateUI();
@@ -198,7 +198,7 @@ public class MinTime extends AppCompatActivity
 
     public long getElpased() {
         return System.currentTimeMillis()
-                - prefs.getLong(MinTime.RESUMED, System.currentTimeMillis());
+                - prefs.getLong(RESUMED, System.currentTimeMillis());
     }
 
     public long getRemaining() {
@@ -287,13 +287,13 @@ public class MinTime extends AppCompatActivity
 
     private long getTotal() {
         long now = System.currentTimeMillis();
-        return prefs.getLong(MinTime.COUNTER1, now)
-                + prefs.getLong(MinTime.COUNTER2, now)
-                + prefs.getLong(MinTime.COUNTER3, now);
+        return prefs.getLong(COUNTER1, now)
+                + prefs.getLong(COUNTER2, now)
+                + prefs.getLong(COUNTER3, now);
     }
 
     private long getEnd() {
-        long resumed = prefs.getLong(MinTime.RESUMED, System.currentTimeMillis());
+        long resumed = prefs.getLong(RESUMED, System.currentTimeMillis());
         long total = getTotal();
         return resumed + total;
     }
@@ -334,7 +334,7 @@ public class MinTime extends AppCompatActivity
     }
 
     private boolean isResumed() {
-        return prefs.getLong(MinTime.RESUMED, -1) != -1;
+        return prefs.getLong(RESUMED, -1) != -1;
     }
 
     private void updateUI() {
@@ -346,10 +346,10 @@ public class MinTime extends AppCompatActivity
             long now = System.currentTimeMillis();
             long elapsedRealtime = SystemClock.elapsedRealtime();
             long offset = now
-                    - prefs.getLong(MinTime.RESUMED, now);
+                    - prefs.getLong(RESUMED, now);
             elapsedRealtime -= offset;
-            long phaseGreen = prefs.getLong(MinTime.COUNTER1, now);
-            long phaseOrange = prefs.getLong(MinTime.COUNTER2, now);
+            long phaseGreen = prefs.getLong(COUNTER1, now);
+            long phaseOrange = prefs.getLong(COUNTER2, now);
             if (offset <= phaseGreen) {
                 alarmMgr.setExactAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP, elapsedRealtime
                         + phaseGreen, alarmIntentOrange);

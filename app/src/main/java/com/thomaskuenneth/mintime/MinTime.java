@@ -6,18 +6,20 @@
  */
 package com.thomaskuenneth.mintime;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
+
+import com.thomaskuenneth.mintime.databinding.MainBinding;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,7 +42,6 @@ public class MinTime extends AppCompatActivity
     public static final int RQ_NOTIFICATION = 4;
 
     private static final String TAG = MinTime.class.getSimpleName();
-    private static final String FILENAME = TAG + ".dat";
     private static final String FILENAME_DISTRIBUTIONS = TAG + ".dst";
     private static final String DST = "distributions";
 
@@ -52,76 +53,57 @@ public class MinTime extends AppCompatActivity
 
     public static final long ONE_MINUTE = 60000L;
 
-    private Counter counter1, counter2, counter3;
-    private TextView total;
-    private Button start;
-    private Button finish;
+    private MainBinding binding;
 
-    private JSONObject data;
     private List<String> distributions;
 
+    private SharedPreferences prefs;
+
+    @SuppressLint("InlinedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        binding = MainBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
 
-        total = findViewById(R.id.total);
-        start = findViewById(R.id.start_or_resume);
-        start.setOnClickListener(v -> {
-            if (updateAndSaveData()) {
-                Intent intent = new Intent(MinTime.this,
-                        CountdownActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent);
-            } else {
-                Toast.makeText(MinTime.this, R.string.error1,
-                        Toast.LENGTH_LONG).show();
-            }
-        });
-
-        finish = findViewById(R.id.finish);
-        finish.setOnClickListener(v -> {
+        binding.startOrResume.setOnClickListener(v -> {
+            updateData();
             Intent intent = new Intent(MinTime.this,
                     CountdownActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            intent.putExtra(CountdownActivity.KEY_FINISH, true);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_LAUNCH_ADJACENT);
             startActivity(intent);
         });
 
-        counter1 = findViewById(R.id.counter1);
-        counter1.setValueUpdator(this);
-        counter2 = findViewById(R.id.counter2);
-        counter2.setValueUpdator(this);
-        counter3 = findViewById(R.id.counter3);
-        counter3.setValueUpdator(this);
+        binding.counter1.setValueUpdator(this);
+        binding.counter2.setValueUpdator(this);
+        binding.counter3.setValueUpdator(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        updateAndSaveData();
+        updateData();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         // die zuletzt eingegebenen Daten
-        data = loadData(this);
-        if (data == null) {
-            data = new JSONObject();
+        if (!prefs.contains(COUNTER1) || !prefs.contains(COUNTER2) || !prefs.contains(COUNTER3)) {
             updateData(ONE_MINUTE, ONE_MINUTE, ONE_MINUTE);
-            JSONUtils.putLongInJSONObject(data, RESUMED, -1);
+            prefs.edit().putLong(RESUMED, -1).apply();
         }
-        boolean isResumed = JSONUtils.getLongFromJSONObject(data, RESUMED) != -1;
+        boolean isResumed = prefs.getLong(RESUMED, -1) != -1;
         if (isResumed) {
-            start.setText(R.string.resume);
+            binding.startOrResume.setText(R.string.resume);
         } else {
-            start.setText(R.string.start);
+            binding.startOrResume.setText(R.string.start);
         }
-        finish.setVisibility(isResumed ? View.VISIBLE : View.GONE);
-        updateViews(JSONUtils.getLongFromJSONObject(data, COUNTER1),
-                JSONUtils.getLongFromJSONObject(data, COUNTER2),
-                JSONUtils.getLongFromJSONObject(data, COUNTER3));
+        updateViews(prefs.getLong(COUNTER1, 0),
+                prefs.getLong(COUNTER2, 0),
+                prefs.getLong(COUNTER3, 0));
         // die gespeicherten Verteilungen
         loadDistributions();
     }
@@ -158,9 +140,9 @@ public class MinTime extends AppCompatActivity
                 invalidateOptionsMenu();
                 return true;
             });
-        } else if ((counter1.getValueInMillis() > 0) ||
-                (counter2.getValueInMillis() > 0) ||
-                (counter3.getValueInMillis() > 0)) {
+        } else if ((binding.counter1.getValueInMillis() > 0) ||
+                (binding.counter2.getValueInMillis() > 0) ||
+                (binding.counter3.getValueInMillis() > 0)) {
             MenuItem save = menu.add(1, Menu.NONE, Menu.NONE, R.string.save);
             save.setIcon(R.drawable.ic_save);
             save.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
@@ -171,9 +153,9 @@ public class MinTime extends AppCompatActivity
                 return true;
             });
         }
-        if ((counter1.getValueInMillis() > 0) ||
-                (counter2.getValueInMillis() > 0) ||
-                (counter3.getValueInMillis() > 0)) {
+        if ((binding.counter1.getValueInMillis() > 0) ||
+                (binding.counter2.getValueInMillis() > 0) ||
+                (binding.counter3.getValueInMillis() > 0)) {
             MenuItem clear = menu
                     .add(1, Menu.NONE, Menu.NONE, R.string.clear);
             clear.setIcon(R.drawable.ic_clear);
@@ -206,18 +188,10 @@ public class MinTime extends AppCompatActivity
         return sb.toString();
     }
 
-    public static boolean saveData(Context context, JSONObject data) {
-        return JSONUtils.saveJSONObject(context, data, FILENAME);
-    }
-
-    public static JSONObject loadData(Context context) {
-        return JSONUtils.loadJSONObject(context, FILENAME);
-    }
-
     private void updateViews(long val1, long val2, long val3) {
-        counter1.setValueInMillis(val1);
-        counter2.setValueInMillis(val2);
-        counter3.setValueInMillis(val3);
+        binding.counter1.setValueInMillis(val1);
+        binding.counter2.setValueInMillis(val2);
+        binding.counter3.setValueInMillis(val3);
         updateTotal(val1, val2, val3);
     }
 
@@ -226,8 +200,9 @@ public class MinTime extends AppCompatActivity
      * Datenstruktur.
      */
     private void updateData() {
-        updateData(counter1.getValueInMillis(), counter2.getValueInMillis(),
-                counter3.getValueInMillis());
+        updateData(binding.counter1.getValueInMillis(),
+                binding.counter2.getValueInMillis(),
+                binding.counter3.getValueInMillis());
     }
 
     /**
@@ -238,14 +213,10 @@ public class MinTime extends AppCompatActivity
      * @param val3 Wert für {@code COUNTER3}
      */
     private void updateData(long val1, long val2, long val3) {
-        JSONUtils.putLongInJSONObject(data, COUNTER1, val1);
-        JSONUtils.putLongInJSONObject(data, COUNTER2, val2);
-        JSONUtils.putLongInJSONObject(data, COUNTER3, val3);
-    }
-
-    private boolean updateAndSaveData() {
-        updateData();
-        return saveData(this, data);
+        prefs.edit().putLong(COUNTER1, val1)
+                .putLong(COUNTER2, val2)
+                .putLong(COUNTER3, val3)
+                .apply();
     }
 
     private void saveDistributions() {
@@ -284,9 +255,10 @@ public class MinTime extends AppCompatActivity
     }
 
     private String createDistribution() {
-        long c1 = JSONUtils.getLongFromJSONObject(data, COUNTER1);
-        long c2 = JSONUtils.getLongFromJSONObject(data, COUNTER2);
-        long c3 = JSONUtils.getLongFromJSONObject(data, COUNTER3);
+        long now = System.currentTimeMillis();
+        long c1 = prefs.getLong(COUNTER1, now);
+        long c2 = prefs.getLong(COUNTER2, now);
+        long c3 = prefs.getLong(COUNTER3, now);
         return c1 + "|" + c2 + "|" + c3;
     }
 
@@ -301,15 +273,15 @@ public class MinTime extends AppCompatActivity
 
     @Override
     public void updateValue() {
-        long val1 = counter1.getValueInMillis();
-        long val2 = counter2.getValueInMillis();
-        long val3 = counter3.getValueInMillis();
+        long val1 = binding.counter1.getValueInMillis();
+        long val2 = binding.counter2.getValueInMillis();
+        long val3 = binding.counter3.getValueInMillis();
         updateTotal(val1, val2, val3);
         invalidateOptionsMenu();
     }
 
     private void updateTotal(long val1, long val2, long val3) {
-        total.setText(millisToPrettyString(this, val1 + val2 + val3));
-        start.setEnabled(val1 + val2 + val3 > 0);
+        binding.total.setText(millisToPrettyString(this, val1 + val2 + val3));
+        binding.startOrResume.setEnabled(val1 + val2 + val3 > 0);
     }
 }

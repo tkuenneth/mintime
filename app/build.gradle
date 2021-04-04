@@ -17,6 +17,11 @@ android {
                     'proguard-rules.txt'
         }
     }
+
+    buildFeatures {
+        viewBinding true
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -25,4 +30,5 @@ android {
 
 dependencies {
     implementation "androidx.appcompat:appcompat:1.2.0"
+    implementation "androidx.preference:preference:1.1.1"
 }

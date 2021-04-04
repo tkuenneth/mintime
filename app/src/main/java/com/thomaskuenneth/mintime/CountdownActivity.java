@@ -10,16 +10,19 @@ import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
-import org.json.JSONObject;
+import com.thomaskuenneth.mintime.databinding.CountdownBinding;
 
 /**
  * Diese Activity realisiert die Zeitanzeige/Countdown.
@@ -39,26 +42,28 @@ public class CountdownActivity extends AppCompatActivity implements CountdownApi
             500, 500, 500};
     private static final int INTENT_FLAGS = PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE;
 
-    private JSONObject data;
-    private BigTime timer;
     private Animation anim;
     private boolean taskShouldBeRunning;
-    private TextView tapHere;
 
     private AlarmManager alarmMgr;
     private PendingIntent alarmIntentOrange, alarmIntentRed,
             alarmIntentRepeating;
 
+    private SharedPreferences prefs;
+
+    private CountdownBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
         alarmMgr = getSystemService(AlarmManager.class);
-        setContentView(R.layout.countdown);
-        timer = findViewById(R.id.timer);
-        tapHere = findViewById(R.id.tap_here);
-        tapHere.setOnClickListener(v -> {
+        binding = CountdownBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
+        binding.tapHere.setOnClickListener(v -> {
             cancelAlarms();
-            JSONUtils.putLongInJSONObject(data, MinTime.RESUMED, -1);
+            prefs.edit().putLong(MinTime.RESUMED, -1).apply();
             NotificationManager m = getSystemService(NotificationManager.class);
             if (m != null) {
                 m.cancel(NOTIFICATION_ID);
@@ -78,40 +83,39 @@ public class CountdownActivity extends AppCompatActivity implements CountdownApi
 
     @Override
     protected void onPause() {
-        timer.setRedAlert(false);
+        binding.timer.setRedAlert(false);
         super.onPause();
         anim.cancel();
         anim.reset();
         taskShouldBeRunning = false;
-        MinTime.saveData(this, data);
-        data = null;
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        boolean shouldFinish = false;
+        if (intent != null) {
+            shouldFinish = intent.hasExtra(KEY_FINISH);
+        }
+        if (shouldFinish) {
+            binding.tapHere.performClick();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         TextView tv = new TextView(this);
-        tapHere.setTextColor(tv.getCurrentTextColor());
-        data = MinTime.loadData(this);
-        if (data == null) {
-            throw new IllegalStateException("data == null");
-        }
-
+        binding.tapHere.setTextColor(tv.getCurrentTextColor());
         long now = System.currentTimeMillis();
-        if (JSONUtils.getLongFromJSONObject(data, MinTime.RESUMED) == -1) {
-            JSONUtils.putLongInJSONObject(data, MinTime.RESUMED, now);
+        if (prefs.getLong(MinTime.RESUMED, -1) == -1) {
+            prefs.edit().putLong(MinTime.RESUMED, now).apply();
         }
-
-        long elapsedRealtime = SystemClock.elapsedRealtime();
-        long offset = now
-                - JSONUtils.getLongFromJSONObject(data, MinTime.RESUMED);
-        elapsedRealtime -= offset;
-
         // wiederkehrender Alarm
         Intent intentRepeating = new Intent(this, RepeatingAlarm.class);
         intentRepeating.putExtra(MinTime.END, getEnd());
         intentRepeating.putExtra(MinTime.RESUMED,
-                JSONUtils.getLongFromJSONObject(data, MinTime.RESUMED));
+                prefs.getLong(MinTime.RESUMED, now));
         alarmIntentRepeating = PendingIntent.getBroadcast(this,
                 MinTime.RQ_ALARM_REPEATING, intentRepeating,
                 INTENT_FLAGS);
@@ -127,34 +131,27 @@ public class CountdownActivity extends AppCompatActivity implements CountdownApi
                 intentRed, INTENT_FLAGS);
         cancelAlarms();
 
-        boolean shouldFinish = false;
-        Intent intent = getIntent();
-        if (intent != null) {
-            shouldFinish = intent.hasExtra(KEY_FINISH);
-        }
-        if (shouldFinish) {
-            tapHere.performClick();
-        } else {
-            long phaseGreen = JSONUtils.getLongFromJSONObject(data,
-                    MinTime.COUNTER1);
-            long phaseOrange = JSONUtils.getLongFromJSONObject(data,
-                    MinTime.COUNTER2);
-            if (offset <= phaseGreen) {
-                alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, elapsedRealtime
-                        + phaseGreen, alarmIntentOrange);
-            }
-            if (offset <= phaseGreen + phaseOrange) {
-                alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, elapsedRealtime
-                        + phaseGreen + phaseOrange, alarmIntentRed);
-            }
-            alarmMgr.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                    elapsedRealtime /* + phaseGreen */, NOTIFICATION_INTERVAL_IN_MILLIS,
-                    alarmIntentRepeating);
 
-            taskShouldBeRunning = true;
-            CountdownTask task = new CountdownTask(this);
-            task.execute();
+        long elapsedRealtime = SystemClock.elapsedRealtime();
+        long offset = now
+                - prefs.getLong(MinTime.RESUMED, now);
+        elapsedRealtime -= offset;
+        long phaseGreen = prefs.getLong(MinTime.COUNTER1, now);
+        long phaseOrange = prefs.getLong(MinTime.COUNTER2, now);
+        if (offset <= phaseGreen) {
+            alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, elapsedRealtime
+                    + phaseGreen, alarmIntentOrange);
         }
+        if (offset <= phaseGreen + phaseOrange) {
+            alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, elapsedRealtime
+                    + phaseGreen + phaseOrange, alarmIntentRed);
+        }
+        alarmMgr.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                elapsedRealtime /* + phaseGreen */, NOTIFICATION_INTERVAL_IN_MILLIS,
+                alarmIntentRepeating);
+        taskShouldBeRunning = true;
+        CountdownTask task = new CountdownTask(this);
+        task.execute();
     }
 
     private void cancelAlarms() {
@@ -164,20 +161,21 @@ public class CountdownActivity extends AppCompatActivity implements CountdownApi
     }
 
     private long getTotal() {
-        return JSONUtils.getLongFromJSONObject(data, MinTime.COUNTER1)
-                + JSONUtils.getLongFromJSONObject(data, MinTime.COUNTER2)
-                + JSONUtils.getLongFromJSONObject(data, MinTime.COUNTER3);
+        long now = System.currentTimeMillis();
+        return prefs.getLong(MinTime.COUNTER1, now)
+                + prefs.getLong(MinTime.COUNTER2, now)
+                + prefs.getLong(MinTime.COUNTER3, now);
     }
 
     private long getEnd() {
-        long resumed = JSONUtils.getLongFromJSONObject(data, MinTime.RESUMED);
+        long resumed = prefs.getLong(MinTime.RESUMED, System.currentTimeMillis());
         long total = getTotal();
         return resumed + total;
     }
 
     public long getElpased() {
         return System.currentTimeMillis()
-                - JSONUtils.getLongFromJSONObject(data, MinTime.RESUMED);
+                - prefs.getLong(MinTime.RESUMED, System.currentTimeMillis());
     }
 
     public long getRemaining() {
@@ -186,15 +184,11 @@ public class CountdownActivity extends AppCompatActivity implements CountdownApi
     }
 
     public BigTime getTimer() {
-        return timer;
-    }
-
-    public JSONObject getData() {
-        return data;
+        return binding.timer;
     }
 
     public Animation prepareAnimation() {
-        tapHere.setTextColor(Color.WHITE);
+        binding.tapHere.setTextColor(Color.WHITE);
         return anim;
     }
 

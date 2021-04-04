@@ -29,36 +29,20 @@
         android:id="@+id/total"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/ll"
+        android:layout_above="@id/start_or_resume"
         android:layout_below="@id/counter3"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
         android:textAlignment="center"
         android:textSize="20pt" />
 
-    <LinearLayout
-        android:id="@+id/ll"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/start_or_resume"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
-
-        <Button
-            android:id="@+id/finish"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:text="@string/finish"
-            android:textSize="16pt" />
-
-        <Button
-            android:id="@+id/start_or_resume"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:textSize="16pt" />
-
-    </LinearLayout>
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:textSize="16pt" />
 
 </RelativeLayout>

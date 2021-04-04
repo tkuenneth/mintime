@@ -6,10 +6,9 @@
  */
 package com.thomaskuenneth.mintime;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.view.animation.Animation;
-
-import org.json.JSONObject;
 
 public interface CountdownApi {
 
@@ -18,8 +17,6 @@ public interface CountdownApi {
     BigTime getTimer();
 
     long getElpased();
-
-    JSONObject getData();
 
     Animation prepareAnimation();
 
@@ -30,5 +27,7 @@ public interface CountdownApi {
     Resources getResources();
 
     String getString(int resId, Object... formatArgs);
+
+    public Context getBaseContext();
 
 }

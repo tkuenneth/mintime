@@ -2,6 +2,8 @@
 - fixed some Lint warnings
 - added a "Finish" button
 - "0 - 0 - 0" can no longer be saved
+- switched to View binding
+- switched to single activity
 
 1.4.1
 - targetSdkVersion is now 30

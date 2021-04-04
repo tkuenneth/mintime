@@ -16,12 +16,6 @@ import android.widget.FrameLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-/**
- * Komponente, die einen Zähler repräsentiert. Der Wert kann mit Plus/Minus
- * eingestellt werden.
- *
- * @author Thomas
- */
 public class Counter extends FrameLayout {
 
     private final TextView text;
@@ -132,7 +126,7 @@ public class Counter extends FrameLayout {
                 seekbar.setProgress(0);
             }
         }
-        text.setText(MinTime.millisToPrettyString(getContext(), getValueInMillis()));
+        text.setText(MinTimeUtils.millisToPrettyString(getContext(), getValueInMillis()));
         if (cb != null) {
             cb.updateValue();
         }

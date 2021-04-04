@@ -20,6 +20,7 @@ class CountdownTask extends AsyncTask<Void, Long, Void> {
     CountdownTask(CountdownApi i) {
         this.i = i;
         prefs = PreferenceManager.getDefaultSharedPreferences(i.getBaseContext());
+        i.getTimer().setRedAlert(false);
         onProgressUpdate(i.getRemaining());
     }
 

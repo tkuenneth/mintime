@@ -1,48 +1,79 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="8dp">
+    android:keepScreenOn="true">
 
-    <com.thomaskuenneth.mintime.Counter
-        android:id="@+id/counter1"
+    <RelativeLayout xmlns:custom="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/setup"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        custom:mintime_color="@color/green" />
+        android:layout_height="match_parent"
+        android:layout_margin="8dp">
 
-    <com.thomaskuenneth.mintime.Counter
-        android:id="@+id/counter2"
+        <com.thomaskuenneth.mintime.Counter
+            android:id="@+id/counter1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            custom:mintime_color="@color/green" />
+
+        <com.thomaskuenneth.mintime.Counter
+            android:id="@+id/counter2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/counter1"
+            custom:mintime_color="@color/orange" />
+
+        <com.thomaskuenneth.mintime.Counter
+            android:id="@+id/counter3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/counter2"
+            custom:mintime_color="@color/red" />
+
+        <TextView
+            android:id="@+id/total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/start"
+            android:layout_below="@id/counter3"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:textAlignment="center"
+            android:textSize="20pt" />
+
+        <Button
+            android:id="@+id/start"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:text="@string/start"
+            android:textSize="16pt" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/countdown"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/counter1"
-        custom:mintime_color="@color/orange" />
+        android:layout_height="match_parent">
 
-    <com.thomaskuenneth.mintime.Counter
-        android:id="@+id/counter3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/counter2"
-        custom:mintime_color="@color/red" />
+        <com.thomaskuenneth.mintime.BigTime
+            android:id="@+id/timer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-    <TextView
-        android:id="@+id/total"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/start_or_resume"
-        android:layout_below="@id/counter3"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal"
-        android:textAlignment="center"
-        android:textSize="20pt" />
+        <TextView
+            android:id="@+id/tap_here"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="#00ffffff"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="@string/hint"
+            android:textSize="32sp" />
 
-    <Button
-        android:id="@+id/start_or_resume"
-        style="?android:attr/borderlessButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:textSize="16pt" />
+    </RelativeLayout>
 
-</RelativeLayout>
+</FrameLayout>

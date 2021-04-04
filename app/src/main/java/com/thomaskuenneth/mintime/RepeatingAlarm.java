@@ -33,7 +33,7 @@ public class RepeatingAlarm extends BroadcastReceiver {
         long resumed = intent.getLongExtra(MinTime.RESUMED, -1);
         long now = System.currentTimeMillis();
         if (end != -1) {
-            long notification_mins = CountdownActivity.NOTIFICATION_INTERVAL_IN_MILLIS / 1000 / 60;
+            long notification_mins = MinTime.NOTIFICATION_INTERVAL_IN_MILLIS / 1000 / 60;
             long remaining = end - now;
             int resId;
             if (remaining < 0) {
@@ -48,7 +48,7 @@ public class RepeatingAlarm extends BroadcastReceiver {
                 mins = notification_mins;
             }
             Intent intentCountDownActivity = new Intent(context,
-                    CountdownActivity.class);
+                    MinTime.class);
             PendingIntent notificationClickedIntent = PendingIntent
                     .getActivity(context, MinTime.RQ_NOTIFICATION,
                             intentCountDownActivity,
@@ -71,7 +71,7 @@ public class RepeatingAlarm extends BroadcastReceiver {
                     .setContentIntent(notificationClickedIntent);
             NotificationManagerCompat notificationManager = NotificationManagerCompat
                     .from(context);
-            notificationManager.notify(CountdownActivity.NOTIFICATION_ID,
+            notificationManager.notify(MinTime.NOTIFICATION_ID,
                     notificationBuilder.build());
         }
     }

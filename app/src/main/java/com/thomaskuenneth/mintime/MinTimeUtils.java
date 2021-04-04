@@ -1,5 +1,5 @@
 /*
- * JSONUtils.java
+ * MinTimeUtils.java
  *
  * Min Time (c) Thomas Künneth 2014 - 2021
  * Alle Rechte beim Autoren. All rights reserved.
@@ -9,7 +9,6 @@ package com.thomaskuenneth.mintime;
 import android.content.Context;
 import android.util.Log;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
@@ -18,33 +17,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-/**
- * Diese Klasse enthält statische Methoden zum Bearbeiten, Laden und Speichern
- * von JSON-Objekten.
- *
- * @author Thomas
- */
-class JSONUtils {
+class MinTimeUtils {
 
-    private static final String TAG = JSONUtils.class.getSimpleName();
-
-    static long getLongFromJSONObject(JSONObject data, String name) {
-        try {
-            return data.getLong(name);
-        } catch (JSONException e) {
-            Log.e(TAG, "Fehler beim Lesen von " + name, e);
-        }
-        return -1;
-    }
-
-    static void putLongInJSONObject(JSONObject data, String name,
-                                    long value) {
-        try {
-            data.put(name, value);
-        } catch (JSONException e) {
-            Log.e(TAG, "Fehler beim Schreiben von " + name, e);
-        }
-    }
+    private static final String TAG = MinTimeUtils.class.getSimpleName();
 
     static boolean saveJSONObject(Context context, JSONObject data,
                                   String filename) {
@@ -85,5 +60,24 @@ class JSONUtils {
             }
         }
         return data;
+    }
+
+    public static String millisToPrettyString(Context context, long millis) {
+        long secs = millis / 1000;
+        long m = secs / 60;
+        long s = secs % 60;
+        StringBuilder sb = new StringBuilder();
+        if ((m > 0) || (s == 0)) {
+            sb.append(context.getString(R.string.template, m,
+                    context.getString(R.string.min)));
+        }
+        if (s > 0) {
+            if (sb.length() > 0) {
+                sb.append(" ");
+            }
+            sb.append(context.getString(R.string.template, s,
+                    context.getString(R.string.sec)));
+        }
+        return sb.toString();
     }
 }

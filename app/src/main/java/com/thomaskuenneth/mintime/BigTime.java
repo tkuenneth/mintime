@@ -1,7 +1,7 @@
 /*
  * BigTime.java
  *
- * Min Time (c) Thomas Künneth 2014 - 2019
+ * Min Time (c) Thomas Künneth 2014 - 2021
  * Alle Rechte beim Autoren. All rights reserved.
  */
 package com.thomaskuenneth.mintime;
@@ -17,11 +17,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-/**
- * Diese Klasse realisiert eine Zeitanzeige mit großer Schrift.
- *
- * @author Thomas
- */
 public class BigTime extends View {
 
     private static final String TAG = BigTime.class.getSimpleName();
@@ -61,7 +56,7 @@ public class BigTime extends View {
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        String text = MinTime.millisToPrettyString(getContext(),
+        String text = MinTimeUtils.millisToPrettyString(getContext(),
                 MinTime.ONE_MINUTE * 999);
         CanvasUtils.calcTextHeight(paint1, w, text);
     }
@@ -74,6 +69,7 @@ public class BigTime extends View {
             setBackgroundColor(color);
             paint1.setColor(Color.WHITE);
         } else {
+            setBackgroundColor(Color.WHITE);
             paint1.setColor(color);
         }
         CanvasUtils.drawText(canvas, width / 2, height / 2, text, paint1);

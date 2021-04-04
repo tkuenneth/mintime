@@ -6,16 +6,20 @@
  */
 package com.thomaskuenneth.mintime;
 
+import static com.thomaskuenneth.mintime.MinTime.RESUMED;
+
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.preference.PreferenceManager;
 
 /**
  * Diese Klasse stellt eine Benachrichtigung dar.
@@ -28,11 +32,12 @@ public class RepeatingAlarm extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        initChannels(context);
-        long end = intent.getLongExtra(MinTime.END, -1);
-        long resumed = intent.getLongExtra(MinTime.RESUMED, -1);
-        long now = System.currentTimeMillis();
-        if (end != -1) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        if (prefs.getLong(RESUMED, -1) != -1) {
+            initChannels(context);
+            long end = intent.getLongExtra(MinTime.END, -1);
+            long resumed = intent.getLongExtra(RESUMED, -1);
+            long now = System.currentTimeMillis();
             long notification_mins = MinTime.NOTIFICATION_INTERVAL_IN_MILLIS / 1000 / 60;
             long remaining = end - now;
             int resId;

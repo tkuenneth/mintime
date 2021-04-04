@@ -101,12 +101,12 @@ public class MinTime extends AppCompatActivity
         binding.counter3.setValueUpdator(this);
         // countdown
         binding.tapHere.setOnClickListener(v -> {
+            cancelAlarms();
             NotificationManager m = getSystemService(NotificationManager.class);
             if (m != null) {
                 m.cancel(NOTIFICATION_ID);
             }
             prefs.edit().putLong(RESUMED, -1).apply();
-            cancelAlarms();
             stopAnimationAndTask();
             updateUI();
         });

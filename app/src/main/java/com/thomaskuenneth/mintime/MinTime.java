@@ -23,6 +23,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
@@ -337,7 +338,9 @@ public class MinTime extends AppCompatActivity
     }
 
     private void updateUI() {
+        ActionBar ab = getSupportActionBar();
         if (isResumed()) {
+            getTimer().setRedAlert(false);
             TextView tv = new TextView(this);
             binding.tapHere.setTextColor(tv.getCurrentTextColor());
             long now = System.currentTimeMillis();
@@ -365,17 +368,17 @@ public class MinTime extends AppCompatActivity
             taskShouldBeRunning = true;
             CountdownTask task = new CountdownTask(this);
             task.execute();
-            binding.setup.setVisibility(View.GONE);
             binding.countdown.setVisibility(View.VISIBLE);
+            binding.setup.setVisibility(View.INVISIBLE);
+            if (ab != null) ab.hide();
         } else {
             updateViews(prefs.getLong(COUNTER1, 0),
                     prefs.getLong(COUNTER2, 0),
                     prefs.getLong(COUNTER3, 0));
             binding.setup.setVisibility(View.VISIBLE);
-            binding.countdown.setVisibility(View.GONE);
+            binding.countdown.setVisibility(View.INVISIBLE);
+            if (ab != null) ab.show();
         }
-        binding.getRoot().invalidate();
-        invalidateOptionsMenu();
     }
 
     private void stopAnimationAndTask() {

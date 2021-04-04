@@ -65,7 +65,9 @@ class CountdownTask extends AsyncTask<Void, Long, Void> {
         } else {
             color = R.color.red;
         }
-        timer.setColor(i.getResources().getColor(color, null));
+        int intColor = i.getResources().getColor(color, null);
+        i.getTapHere().setTextColor(intColor);
+        timer.setColor(intColor);
         long secs = remaining / 1000;
         if (secs >= 60) {
             timer.setText(i.getString(R.string.template, secs / 60,

@@ -12,7 +12,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
@@ -210,8 +209,11 @@ public class MinTime extends AppCompatActivity
         return binding.timer;
     }
 
+    public TextView getTapHere() {
+        return binding.tapHere;
+    }
+
     public Animation prepareAnimation() {
-        binding.tapHere.setTextColor(Color.WHITE);
         return anim;
     }
 
@@ -341,8 +343,6 @@ public class MinTime extends AppCompatActivity
         ActionBar ab = getSupportActionBar();
         if (isResumed()) {
             getTimer().setRedAlert(false);
-            TextView tv = new TextView(this);
-            binding.tapHere.setTextColor(tv.getCurrentTextColor());
             long now = System.currentTimeMillis();
             long elapsedRealtime = SystemClock.elapsedRealtime();
             long offset = now

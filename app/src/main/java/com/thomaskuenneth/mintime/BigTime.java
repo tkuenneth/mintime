@@ -6,10 +6,11 @@
  */
 package com.thomaskuenneth.mintime;
 
+import static com.thomaskuenneth.mintime.MinTimeUtils.getBackgroundColor;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
@@ -22,6 +23,8 @@ public class BigTime extends View {
     private static final String TAG = BigTime.class.getSimpleName();
 
     private final Paint paint1;
+    private final int backgroundColor;
+
     private int color;
     private String text;
     private boolean redAlert;
@@ -36,6 +39,7 @@ public class BigTime extends View {
 
     public BigTime(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        backgroundColor = getBackgroundColor(context);
         text = "";
         TextView tv = new TextView(context);
         color = tv.getCurrentTextColor();
@@ -67,9 +71,9 @@ public class BigTime extends View {
         float height = getHeight();
         if (redAlert) {
             setBackgroundColor(color);
-            paint1.setColor(Color.WHITE);
+            paint1.setColor(backgroundColor);
         } else {
-            setBackgroundColor(Color.WHITE);
+            setBackgroundColor(backgroundColor);
             paint1.setColor(color);
         }
         CanvasUtils.drawText(canvas, width / 2, height / 2, text, paint1);

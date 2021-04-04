@@ -8,6 +8,7 @@ package com.thomaskuenneth.mintime;
 
 import android.content.Context;
 import android.util.Log;
+import android.util.TypedValue;
 
 import org.json.JSONObject;
 
@@ -79,5 +80,11 @@ class MinTimeUtils {
                     context.getString(R.string.sec)));
         }
         return sb.toString();
+    }
+
+    public static int getBackgroundColor (final Context context) {
+        final TypedValue value = new TypedValue ();
+        context.getTheme ().resolveAttribute (android.R.attr.colorBackground, value, true);
+        return value.data;
     }
 }

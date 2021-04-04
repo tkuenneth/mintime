@@ -11,6 +11,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.PowerManager;
 import android.os.Vibrator;
 
 /**
@@ -27,9 +28,15 @@ public class AlarmReceiver extends BroadcastReceiver {
         if (context.checkSelfPermission(Manifest.permission.VIBRATE) == PackageManager.PERMISSION_GRANTED) {
             final long[] pattern = intent.getLongArrayExtra(PATTERN);
             if (pattern != null) {
-                Vibrator v = context.getSystemService(Vibrator.class);
-                if (v != null) {
-                    v.vibrate(pattern, -1);
+                PowerManager pm = context.getSystemService(PowerManager.class);
+                if (pm != null) {
+                    PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "mintime:AlarmReceiver");
+                    wl.acquire(MinTime.ONE_MINUTE);
+                    Vibrator v = context.getSystemService(Vibrator.class);
+                    if (v != null) {
+                        v.vibrate(pattern, -1);
+                    }
+                    wl.release();
                 }
             }
         }

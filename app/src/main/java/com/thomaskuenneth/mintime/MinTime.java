@@ -351,15 +351,15 @@ public class MinTime extends AppCompatActivity
             long phaseGreen = prefs.getLong(MinTime.COUNTER1, now);
             long phaseOrange = prefs.getLong(MinTime.COUNTER2, now);
             if (offset <= phaseGreen) {
-                alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, elapsedRealtime
+                alarmMgr.setExactAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP, elapsedRealtime
                         + phaseGreen, alarmIntentOrange);
             }
             if (offset <= phaseGreen + phaseOrange) {
-                alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, elapsedRealtime
+                alarmMgr.setExactAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP, elapsedRealtime
                         + phaseGreen + phaseOrange, alarmIntentRed);
             }
             alarmMgr.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                    elapsedRealtime /* + phaseGreen */, NOTIFICATION_INTERVAL_IN_MILLIS,
+                    elapsedRealtime, NOTIFICATION_INTERVAL_IN_MILLIS,
                     alarmIntentRepeating);
             anim = new AlphaAnimation(0.0f, 1.0f);
             anim.setDuration(1000);

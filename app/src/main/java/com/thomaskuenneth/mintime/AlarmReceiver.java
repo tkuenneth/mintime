@@ -33,12 +33,10 @@ public class AlarmReceiver extends BroadcastReceiver {
             if (pattern != null) {
                 PowerManager pm = context.getSystemService(PowerManager.class);
                 if (pm != null) {
-//                    PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "mintime:AlarmReceiver");
-//                    wl.acquire(MinTime.ONE_MINUTE);
                     Vibrator v = context.getSystemService(Vibrator.class);
                     if (v != null) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            v.vibrate(VibrationEffect.createWaveform(pattern, 0),
+                            v.vibrate(VibrationEffect.createWaveform(pattern, -1),
                                     new AudioAttributes.Builder()
                                             .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                                             .setUsage(AudioAttributes.USAGE_ALARM)
@@ -47,7 +45,6 @@ public class AlarmReceiver extends BroadcastReceiver {
                             v.vibrate(pattern, -1);
                         }
                     }
-//                    wl.release();
                 }
             }
         }

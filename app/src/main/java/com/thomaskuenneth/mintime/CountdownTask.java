@@ -8,6 +8,7 @@ package com.thomaskuenneth.mintime;
 
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.view.animation.Animation;
 
 import androidx.preference.PreferenceManager;
 
@@ -19,7 +20,7 @@ class CountdownTask extends AsyncTask<Void, Long, Void> {
 
     CountdownTask(MinTime i) {
         this.i = i;
-        prefs = PreferenceManager.getDefaultSharedPreferences(i.getBaseContext());
+        prefs = PreferenceManager.getDefaultSharedPreferences(i);
         i.getTimer().setRedAlert(false);
         onProgressUpdate(i.getRemaining());
     }
@@ -29,6 +30,7 @@ class CountdownTask extends AsyncTask<Void, Long, Void> {
         while (!isCancelled()) {
             try {
                 long remaining = i.getRemaining();
+                System.out.println(remaining);
                 publishProgress(remaining);
                 if (remaining < 0) {
                     remaining = -remaining;
@@ -77,8 +79,11 @@ class CountdownTask extends AsyncTask<Void, Long, Void> {
                     i.getString(R.string.sec)));
         }
         if ((startAnimation) && !timer.isRedAlert()) {
-            timer.startAnimation(i.prepareAnimation());
             timer.setRedAlert(true);
+            Animation anim = i.prepareAnimation();
+            if (anim != null) {
+                timer.startAnimation(anim);
+            }
         }
     }
 }

@@ -92,12 +92,12 @@ public class MinTime extends AppCompatActivity
         binding.counter3.setValueUpdator(this);
         // countdown
         binding.tapHere.setOnClickListener(v -> {
+            prefs.edit().putLong(RESUMED, -1).apply();
             cancelAlarms();
             NotificationManager m = getSystemService(NotificationManager.class);
             if (m != null) {
                 m.cancel(NOTIFICATION_ID);
             }
-            prefs.edit().putLong(RESUMED, -1).apply();
             stopAnimationAndTask();
             updateUI();
         });
@@ -336,7 +336,6 @@ public class MinTime extends AppCompatActivity
                 prefs.getLong(COUNTER3, 0));
         ActionBar ab = getSupportActionBar();
         if (isResumed()) {
-            getTimer().setRedAlert(false);
             long now = System.currentTimeMillis();
             long elapsedRealtime = SystemClock.elapsedRealtime();
             long offset = now
@@ -373,9 +372,9 @@ public class MinTime extends AppCompatActivity
     }
 
     private void stopAnimationAndTask() {
+        binding.timer.clearAnimation();
         if (anim != null) {
             anim.cancel();
-            anim.reset();
             anim = null;
         }
         taskShouldBeRunning = false;

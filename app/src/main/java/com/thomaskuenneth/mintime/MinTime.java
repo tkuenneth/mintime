@@ -1,7 +1,7 @@
 /*
  * MinTime.java
  *
- * Min Time (c) Thomas Künneth 2014 - 2019
+ * Min Time (c) Thomas Künneth 2014 - 2021
  * Alle Rechte beim Autoren. All rights reserved.
  */
 package com.thomaskuenneth.mintime;
@@ -35,11 +35,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Dies ist die Hauptactivity der App.
- *
- * @author Thomas
- */
 public class MinTime extends AppCompatActivity
         implements ValueUpdater {
 
@@ -81,9 +76,6 @@ public class MinTime extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (!prefs.contains(COUNTER1) || !prefs.contains(COUNTER2) || !prefs.contains(COUNTER3)) {
-            updatePrefs(ONE_MINUTE, ONE_MINUTE, ONE_MINUTE);
-        }
         loadDistributions();
         alarmMgr = getSystemService(AlarmManager.class);
         binding = MainBinding.inflate(getLayoutInflater());
@@ -109,6 +101,7 @@ public class MinTime extends AppCompatActivity
             stopAnimationAndTask();
             updateUI();
         });
+        anim = null;
     }
 
     @Override
@@ -139,7 +132,6 @@ public class MinTime extends AppCompatActivity
                 MenuItem item = menu.add(1, Menu.NONE, Menu.NONE, dd);
                 item.setOnMenuItemClickListener(item1 -> {
                     updateViews(val1, val2, val3);
-                    invalidateOptionsMenu();
                     return true;
                 });
             }
@@ -225,7 +217,6 @@ public class MinTime extends AppCompatActivity
         binding.counter1.setValueInMillis(val1);
         binding.counter2.setValueInMillis(val2);
         binding.counter3.setValueInMillis(val3);
-        updateTotal(val1, val2, val3);
     }
 
     private void updatePrefs(long val1, long val2, long val3) {
@@ -340,6 +331,9 @@ public class MinTime extends AppCompatActivity
     }
 
     private void updateUI() {
+        updateViews(prefs.getLong(COUNTER1, 0),
+                prefs.getLong(COUNTER2, 0),
+                prefs.getLong(COUNTER3, 0));
         ActionBar ab = getSupportActionBar();
         if (isResumed()) {
             getTimer().setRedAlert(false);
@@ -372,9 +366,6 @@ public class MinTime extends AppCompatActivity
             binding.setup.setVisibility(View.INVISIBLE);
             if (ab != null) ab.hide();
         } else {
-            updateViews(prefs.getLong(COUNTER1, 0),
-                    prefs.getLong(COUNTER2, 0),
-                    prefs.getLong(COUNTER3, 0));
             binding.setup.setVisibility(View.VISIBLE);
             binding.countdown.setVisibility(View.INVISIBLE);
             if (ab != null) ab.show();
@@ -382,8 +373,11 @@ public class MinTime extends AppCompatActivity
     }
 
     private void stopAnimationAndTask() {
-        anim.cancel();
-        anim.reset();
+        if (anim != null) {
+            anim.cancel();
+            anim.reset();
+            anim = null;
+        }
         taskShouldBeRunning = false;
     }
 }

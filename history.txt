@@ -1,10 +1,11 @@
-1.4.2
+1.5.0
 - fixed some Lint warnings
 - added a "Finish" button
 - "0 - 0 - 0" can no longer be saved
 - switched to View binding
 - switched to single activity
 - added wake lock for vibrating while idle
+- vibrate works again when app is in background
 
 1.4.1
 - targetSdkVersion is now 30

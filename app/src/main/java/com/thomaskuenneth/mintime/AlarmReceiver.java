@@ -11,7 +11,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.AudioAttributes;
+import android.os.Build;
 import android.os.PowerManager;
+import android.os.VibrationEffect;
 import android.os.Vibrator;
 
 /**
@@ -30,13 +33,21 @@ public class AlarmReceiver extends BroadcastReceiver {
             if (pattern != null) {
                 PowerManager pm = context.getSystemService(PowerManager.class);
                 if (pm != null) {
-                    PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "mintime:AlarmReceiver");
-                    wl.acquire(MinTime.ONE_MINUTE);
+//                    PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "mintime:AlarmReceiver");
+//                    wl.acquire(MinTime.ONE_MINUTE);
                     Vibrator v = context.getSystemService(Vibrator.class);
                     if (v != null) {
-                        v.vibrate(pattern, -1);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            v.vibrate(VibrationEffect.createWaveform(pattern, 0),
+                                    new AudioAttributes.Builder()
+                                            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                                            .setUsage(AudioAttributes.USAGE_ALARM)
+                                            .build());
+                        } else {
+                            v.vibrate(pattern, -1);
+                        }
                     }
-                    wl.release();
+//                    wl.release();
                 }
             }
         }

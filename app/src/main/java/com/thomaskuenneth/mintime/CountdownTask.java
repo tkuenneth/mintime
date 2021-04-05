@@ -30,7 +30,6 @@ class CountdownTask extends AsyncTask<Void, Long, Void> {
         while (!isCancelled()) {
             try {
                 long remaining = i.getRemaining();
-                System.out.println(remaining);
                 publishProgress(remaining);
                 if (remaining < 0) {
                     remaining = -remaining;

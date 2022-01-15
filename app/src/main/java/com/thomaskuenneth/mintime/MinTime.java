@@ -1,8 +1,8 @@
 /*
  * MinTime.java
  *
- * Min Time (c) Thomas Künneth 2014 - 2021
- * Alle Rechte beim Autoren. All rights reserved.
+ * Min Time (c) Thomas Künneth 2014 - 2022
+ * All rights reserved.
  */
 package com.thomaskuenneth.mintime;
 
@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
@@ -32,6 +33,7 @@ import androidx.window.layout.DisplayFeature;
 import androidx.window.layout.FoldingFeature;
 import androidx.window.layout.WindowInfoTracker;
 import androidx.window.layout.WindowLayoutInfo;
+import androidx.window.layout.WindowMetricsCalculator;
 
 import com.thomaskuenneth.mintime.databinding.MainBinding;
 
@@ -79,15 +81,30 @@ public class MinTime extends AppCompatActivity
     private SharedPreferences prefs;
 
     private WindowInfoTrackerCallbackAdapter adapter;
+    private boolean hasGap = false;
+    private int sizeLeft = LinearLayout.LayoutParams.MATCH_PARENT;
+    private int sizeRight = 0;
+    private int widthGap = 0;
 
-    private Consumer<WindowLayoutInfo> callback = (windowLayoutInfo -> {
+    private final Consumer<WindowLayoutInfo> callback = (windowLayoutInfo -> {
+        var windowMetrics = WindowMetricsCalculator.getOrCreate()
+                .computeCurrentWindowMetrics(this);
+        hasGap = false;
+        sizeLeft = LinearLayout.LayoutParams.MATCH_PARENT;
+        sizeRight = 0;
+        widthGap = 0;
         List<DisplayFeature> displayFeatures = windowLayoutInfo.getDisplayFeatures();
         for (DisplayFeature displayFeature : displayFeatures) {
             FoldingFeature foldingFeature = (FoldingFeature) displayFeature;
             if (foldingFeature != null) {
-
+                hasGap = foldingFeature.getOcclusionType() == FoldingFeature.OcclusionType.FULL
+                        && foldingFeature.getOrientation() == FoldingFeature.Orientation.VERTICAL;
+                sizeLeft = foldingFeature.getBounds().left;
+                sizeRight = windowMetrics.getBounds().width() - foldingFeature.getBounds().right;
+                widthGap = foldingFeature.getBounds().width();
             }
         }
+        updateUI();
     });
 
     @SuppressLint("InlinedApi")
@@ -103,8 +120,7 @@ public class MinTime extends AppCompatActivity
         loadDistributions();
         alarmMgr = getSystemService(AlarmManager.class);
         binding = MainBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
-        setContentView(view);
+        setContentView(binding.getRoot());
         // setup
         binding.start.setOnClickListener(v -> {
             prefs.edit().putLong(RESUMED, System.currentTimeMillis()).apply();
@@ -131,7 +147,6 @@ public class MinTime extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
-        adapter.removeWindowLayoutInfoListener(callback);
         stopAnimationAndTask();
     }
 
@@ -142,6 +157,12 @@ public class MinTime extends AppCompatActivity
                 ContextCompat.getMainExecutor(this),
                 callback);
         updateUI();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        adapter.removeWindowLayoutInfoListener(callback);
     }
 
     @Override
@@ -390,10 +411,13 @@ public class MinTime extends AppCompatActivity
             CountdownTask task = new CountdownTask(this);
             task.execute();
             binding.countdown.setVisibility(View.VISIBLE);
-            binding.setup.setVisibility(View.INVISIBLE);
+            binding.parent.setVisibility(View.INVISIBLE);
             if (ab != null) ab.hide();
         } else {
-            binding.setup.setVisibility(View.VISIBLE);
+            binding.mainUi.getLayoutParams().width = sizeLeft;
+            binding.hinge.getLayoutParams().width = widthGap;
+            binding.infoPane.getLayoutParams().width = sizeRight;
+            binding.parent.setVisibility(View.VISIBLE);
             binding.countdown.setVisibility(View.INVISIBLE);
             if (ab != null) ab.show();
         }

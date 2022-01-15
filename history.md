@@ -1,5 +1,11 @@
 # History
 
+### 1.6.0
+
+- Android Studio project, tools, and library upgrades
+- targets api level 32
+- optimized for foldables and large screens
+
 ### 1.5.0
 
 - fixed some Lint warnings

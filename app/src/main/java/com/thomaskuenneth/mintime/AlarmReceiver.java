@@ -1,8 +1,8 @@
 /*
  * AlarmReceiver.java
  *
- * Min Time (c) Thomas Künneth 2014 - 2021
- * Alle Rechte beim Autoren. All rights reserved.
+ * Min Time (c) Thomas Künneth 2014 - 2022
+ * All rights reserved.
  */
 package com.thomaskuenneth.mintime;
 
@@ -17,11 +17,6 @@ import android.os.PowerManager;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 
-/**
- * Dieser BroadcastReceiver wird verwendet, um das Gerät vibrieren zu lassen.
- *
- * @author Thomas
- */
 public class AlarmReceiver extends BroadcastReceiver {
 
     public static final String PATTERN = "pattern";

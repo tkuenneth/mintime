@@ -24,7 +24,14 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.util.Consumer;
 import androidx.preference.PreferenceManager;
+import androidx.window.java.layout.WindowInfoTrackerCallbackAdapter;
+import androidx.window.layout.DisplayFeature;
+import androidx.window.layout.FoldingFeature;
+import androidx.window.layout.WindowInfoTracker;
+import androidx.window.layout.WindowLayoutInfo;
 
 import com.thomaskuenneth.mintime.databinding.MainBinding;
 
@@ -71,10 +78,27 @@ public class MinTime extends AppCompatActivity
     private List<String> distributions;
     private SharedPreferences prefs;
 
+    private WindowInfoTrackerCallbackAdapter adapter;
+
+    private Consumer<WindowLayoutInfo> callback = (windowLayoutInfo -> {
+        List<DisplayFeature> displayFeatures = windowLayoutInfo.getDisplayFeatures();
+        for (DisplayFeature displayFeature : displayFeatures) {
+            FoldingFeature foldingFeature = (FoldingFeature) displayFeature;
+            if (foldingFeature != null) {
+
+            }
+        }
+    });
+
     @SuppressLint("InlinedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        adapter = new WindowInfoTrackerCallbackAdapter(
+                WindowInfoTracker.Companion.getOrCreate(
+                        this
+                )
+        );
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         loadDistributions();
         alarmMgr = getSystemService(AlarmManager.class);
@@ -107,12 +131,16 @@ public class MinTime extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
+        adapter.removeWindowLayoutInfoListener(callback);
         stopAnimationAndTask();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        adapter.addWindowLayoutInfoListener(this,
+                ContextCompat.getMainExecutor(this),
+                callback);
         updateUI();
     }
 

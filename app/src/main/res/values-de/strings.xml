@@ -15,4 +15,11 @@
     <string name="notification_channel_descr">Min Time Benachrichtigungen</string>
     <string name="clear">Leeren</string>
 
+    <string name="info1">Unterteilen Sie Ihren Vortrag in drei Teile.</string>
+    <string name="info2">Grün repräsentiert die Einleitung.</string>
+    <string name="info3">Gelb entspricht dem Hauptteil.</string>
+    <string name="info4">Rot repräsentiert die Zusammenfassung.</string>
+    <string name="info5">Sie können Zeitverteilungen speichern und später einfach abrufen.</string>
+    <string name="info6">Sie können einzelne Zeitverteilungen entfernen.</string>
+
 </resources>

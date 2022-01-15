@@ -416,7 +416,7 @@ public class MinTime extends AppCompatActivity
         } else {
             binding.mainUi.getLayoutParams().width = sizeLeft;
             binding.hinge.getLayoutParams().width = widthGap;
-            binding.infoPane.getLayoutParams().width = sizeRight;
+            binding.infoPanel.getRoot().getLayoutParams().width = sizeRight;
             binding.parent.setVisibility(View.VISIBLE);
             binding.countdown.setVisibility(View.INVISIBLE);
             if (ab != null) ab.show();

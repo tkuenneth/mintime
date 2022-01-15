@@ -20,4 +20,11 @@
     <string name="notification_channel_descr">Min Time reminders</string>
     <string name="clear">Clear</string>
 
+    <string name="info1">Divide your talk into three parts.</string>
+    <string name="info2">Green represents the introduction.</string>
+    <string name="info3">Yellow should represent the main part.</string>
+    <string name="info4">Red represents wrap up and closing.</string>
+    <string name="info5">You can save time distributions and easily pick them later.</string>
+    <string name="info6">You can remove a certain time distribution.</string>
+
 </resources>

@@ -89,9 +89,15 @@ public class MinTime extends AppCompatActivity
     private final Consumer<WindowLayoutInfo> callback = (windowLayoutInfo -> {
         var windowMetrics = WindowMetricsCalculator.getOrCreate()
                 .computeCurrentWindowMetrics(this);
+        float density = getResources().getDisplayMetrics().density;
+        float dp = windowMetrics.getBounds().width() / density;
         hasGap = false;
-        sizeLeft = LinearLayout.LayoutParams.MATCH_PARENT;
-        sizeRight = 0;
+        if (dp >= 600) {
+            sizeLeft = sizeRight = windowMetrics.getBounds().width() / 2;
+        } else {
+            sizeLeft = LinearLayout.LayoutParams.MATCH_PARENT;
+            sizeRight = 0;
+        }
         widthGap = 0;
         List<DisplayFeature> displayFeatures = windowLayoutInfo.getDisplayFeatures();
         for (DisplayFeature displayFeature : displayFeatures) {

@@ -81,33 +81,58 @@ public class MinTime extends AppCompatActivity
     private SharedPreferences prefs;
 
     private WindowInfoTrackerCallbackAdapter adapter;
-    private boolean hasGap = false;
-    private int sizeLeft = LinearLayout.LayoutParams.MATCH_PARENT;
-    private int sizeRight = 0;
-    private int widthGap = 0;
 
     private final Consumer<WindowLayoutInfo> callback = (windowLayoutInfo -> {
-        var windowMetrics = WindowMetricsCalculator.getOrCreate()
+        final var windowMetrics = WindowMetricsCalculator.getOrCreate()
                 .computeCurrentWindowMetrics(this);
-        float density = getResources().getDisplayMetrics().density;
-        float dp = windowMetrics.getBounds().width() / density;
-        hasGap = false;
-        if (dp >= 600) {
-            sizeLeft = sizeRight = windowMetrics.getBounds().width() / 2;
-        } else {
-            sizeLeft = LinearLayout.LayoutParams.MATCH_PARENT;
-            sizeRight = 0;
-        }
-        widthGap = 0;
+        final var windowWidth = windowMetrics.getBounds().width();
+        final var windowHeight = windowMetrics.getBounds().height();
+        final var mainUiLayoutParams = binding.mainUi.getLayoutParams();
+        final var infoPanelLayoutParams = binding.infoPanel.getRoot().getLayoutParams();
+        final var hingeLayoutParams = binding.hinge.getLayoutParams();
+        var hasFoldingFeature = false;
         List<DisplayFeature> displayFeatures = windowLayoutInfo.getDisplayFeatures();
         for (DisplayFeature displayFeature : displayFeatures) {
             FoldingFeature foldingFeature = (FoldingFeature) displayFeature;
             if (foldingFeature != null) {
-                hasGap = foldingFeature.getOcclusionType() == FoldingFeature.OcclusionType.FULL
-                        && foldingFeature.getOrientation() == FoldingFeature.Orientation.VERTICAL;
-                sizeLeft = foldingFeature.getBounds().left;
-                sizeRight = windowMetrics.getBounds().width() - foldingFeature.getBounds().right;
-                widthGap = foldingFeature.getBounds().width();
+                hasFoldingFeature = true;
+                boolean isVertical = foldingFeature.getOrientation() == FoldingFeature.Orientation.VERTICAL;
+                final var foldingFeatureBounds = foldingFeature.getBounds();
+                hingeLayoutParams.width = foldingFeatureBounds.width();
+                hingeLayoutParams.height = foldingFeatureBounds.height();
+                if (isVertical) {
+                    binding.parent.setOrientation(LinearLayout.HORIZONTAL);
+                    mainUiLayoutParams.width = foldingFeatureBounds.left;
+                    mainUiLayoutParams.height = LinearLayout.LayoutParams.MATCH_PARENT;
+                    infoPanelLayoutParams.width = windowWidth - foldingFeatureBounds.right;
+                    infoPanelLayoutParams.height = LinearLayout.LayoutParams.MATCH_PARENT;
+                } else {
+                    int[] intArray = new int[2];
+                    binding.mainUi.getLocationOnScreen(intArray);
+                    binding.parent.setOrientation(LinearLayout.VERTICAL);
+                    mainUiLayoutParams.width = LinearLayout.LayoutParams.MATCH_PARENT;
+                    mainUiLayoutParams.height = foldingFeatureBounds.top - intArray[1];
+                    infoPanelLayoutParams.width = LinearLayout.LayoutParams.MATCH_PARENT;
+                    infoPanelLayoutParams.height = windowHeight - foldingFeatureBounds.bottom;
+                }
+            }
+        }
+        if (!hasFoldingFeature) {
+            final float density = getResources().getDisplayMetrics().density;
+            final float dp = windowMetrics.getBounds().width() / density;
+            binding.parent.setOrientation(LinearLayout.HORIZONTAL);
+            hingeLayoutParams.width = 0;
+            hingeLayoutParams.height = 0;
+            if (dp >= 600) {
+                mainUiLayoutParams.width = windowWidth / 2;
+                mainUiLayoutParams.height = LinearLayout.LayoutParams.MATCH_PARENT;
+                infoPanelLayoutParams.width = windowWidth / 2 - 32;
+                infoPanelLayoutParams.height = LinearLayout.LayoutParams.MATCH_PARENT;
+            } else {
+                mainUiLayoutParams.width = LinearLayout.LayoutParams.MATCH_PARENT;
+                mainUiLayoutParams.height = LinearLayout.LayoutParams.MATCH_PARENT;
+                infoPanelLayoutParams.width = 0;
+                infoPanelLayoutParams.height = 0;
             }
         }
         updateUI();
@@ -420,9 +445,6 @@ public class MinTime extends AppCompatActivity
             binding.parent.setVisibility(View.INVISIBLE);
             if (ab != null) ab.hide();
         } else {
-            binding.mainUi.getLayoutParams().width = sizeLeft;
-            binding.hinge.getLayoutParams().width = widthGap;
-            binding.infoPanel.getRoot().getLayoutParams().width = sizeRight;
             binding.parent.setVisibility(View.VISIBLE);
             binding.countdown.setVisibility(View.INVISIBLE);
             if (ab != null) ab.show();

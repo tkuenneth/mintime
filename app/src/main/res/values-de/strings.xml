@@ -22,4 +22,6 @@
     <string name="info5">Sie können Zeitverteilungen speichern und später einfach abrufen.</string>
     <string name="info6">Sie können einzelne Zeitverteilungen entfernen.</string>
 
+    <string name="notification_channel_settings">Benachrichtigungskanel Einstellungen</string>
+
 </resources>

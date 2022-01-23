@@ -27,4 +27,6 @@
     <string name="info5">You can save time distributions and easily pick them later.</string>
     <string name="info6">You can remove a certain time distribution.</string>
 
+    <string name="notification_channel_settings">Notification channel settings</string>
+
 </resources>

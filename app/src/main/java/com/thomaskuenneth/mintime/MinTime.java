@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -250,6 +251,16 @@ public class MinTime extends AppCompatActivity
                 clear.setOnMenuItemClickListener(item -> {
                     updateViews(0, 0, 0);
                     invalidateOptionsMenu();
+                    return true;
+                });
+            }
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                MenuItem a = menu.add(1, Menu.NONE, Menu.NONE, R.string.notification_channel_settings);
+                a.setOnMenuItemClickListener(menuItem -> {
+                    Intent intent = new Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS);
+                    intent.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
+                    intent.putExtra(Settings.EXTRA_CHANNEL_ID, RepeatingAlarm.CHANNEL_ID);
+                    startActivity(intent);
                     return true;
                 });
             }

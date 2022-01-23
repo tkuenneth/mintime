@@ -28,7 +28,7 @@ import androidx.preference.PreferenceManager;
  */
 public class RepeatingAlarm extends BroadcastReceiver {
 
-    private static final String CHANNEL_ID = RepeatingAlarm.class.getName();
+    public static final String CHANNEL_ID = RepeatingAlarm.class.getName();
 
     @Override
     public void onReceive(Context context, Intent intent) {

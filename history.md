@@ -1,5 +1,9 @@
 # History
 
+### 1.6.1
+
+- Added "Notification channel settings" to options menu
+
 ### 1.6.0
 
 - Android Studio project, tools, and library upgrades

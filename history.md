@@ -3,6 +3,7 @@
 ### 1.6.1
 
 - Added "Notification channel settings" to options menu
+- Fixed a condition where the Start button could obstruct display of total time
 
 ### 1.6.0
 

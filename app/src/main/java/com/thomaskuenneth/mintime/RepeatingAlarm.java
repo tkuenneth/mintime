@@ -1,8 +1,8 @@
 /*
  * RepeatingAlarm.java
  *
- * Min Time (c) Thomas Künneth 2014 - 2021
- * Alle Rechte beim Autoren. All rights reserved.
+ * Min Time (c) Thomas Künneth 2014 - 2022
+ * All rights reserved.
  */
 package com.thomaskuenneth.mintime;
 
@@ -21,11 +21,6 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.preference.PreferenceManager;
 
-/**
- * Diese Klasse stellt eine Benachrichtigung dar.
- *
- * @author Thomas
- */
 public class RepeatingAlarm extends BroadcastReceiver {
 
     public static final String CHANNEL_ID = RepeatingAlarm.class.getName();
@@ -34,7 +29,7 @@ public class RepeatingAlarm extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         if (prefs.getLong(RESUMED, -1) != -1) {
-            initChannels(context);
+            initNotificationChannels(context);
             long end = intent.getLongExtra(MinTime.END, -1);
             long resumed = intent.getLongExtra(RESUMED, -1);
             long now = System.currentTimeMillis();
@@ -81,7 +76,7 @@ public class RepeatingAlarm extends BroadcastReceiver {
         }
     }
 
-    private void initChannels(Context context) {
+    public static void initNotificationChannels(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationManager nm = context.getSystemService(NotificationManager.class);
             if (nm != null) {

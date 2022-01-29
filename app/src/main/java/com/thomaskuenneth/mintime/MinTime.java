@@ -174,6 +174,7 @@ public class MinTime extends AppCompatActivity
             updateUI();
         });
         anim = null;
+        RepeatingAlarm.initNotificationChannels(this);
     }
 
     @Override

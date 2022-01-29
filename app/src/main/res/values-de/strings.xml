@@ -23,5 +23,6 @@
     <string name="info6">Sie können einzelne Zeitverteilungen entfernen.</string>
 
     <string name="notification_channel_settings">Benachrichtigungskanel Einstellungen</string>
+    <string name="check_notification_channel_settings">Bitte Benachrichtigungskanal Einstellungen prüfen</string>
 
 </resources>

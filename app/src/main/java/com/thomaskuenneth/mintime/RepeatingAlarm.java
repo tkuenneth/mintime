@@ -21,6 +21,8 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.preference.PreferenceManager;
 
+import java.util.List;
+
 public class RepeatingAlarm extends BroadcastReceiver {
 
     public static final String CHANNEL_ID = RepeatingAlarm.class.getName();
@@ -88,5 +90,21 @@ public class RepeatingAlarm extends BroadcastReceiver {
                 nm.createNotificationChannel(channel);
             }
         }
+    }
+
+    public static boolean shouldCheckNotificationSettings(NotificationManager nm) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            if (!nm.areNotificationsEnabled())
+                return true;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                List<NotificationChannel> channels = nm.getNotificationChannels();
+                for (NotificationChannel channel : channels) {
+                    if (channel.getImportance() <= NotificationManager.IMPORTANCE_LOW) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }

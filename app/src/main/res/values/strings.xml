@@ -28,5 +28,6 @@
     <string name="info6">You can remove a certain time distribution.</string>
 
     <string name="notification_channel_settings">Notification channel settings</string>
+    <string name="check_notification_channel_settings">Please check notification channel settings</string>
 
 </resources>

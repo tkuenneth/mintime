@@ -460,6 +460,12 @@ public class MinTime extends AppCompatActivity
             binding.parent.setVisibility(View.VISIBLE);
             binding.countdown.setVisibility(View.INVISIBLE);
             if (ab != null) ab.show();
+            if (RepeatingAlarm.shouldCheckNotificationSettings(getSystemService(NotificationManager.class))) {
+                binding.info.setText(getString(R.string.check_notification_channel_settings));
+                binding.info.setVisibility(View.VISIBLE);
+            } else {
+                binding.info.setVisibility(View.GONE);
+            }
         }
     }
 

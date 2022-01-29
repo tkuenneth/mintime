@@ -1,5 +1,11 @@
 # History
 
+### 1.6.2
+
+- Tools and library upgrades
+- Fixed a bug that prevented the user from opening notification settings
+- Inform user to check settings if notifications are off or silent
+
 ### 1.6.1
 
 - Added "Notification channel settings" to options menu

@@ -83,6 +83,8 @@ public class MinTime extends AppCompatActivity
 
     private WindowInfoTrackerCallbackAdapter adapter;
 
+    private boolean hideDescriptions;
+
     private final Consumer<WindowLayoutInfo> callback = (windowLayoutInfo -> {
         final var windowMetrics = WindowMetricsCalculator.getOrCreate()
                 .computeCurrentWindowMetrics(this);
@@ -92,6 +94,7 @@ public class MinTime extends AppCompatActivity
         final var infoPanelLayoutParams = binding.infoPanel.getRoot().getLayoutParams();
         final var hingeLayoutParams = binding.hinge.getLayoutParams();
         var hasFoldingFeature = false;
+        hideDescriptions = true;
         List<DisplayFeature> displayFeatures = windowLayoutInfo.getDisplayFeatures();
         for (DisplayFeature displayFeature : displayFeatures) {
             FoldingFeature foldingFeature = (FoldingFeature) displayFeature;
@@ -134,6 +137,7 @@ public class MinTime extends AppCompatActivity
                 mainUiLayoutParams.height = LinearLayout.LayoutParams.MATCH_PARENT;
                 infoPanelLayoutParams.width = 0;
                 infoPanelLayoutParams.height = 0;
+                hideDescriptions = false;
             }
         }
         updateUI();
@@ -423,6 +427,10 @@ public class MinTime extends AppCompatActivity
     }
 
     private void updateUI() {
+        binding.info1.setVisibility(hideDescriptions ? View.INVISIBLE : View.VISIBLE);
+        binding.info2.setVisibility(hideDescriptions ? View.INVISIBLE : View.VISIBLE);
+        binding.info3.setVisibility(hideDescriptions ? View.INVISIBLE : View.VISIBLE);
+        binding.info4.setVisibility(hideDescriptions ? View.INVISIBLE : View.VISIBLE);
         updateViews(prefs.getLong(COUNTER1, 0),
                 prefs.getLong(COUNTER2, 0),
                 prefs.getLong(COUNTER3, 0));

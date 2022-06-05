@@ -13,7 +13,7 @@
         android:ems="1"
         android:gravity="center"
         android:text="@string/minus"
-        android:textSize="14pt" />
+        android:textSize="10pt" />
 
     <TextView
         android:id="@+id/plus"
@@ -24,7 +24,7 @@
         android:ems="1"
         android:gravity="center"
         android:text="@string/plus"
-        android:textSize="14pt" />
+        android:textSize="10pt" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:textAlignment="center"
-            android:textSize="14pt" />
+            android:textSize="10pt" />
 
         <SeekBar
             android:id="@+id/seekbar"

@@ -1,5 +1,10 @@
 # History
 
+### 1.6.3
+
+- A few descriptions added
+- Libraries updated
+- 
 ### 1.6.2
 
 - Tools and library upgrades

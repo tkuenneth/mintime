@@ -1,7 +1,7 @@
 /*
  * Counter.java
  *
- * TKWeek (c) Thomas Künneth 2014 - 2021
+ * TKWeek (c) Thomas Künneth 2014 - 2022
  * Alle Rechte beim Autoren. All rights reserved.
  */
 package com.thomaskuenneth.mintime;
@@ -45,7 +45,7 @@ public class Counter extends FrameLayout {
                 color = a.getColor(i, color);
             } else {
                 throw new RuntimeException("Unknown attribute for "
-                        + getClass().toString() + ": " + attr);
+                        + getClass() + ": " + attr);
             }
         }
         a.recycle();

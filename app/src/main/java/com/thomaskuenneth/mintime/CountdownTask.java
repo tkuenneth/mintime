@@ -1,7 +1,7 @@
 /*
  * CountdownTask.java
  *
- * Min Time (c) Thomas Künneth 2015 - 2021
+ * Min Time (c) Thomas Künneth 2015 - 2022
  * Alle Rechte beim Autoren. All rights reserved.
  */
 package com.thomaskuenneth.mintime;
@@ -36,8 +36,7 @@ class CountdownTask extends AsyncTask<Void, Long, Void> {
                 }
                 Thread.sleep(remaining >= 150000 ? 60000 : 1000);
             } catch (InterruptedException e) {
-                // keine Log-Ausgabe nötig - der Thread darf ja
-                // jederzeit unterbrochen werden
+                // intentionally no logging
             }
             if (!i.taskShouldBeRunning()) {
                 cancel(true);
@@ -55,7 +54,7 @@ class CountdownTask extends AsyncTask<Void, Long, Void> {
             startAnimation = true;
             remaining = -remaining;
         }
-        long elapsed = i.getElpased();
+        long elapsed = i.getElapsed();
         long now = System.currentTimeMillis();
         int color;
         if (elapsed <= prefs.getLong(MinTime.COUNTER1, now)) {

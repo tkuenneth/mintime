@@ -1,14 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 32
-    buildToolsVersion "32.0.0"
+    compileSdkVersion 33
     defaultConfig {
         applicationId "com.thomaskuenneth.mintime"
         minSdkVersion 23
-        targetSdkVersion 32
-        versionName "1.6.3"
-        versionCode 29
+        targetSdkVersion 33
+        versionName "1.6.4"
+        versionCode 30
     }
 
     buildTypes {
@@ -30,10 +29,12 @@ android {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
     }
+    namespace 'com.thomaskuenneth.mintime'
 }
 
 dependencies {
-    implementation "androidx.appcompat:appcompat:1.4.2"
+    implementation "androidx.appcompat:appcompat:1.6.0-beta01"
     implementation "androidx.preference:preference:1.2.0"
-    implementation "androidx.window:window-java:1.0.0"
+    implementation "androidx.window:window-java:1.1.0-alpha03"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
 }

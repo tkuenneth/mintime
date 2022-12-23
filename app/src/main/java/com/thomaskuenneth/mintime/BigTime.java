@@ -1,7 +1,7 @@
 /*
  * BigTime.java
  *
- * Min Time (c) Thomas Künneth 2014 - 2021
+ * Min Time (c) Thomas Künneth 2014 - 2022
  * Alle Rechte beim Autoren. All rights reserved.
  */
 package com.thomaskuenneth.mintime;
@@ -52,7 +52,6 @@ public class BigTime extends View {
         }
         redAlert = false;
         a.recycle();
-        // Paint für die Zeitanzeige
         paint1 = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint1.setTypeface(Typeface.DEFAULT);
         paint1.setTextAlign(Paint.Align.CENTER);

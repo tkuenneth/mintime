@@ -207,10 +207,10 @@ public class MinTime extends AppCompatActivity
         menu.removeGroup(1);
         if (!isResumed()) {
             for (String d : distributions) {
-                String[] vals = d.split("\\|");
-                final long val1 = Long.parseLong(vals[0]);
-                final long val2 = Long.parseLong(vals[1]);
-                final long val3 = Long.parseLong(vals[2]);
+                String[] values = d.split("\\|");
+                final long val1 = Long.parseLong(values[0]);
+                final long val2 = Long.parseLong(values[1]);
+                final long val3 = Long.parseLong(values[2]);
                 String dd = getString(R.string.template_two_dashes,
                         MinTimeUtils.millisToPrettyString(this, val1),
                         MinTimeUtils.millisToPrettyString(this, val2),
@@ -283,7 +283,7 @@ public class MinTime extends AppCompatActivity
         invalidateOptionsMenu();
     }
 
-    public long getElpased() {
+    public long getElapsed() {
         return System.currentTimeMillis()
                 - prefs.getLong(RESUMED, System.currentTimeMillis());
     }
@@ -330,9 +330,11 @@ public class MinTime extends AppCompatActivity
         }
         try {
             data.put(DST, array);
-            MinTimeUtils.saveJSONObject(this, data, FILENAME_DISTRIBUTIONS);
+            if (!MinTimeUtils.saveJSONObject(this, data, FILENAME_DISTRIBUTIONS)) {
+                Log.w(TAG, "Saving file was not successful");
+            }
         } catch (JSONException e) {
-            Log.e(TAG, "Fehler beim Schreiben der Zeitverteilungen", e);
+            Log.e(TAG, "Error while writing the file", e);
         }
     }
 
@@ -347,7 +349,7 @@ public class MinTime extends AppCompatActivity
                     distributions.add(array.getString(i));
                 }
             } catch (JSONException e) {
-                Log.e(TAG, "Fehler beim Lesen der Zeitverteilungen", e);
+                Log.e(TAG, "Error while reading data", e);
             }
         }
     }

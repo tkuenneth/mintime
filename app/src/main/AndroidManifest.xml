@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.thomaskuenneth.mintime">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
@@ -15,7 +15,6 @@
         <activity
             android:name="com.thomaskuenneth.mintime.MinTime"
             android:exported="true"
-            android:label="@string/app_name"
             android:launchMode="singleInstance"
             android:theme="@style/Theme.AppCompat.DayNight">
             <intent-filter>

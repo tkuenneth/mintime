@@ -1,7 +1,7 @@
 /*
  * MinTimeUtils.java
  *
- * Min Time (c) Thomas Künneth 2014 - 2021
+ * Min Time (c) Thomas Künneth 2014 - 2022
  * Alle Rechte beim Autoren. All rights reserved.
  */
 package com.thomaskuenneth.mintime;
@@ -29,7 +29,7 @@ class MinTimeUtils {
             out.flush();
             return true;
         } catch (IOException e) {
-            Log.e(TAG, "Fehler beim Schreiben der Daten", e);
+            Log.e(TAG, String.format("Error saving file %s", filename), e);
         }
         return false;
     }
@@ -50,13 +50,13 @@ class MinTimeUtils {
                 data = new JSONObject(json);
             }
         } catch (Throwable tr) { // IOException, JSONException
-            Log.e(TAG, "Fehler beim Einlesen der Daten", tr);
+            Log.e(TAG, "Error while reading data", tr);
         } finally {
             if (in != null) {
                 try {
                     in.close();
                 } catch (IOException e) {
-                    Log.e(TAG, "Fehler beim Schließen der Datei", e);
+                    Log.e(TAG, "Could not close file", e);
                 }
             }
         }

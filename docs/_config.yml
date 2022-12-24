@@ -1,0 +1,7 @@
+theme: minima
+title: Min Time
+description: A minimalistic countdown and timer app for Android
+email: thomas@thomaskuenneth.eu
+author: Thomas Künneth
+header_pages:
+  - privacy.md

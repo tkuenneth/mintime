@@ -1,4 +1,7 @@
-# Privacy policy
+---
+layout: default
+title: Privacy Policy
+---
 
 We deeply value and respect your privacy. Therefore, this app
 

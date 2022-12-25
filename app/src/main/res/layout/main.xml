@@ -95,6 +95,7 @@
                         android:layout_marginBottom="0dp"
                         android:drawablePadding="8dp"
                         android:hyphenationFrequency="full"
+                        custom:drawableTint="?colorControlNormal"
                         custom:drawableStartCompat="@drawable/ic_baseline_notifications_off_24" />
 
                 </RelativeLayout>

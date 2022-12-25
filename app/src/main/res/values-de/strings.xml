@@ -12,7 +12,6 @@
     <string name="overrun">Ca. %1$d %2$s \u00fcberzogen</string>
     <string name="left">Ca. %1$d %2$s verbleibend</string>
     <string name="running">Seit %1$d Minuten laufend</string>
-    <string name="notification_channel_descr">Min Time Benachrichtigungen</string>
     <string name="clear">Leeren</string>
 
     <string name="info1">Unterteilen Sie Ihren Vortrag in drei Teile.</string>
@@ -22,7 +21,9 @@
     <string name="info5">Sie können Zeitverteilungen speichern und später einfach abrufen.</string>
     <string name="info6">Sie können einzelne Zeitverteilungen entfernen.</string>
 
-    <string name="notification_channel_settings">Benachrichtigungskanel Einstellungen</string>
-    <string name="check_notification_channel_settings">Benachrichtigungskanal Einstellungen prüfen</string>
+    <string name="notification_settings">Benachrichtigungseinstellungen</string>
+    <string name="check_notification_settings">Benachrichtigungen sind ausgeschaltet oder still. Bitte prüfen Sie die Benachrichtigungseinstellungen.</string>
+    <string name="notification_channel_name">Zeitbezogene Benachrichtigungen</string>
+    <string name="notification_channel_descr">Vergangene und verbleibende Zeit</string>
 
 </resources>

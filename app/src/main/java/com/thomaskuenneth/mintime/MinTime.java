@@ -15,6 +15,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.Settings;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,6 +28,7 @@ import android.view.animation.Animation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -259,16 +264,11 @@ public class MinTime extends AppCompatActivity
                     return true;
                 });
             }
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                MenuItem a = menu.add(1, Menu.NONE, Menu.NONE, R.string.notification_channel_settings);
-                a.setOnMenuItemClickListener(menuItem -> {
-                    Intent intent = new Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS);
-                    intent.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
-                    intent.putExtra(Settings.EXTRA_CHANNEL_ID, RepeatingAlarm.CHANNEL_ID);
-                    startActivity(intent);
-                    return true;
-                });
-            }
+            MenuItem a = menu.add(1, Menu.NONE, Menu.NONE, R.string.notification_settings);
+            a.setOnMenuItemClickListener(menuItem -> {
+                launchNotificationSettings();
+                return true;
+            });
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -402,7 +402,6 @@ public class MinTime extends AppCompatActivity
         intentOrange.putExtra(AlarmReceiver.PATTERN, PATTERN1);
         alarmIntentOrange = PendingIntent.getBroadcast(this,
                 RQ_ALARM_ORANGE, intentOrange, INTENT_FLAGS);
-        // Eintritt in die Phase rot
         Intent intentRed = new Intent(this, AlarmReceiver.class);
         intentRed.putExtra(AlarmReceiver.PATTERN, PATTERN2);
         alarmIntentRed = PendingIntent.getBroadcast(this, RQ_ALARM_RED,
@@ -471,7 +470,7 @@ public class MinTime extends AppCompatActivity
             binding.countdown.setVisibility(View.INVISIBLE);
             if (ab != null) ab.show();
             if (RepeatingAlarm.shouldCheckNotificationSettings(getSystemService(NotificationManager.class))) {
-                binding.info.setText(getString(R.string.check_notification_channel_settings));
+                linkToSettings();
                 binding.info.setVisibility(View.VISIBLE);
             } else {
                 binding.info.setVisibility(View.GONE);
@@ -486,5 +485,28 @@ public class MinTime extends AppCompatActivity
             anim = null;
         }
         taskShouldBeRunning = false;
+    }
+
+    private void linkToSettings() {
+        String message = getString(R.string.check_notification_settings);
+        String clickableString = getString(R.string.notification_settings);
+        Spannable spannable = new SpannableString(message);
+        int pos = message.toLowerCase().indexOf(clickableString.toLowerCase());
+        if (pos >= 0) {
+            spannable.setSpan(new ClickableSpan() {
+                @Override
+                public void onClick(@NonNull View widget) {
+                    launchNotificationSettings();
+                }
+            }, pos, pos + clickableString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            binding.info.setMovementMethod(LinkMovementMethod.getInstance());
+        }
+        binding.info.setText(spannable);
+    }
+
+    private void launchNotificationSettings() {
+        Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+        intent.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
+        startActivity(intent);
     }
 }

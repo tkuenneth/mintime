@@ -12,7 +12,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.AudioAttributes;
-import android.os.Build;
 import android.os.PowerManager;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
@@ -30,15 +29,11 @@ public class AlarmReceiver extends BroadcastReceiver {
                 if (pm != null) {
                     Vibrator v = context.getSystemService(Vibrator.class);
                     if (v != null) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            v.vibrate(VibrationEffect.createWaveform(pattern, -1),
-                                    new AudioAttributes.Builder()
-                                            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                                            .setUsage(AudioAttributes.USAGE_ALARM)
-                                            .build());
-                        } else {
-                            v.vibrate(pattern, -1);
-                        }
+                        v.vibrate(VibrationEffect.createWaveform(pattern, -1),
+                                new AudioAttributes.Builder()
+                                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                                        .setUsage(AudioAttributes.USAGE_ALARM)
+                                        .build());
                     }
                 }
             }

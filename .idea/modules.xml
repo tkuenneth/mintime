@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/min-time.iml" filepath="$PROJECT_DIR$/.idea/modules/min-time.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/min-time.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/min-time.app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/min-time.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/min-time.app.androidTest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/min-time.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/min-time.app.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/min-time.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/min-time.app.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mintime.iml" filepath="$PROJECT_DIR$/.idea/modules/mintime.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/mintime.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/mintime.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/mintime.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/mintime.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/mintime.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/mintime.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/mintime.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/mintime.app.unitTest.iml" />
     </modules>
   </component>
 </project>

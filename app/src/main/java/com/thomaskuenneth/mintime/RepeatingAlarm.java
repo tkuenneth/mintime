@@ -15,7 +15,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -79,30 +78,25 @@ public class RepeatingAlarm extends BroadcastReceiver {
     }
 
     public static void initNotificationChannels(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationManager nm = context.getSystemService(NotificationManager.class);
-            if (nm != null) {
-                NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
-                        context.getString(R.string.app_name),
-                        NotificationManager.IMPORTANCE_HIGH);
-                channel.setDescription(context.getString(R.string.notification_channel_descr));
-                channel.setImportance(NotificationManager.IMPORTANCE_LOW);
-                nm.createNotificationChannel(channel);
-            }
+        NotificationManager nm = context.getSystemService(NotificationManager.class);
+        if (nm != null) {
+            NotificationChannel channel = new NotificationChannel(
+                    CHANNEL_ID,
+                    context.getString(R.string.notification_channel_name),
+                    NotificationManager.IMPORTANCE_HIGH);
+            channel.setDescription(context.getString(R.string.notification_channel_descr));
+            channel.setImportance(NotificationManager.IMPORTANCE_LOW);
+            nm.createNotificationChannel(channel);
         }
     }
 
     public static boolean shouldCheckNotificationSettings(NotificationManager nm) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            if (!nm.areNotificationsEnabled())
+        if (!nm.areNotificationsEnabled())
+            return true;
+        List<NotificationChannel> channels = nm.getNotificationChannels();
+        for (NotificationChannel channel : channels) {
+            if (channel.getImportance() <= NotificationManager.IMPORTANCE_LOW) {
                 return true;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                List<NotificationChannel> channels = nm.getNotificationChannels();
-                for (NotificationChannel channel : channels) {
-                    if (channel.getImportance() <= NotificationManager.IMPORTANCE_LOW) {
-                        return true;
-                    }
-                }
             }
         }
         return false;

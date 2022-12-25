@@ -3,6 +3,7 @@
 ### 1.6.4
 
 - Targets Android 13
+- General improvements regarding performance and stability
 
 ### 1.6.3
 

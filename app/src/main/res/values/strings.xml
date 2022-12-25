@@ -17,7 +17,6 @@
     <string name="overrun">About %1$d %2$s overrun</string>
     <string name="left">About %1$d %2$s left</string>
     <string name="running">Running for %1$d minutes</string>
-    <string name="notification_channel_descr">Min Time reminders</string>
     <string name="clear">Clear</string>
 
     <string name="info1">Divide your talk into three parts.</string>
@@ -27,7 +26,9 @@
     <string name="info5">You can save time distributions and easily pick them later.</string>
     <string name="info6">You can remove a certain time distribution.</string>
 
-    <string name="notification_channel_settings">Notification channel settings</string>
-    <string name="check_notification_channel_settings">Check notification channel settings</string>
+    <string name="notification_settings">Notification settings</string>
+    <string name="check_notification_settings">Notifications are off or silent. Please check notification settings.</string>
+    <string name="notification_channel_name">Time related notifications</string>
+    <string name="notification_channel_descr">Elapsed and remaining time</string>
 
 </resources>

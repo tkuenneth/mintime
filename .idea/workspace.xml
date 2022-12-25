@@ -31,21 +31,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="64111e6a-d747-4bc2-bf59-e98b175cdee3" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/deploymentTargetDropDown.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/deploymentTargetDropDown.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deploymentTargetDropDown.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/BigTime.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/BigTime.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/CanvasUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/CanvasUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/CountdownTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/CountdownTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/Counter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/Counter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/AlarmReceiver.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/AlarmReceiver.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/MinTime.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/MinTime.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/MinTimeUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/MinTimeUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/RepeatingAlarm.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/thomaskuenneth/mintime/RepeatingAlarm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-land/counter.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-land/main.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/counter.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/counter.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-de/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-de/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/history.md" beforeDir="false" afterPath="$PROJECT_DIR$/history.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -53,7 +52,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\tkuen\.android\avd\7.4_Rollable_API_33.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\tkuen\.android\avd\Pixel_5_API_33.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -228,6 +227,8 @@
     <property name="android-custom-viewC:/Users/tkuen/Entwicklung/Bitbucket/min-time/app/src/main/java/com/thomaskuenneth/mintime/Counter.java_SELECTED" value="Counter" />
     <property name="android-custom-viewC:/Users/tkuen/Local Files/Development/Bitbucket/min-time/app/src/main/java/com/thomaskuenneth/mintime/BigTime.java_SELECTED" value="BigTime" />
     <property name="android-custom-viewC:/Users/tkuen/Local Files/Development/Bitbucket/min-time/app/src/main/java/com/thomaskuenneth/mintime/Counter.java_SELECTED" value="Counter" />
+    <property name="android-custom-viewC:/Users/tkuen/Local Files/Development/GitHub/mintime/app/src/main/java/com/thomaskuenneth/mintime/BigTime.java_SELECTED" value="BigTime" />
+    <property name="android-custom-viewC:/Users/tkuen/Local Files/Development/GitHub/mintime/app/src/main/java/com/thomaskuenneth/mintime/Counter.java_SELECTED" value="Counter" />
     <property name="android.project.structure.last.selected" value="app" />
     <property name="android.project.structure.proportion" value="0.15" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
@@ -255,7 +256,7 @@
       </method>
     </configuration>
     <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
-      <module name="min-time.app.main" />
+      <module name="mintime.app.main" />
       <option name="DEPLOY" value="true" />
       <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
       <option name="DEPLOY_AS_INSTANT" value="false" />

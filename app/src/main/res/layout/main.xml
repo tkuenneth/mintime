@@ -13,85 +13,93 @@
             android:id="@+id/main_ui"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="8dp">
+            android:padding="16dp">
 
-            <RelativeLayout xmlns:custom="http://schemas.android.com/apk/res-auto"
-
+            <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/info1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:text="@string/info1" />
-
-                <com.thomaskuenneth.mintime.Counter
-                    android:id="@+id/counter1"
+                <RelativeLayout xmlns:custom="http://schemas.android.com/apk/res-auto"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/info1"
-                    custom:mintime_color="@color/green" />
+                    android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/info2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/counter1"
-                    android:layout_centerHorizontal="true"
-                    android:text="@string/info2" />
+                    <TextView
+                        android:id="@+id/info1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:text="@string/info1" />
 
-                <com.thomaskuenneth.mintime.Counter
-                    android:id="@+id/counter2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/info2"
-                    custom:mintime_color="@color/orange" />
+                    <com.thomaskuenneth.mintime.Counter
+                        android:id="@+id/counter1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/info1"
+                        custom:mintime_color="@color/green" />
 
-                <TextView
-                    android:id="@+id/info3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/counter2"
-                    android:layout_centerHorizontal="true"
-                    android:text="@string/info3" />
+                    <TextView
+                        android:id="@+id/info2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/counter1"
+                        android:layout_centerHorizontal="true"
+                        android:text="@string/info2" />
 
-                <com.thomaskuenneth.mintime.Counter
-                    android:id="@+id/counter3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/info3"
-                    custom:mintime_color="@color/red" />
+                    <com.thomaskuenneth.mintime.Counter
+                        android:id="@+id/counter2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/info2"
+                        custom:mintime_color="@color/orange" />
 
-                <TextView
-                    android:id="@+id/info4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/counter3"
-                    android:layout_centerHorizontal="true"
-                    android:text="@string/info4" />
+                    <TextView
+                        android:id="@+id/info3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/counter2"
+                        android:layout_centerHorizontal="true"
+                        android:text="@string/info3" />
 
-                <TextView
-                    android:id="@+id/total"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/info4"
-                    android:layout_centerHorizontal="true"
-                    android:layout_gravity="center_horizontal"
-                    android:textAlignment="center"
-                    android:textSize="20pt" />
+                    <com.thomaskuenneth.mintime.Counter
+                        android:id="@+id/counter3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/info3"
+                        custom:mintime_color="@color/red" />
 
-                <TextView
-                    android:id="@+id/info"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/total"
-                    android:gravity="center_horizontal"
-                    android:textAlignment="center" />
+                    <TextView
+                        android:id="@+id/info4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/counter3"
+                        android:layout_centerHorizontal="true"
+                        android:text="@string/info4" />
 
-            </RelativeLayout>
+                    <TextView
+                        android:id="@+id/total"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/info4"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center_horizontal"
+                        android:textAlignment="center"
+                        android:textSize="20pt" />
+
+                    <TextView
+                        android:id="@+id/info"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/total"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="0dp"
+                        android:drawablePadding="8dp"
+                        android:hyphenationFrequency="full"
+                        custom:drawableStartCompat="@drawable/ic_baseline_notifications_off_24" />
+
+                </RelativeLayout>
+
+            </ScrollView>
 
             <Button
                 android:id="@+id/start"

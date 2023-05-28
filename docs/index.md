@@ -26,4 +26,4 @@ layout: home
 </td>
 </tr>
 </table>
-<p style="text-align: center;">Made with <span style="color: red;">&#160;❤&#160;</span> by <a href="https://www.thomaskuenneth.eu/">Thomas K&uuml;nneth</a></p>
+<p style="text-align: center;">Made with <span style="color: red;">&#160;❤&#160;</span> by <a href="https://github.com/tkuenneth">Thomas K&uuml;nneth</a></p>

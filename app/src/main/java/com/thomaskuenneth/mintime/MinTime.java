@@ -271,11 +271,13 @@ public class MinTime extends AppCompatActivity
                 launchNotificationSettings();
                 return true;
             });
-            MenuItem alarmsAndRemindersMenuItem = menu.add(1, Menu.NONE, Menu.NONE, R.string.alarms_and_reminders);
-            alarmsAndRemindersMenuItem.setOnMenuItemClickListener(menuItem -> {
-                launchAlarmsAndRemindersSettings();
-                return true;
-            });
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                MenuItem alarmsAndRemindersMenuItem = menu.add(1, Menu.NONE, Menu.NONE, R.string.alarms_and_reminders);
+                alarmsAndRemindersMenuItem.setOnMenuItemClickListener(menuItem -> {
+                    launchAlarmsAndRemindersSettings();
+                    return true;
+                });
+            }
         }
         return super.onPrepareOptionsMenu(menu);
     }

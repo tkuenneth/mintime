@@ -94,9 +94,10 @@
                         android:layout_marginTop="16dp"
                         android:layout_marginBottom="0dp"
                         android:drawablePadding="8dp"
+                        android:gravity="center_vertical"
                         android:hyphenationFrequency="full"
-                        custom:drawableTint="?colorControlNormal"
-                        custom:drawableStartCompat="@drawable/ic_baseline_notifications_off_24" />
+                        custom:drawableStartCompat="@drawable/ic_baseline_notifications_off_24"
+                        custom:drawableTint="?colorControlNormal" />
 
                     <TextView
                         android:id="@+id/info_schedule_exact_alarms"
@@ -106,9 +107,10 @@
                         android:layout_marginTop="16dp"
                         android:layout_marginBottom="0dp"
                         android:drawablePadding="8dp"
+                        android:gravity="center_vertical"
                         android:hyphenationFrequency="full"
-                        custom:drawableTint="?colorControlNormal"
-                        custom:drawableStartCompat="@drawable/baseline_alarm_off_24" />
+                        custom:drawableStartCompat="@drawable/baseline_alarm_off_24"
+                        custom:drawableTint="?colorControlNormal" />
 
                 </RelativeLayout>
 

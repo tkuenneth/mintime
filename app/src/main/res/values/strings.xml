@@ -32,6 +32,6 @@
     <string name="notification_channel_descr">Elapsed and remaining time</string>
 
     <string name="alarms_and_reminders">Alarms and reminders</string>
-    <string name="exact_alarms_are_off">Please allow setting alarms and reminders</string>
+    <string name="exact_alarms_are_off">Please allow setting alarms and reminders.</string>
 
 </resources>

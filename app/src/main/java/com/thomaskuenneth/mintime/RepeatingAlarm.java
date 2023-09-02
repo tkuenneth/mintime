@@ -6,6 +6,8 @@
  */
 package com.thomaskuenneth.mintime;
 
+import static android.Manifest.permission.POST_NOTIFICATIONS;
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static com.thomaskuenneth.mintime.MinTime.RESUMED;
 
 import android.app.NotificationChannel;
@@ -72,8 +74,10 @@ public class RepeatingAlarm extends BroadcastReceiver {
                     .setContentIntent(notificationClickedIntent);
             NotificationManagerCompat notificationManager = NotificationManagerCompat
                     .from(context);
-            notificationManager.notify(MinTime.NOTIFICATION_ID,
-                    notificationBuilder.build());
+            if (context.checkSelfPermission(POST_NOTIFICATIONS) == PERMISSION_GRANTED) {
+                notificationManager.notify(MinTime.NOTIFICATION_ID,
+                        notificationBuilder.build());
+            }
         }
     }
 

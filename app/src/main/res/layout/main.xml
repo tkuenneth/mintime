@@ -98,6 +98,18 @@
                         custom:drawableTint="?colorControlNormal"
                         custom:drawableStartCompat="@drawable/ic_baseline_notifications_off_24" />
 
+                    <TextView
+                        android:id="@+id/info_schedule_exact_alarms"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/info"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="0dp"
+                        android:drawablePadding="8dp"
+                        android:hyphenationFrequency="full"
+                        custom:drawableTint="?colorControlNormal"
+                        custom:drawableStartCompat="@drawable/baseline_alarm_off_24" />
+
                 </RelativeLayout>
 
             </ScrollView>

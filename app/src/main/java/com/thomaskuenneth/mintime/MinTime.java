@@ -1,7 +1,7 @@
 /*
  * MinTime.java
  *
- * Min Time (c) Thomas Künneth 2014 - 2022
+ * Min Time (c) Thomas Künneth 2014 - 2023
  * All rights reserved.
  */
 package com.thomaskuenneth.mintime;
@@ -30,6 +30,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -265,9 +266,14 @@ public class MinTime extends AppCompatActivity
                     return true;
                 });
             }
-            MenuItem a = menu.add(1, Menu.NONE, Menu.NONE, R.string.notification_settings);
-            a.setOnMenuItemClickListener(menuItem -> {
+            MenuItem notificationSettingsMenuItem = menu.add(1, Menu.NONE, Menu.NONE, R.string.notification_settings);
+            notificationSettingsMenuItem.setOnMenuItemClickListener(menuItem -> {
                 launchNotificationSettings();
+                return true;
+            });
+            MenuItem alarmsAndRemindersMenuItem = menu.add(1, Menu.NONE, Menu.NONE, R.string.alarms_and_reminders);
+            alarmsAndRemindersMenuItem.setOnMenuItemClickListener(menuItem -> {
+                launchAlarmsAndRemindersSettings();
                 return true;
             });
         }
@@ -473,10 +479,24 @@ public class MinTime extends AppCompatActivity
             binding.countdown.setVisibility(View.INVISIBLE);
             if (ab != null) ab.show();
             if (RepeatingAlarm.shouldCheckNotificationSettings(getSystemService(NotificationManager.class))) {
-                linkToSettings();
+                linkToSettings(
+                        binding.info,
+                        R.string.check_notification_settings,
+                        R.string.notification_settings,
+                        this::launchNotificationSettings);
                 binding.info.setVisibility(View.VISIBLE);
             } else {
                 binding.info.setVisibility(View.GONE);
+            }
+            if (canScheduleExactAlarms()) {
+                binding.infoScheduleExactAlarms.setVisibility(View.GONE);
+            } else {
+                linkToSettings(
+                        binding.infoScheduleExactAlarms,
+                        R.string.exact_alarms_are_off,
+                        R.string.alarms_and_reminders,
+                        this::launchAlarmsAndRemindersSettings);
+                binding.infoScheduleExactAlarms.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -494,26 +514,30 @@ public class MinTime extends AppCompatActivity
         taskShouldBeRunning = false;
     }
 
-    private void linkToSettings() {
-        String message = getString(R.string.check_notification_settings);
-        String clickableString = getString(R.string.notification_settings);
+    private void linkToSettings(TextView textView, @StringRes int messageResId, @StringRes int linkResId, Runnable code) {
+        String message = getString(messageResId);
+        String clickableString = getString(linkResId);
         Spannable spannable = new SpannableString(message);
         int pos = message.toLowerCase().indexOf(clickableString.toLowerCase());
         if (pos >= 0) {
             spannable.setSpan(new ClickableSpan() {
                 @Override
                 public void onClick(@NonNull View widget) {
-                    launchNotificationSettings();
+                    code.run();
                 }
             }, pos, pos + clickableString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            binding.info.setMovementMethod(LinkMovementMethod.getInstance());
+            textView.setMovementMethod(LinkMovementMethod.getInstance());
         }
-        binding.info.setText(spannable);
+        textView.setText(spannable);
     }
 
     private void launchNotificationSettings() {
         Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
         intent.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
         startActivity(intent);
+    }
+
+    private void launchAlarmsAndRemindersSettings() {
+        startActivity(new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM));
     }
 }

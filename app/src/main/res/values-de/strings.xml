@@ -26,4 +26,7 @@
     <string name="notification_channel_name">Zeitbezogene Benachrichtigungen</string>
     <string name="notification_channel_descr">Vergangene und verbleibende Zeit</string>
 
+    <string name="alarms_and_reminders">Wecker und Erinnerungen</string>
+    <string name="exact_alarms_are_off">Bitte erlauben Sie, Wecker und Erinnerungen einzurichten</string>
+
 </resources>

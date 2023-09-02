@@ -1,16 +1,17 @@
 /*
  * AlarmReceiver.java
  *
- * Min Time (c) Thomas Künneth 2014 - 2022
+ * Min Time (c) Thomas Künneth 2014 - 2023
  * All rights reserved.
  */
 package com.thomaskuenneth.mintime;
 
-import android.Manifest;
+import static android.Manifest.permission.VIBRATE;
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.media.AudioAttributes;
 import android.os.PowerManager;
 import android.os.VibrationEffect;
@@ -22,7 +23,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (context.checkSelfPermission(Manifest.permission.VIBRATE) == PackageManager.PERMISSION_GRANTED) {
+        if (context.checkSelfPermission(VIBRATE) == PERMISSION_GRANTED) {
             final long[] pattern = intent.getLongArrayExtra(PATTERN);
             if (pattern != null) {
                 PowerManager pm = context.getSystemService(PowerManager.class);

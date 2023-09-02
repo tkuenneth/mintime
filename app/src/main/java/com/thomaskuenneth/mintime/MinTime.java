@@ -12,6 +12,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.Settings;
@@ -444,13 +445,15 @@ public class MinTime extends AppCompatActivity
             elapsedRealtime -= offset;
             long phaseGreen = prefs.getLong(COUNTER1, now);
             long phaseOrange = prefs.getLong(COUNTER2, now);
-            if (offset <= phaseGreen) {
-                alarmMgr.setExactAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP, elapsedRealtime
-                        + phaseGreen, alarmIntentOrange);
-            }
-            if (offset <= phaseGreen + phaseOrange) {
-                alarmMgr.setExactAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP, elapsedRealtime
-                        + phaseGreen + phaseOrange, alarmIntentRed);
+            if (canScheduleExactAlarms()) {
+                if (offset <= phaseGreen) {
+                    alarmMgr.setExactAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP, elapsedRealtime
+                            + phaseGreen, alarmIntentOrange);
+                }
+                if (offset <= phaseGreen + phaseOrange) {
+                    alarmMgr.setExactAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP, elapsedRealtime
+                            + phaseGreen + phaseOrange, alarmIntentRed);
+                }
             }
             alarmMgr.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                     elapsedRealtime, NOTIFICATION_INTERVAL_IN_MILLIS,
@@ -476,6 +479,10 @@ public class MinTime extends AppCompatActivity
                 binding.info.setVisibility(View.GONE);
             }
         }
+    }
+
+    private boolean canScheduleExactAlarms() {
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.S || alarmMgr.canScheduleExactAlarms();
     }
 
     private void stopAnimationAndTask() {

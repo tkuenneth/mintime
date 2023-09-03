@@ -30,12 +30,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.util.Consumer;
 import androidx.preference.PreferenceManager;
+import androidx.window.core.layout.WindowHeightSizeClass;
+import androidx.window.core.layout.WindowSizeClass;
+import androidx.window.core.layout.WindowWidthSizeClass;
 import androidx.window.java.layout.WindowInfoTrackerCallbackAdapter;
 import androidx.window.layout.DisplayFeature;
 import androidx.window.layout.FoldingFeature;
@@ -100,18 +104,20 @@ public class MinTime extends AppCompatActivity
         final var mainUiLayoutParams = binding.mainUi.getLayoutParams();
         final var infoPanelLayoutParams = binding.infoPanel.getRoot().getLayoutParams();
         final var hingeLayoutParams = binding.hinge.getLayoutParams();
-        var hasFoldingFeature = false;
+        float screenPixelDensity = getResources().getDisplayMetrics().density;
+        WindowSizeClass windowSizeClass = WindowSizeClass.compute(windowWidth / screenPixelDensity, windowHeight / screenPixelDensity);
+        boolean hasFoldingFeature = false;
         hideDescriptions = true;
         List<DisplayFeature> displayFeatures = windowLayoutInfo.getDisplayFeatures();
         for (DisplayFeature displayFeature : displayFeatures) {
             FoldingFeature foldingFeature = (FoldingFeature) displayFeature;
             if (foldingFeature != null) {
-                hasFoldingFeature = true;
-                boolean isVertical = foldingFeature.getOrientation() == FoldingFeature.Orientation.VERTICAL;
+                hasFoldingFeature = windowSizeClass.getWindowWidthSizeClass() != WindowWidthSizeClass.COMPACT &&
+                        windowSizeClass.getWindowHeightSizeClass() != WindowHeightSizeClass.COMPACT;
                 final var foldingFeatureBounds = foldingFeature.getBounds();
                 hingeLayoutParams.width = foldingFeatureBounds.width();
                 hingeLayoutParams.height = foldingFeatureBounds.height();
-                if (isVertical) {
+                if (foldingFeature.getOrientation() == FoldingFeature.Orientation.VERTICAL) {
                     binding.parent.setOrientation(LinearLayout.HORIZONTAL);
                     mainUiLayoutParams.width = foldingFeatureBounds.left;
                     mainUiLayoutParams.height = LinearLayout.LayoutParams.MATCH_PARENT;
@@ -539,6 +545,7 @@ public class MinTime extends AppCompatActivity
         startActivity(intent);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.S)
     private void launchAlarmsAndRemindersSettings() {
         startActivity(new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM));
     }

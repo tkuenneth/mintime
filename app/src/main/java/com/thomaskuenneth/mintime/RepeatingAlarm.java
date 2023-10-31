@@ -1,7 +1,7 @@
 /*
  * RepeatingAlarm.java
  *
- * Min Time (c) Thomas Künneth 2014 - 2022
+ * Min Time (c) Thomas Künneth 2014 - 2023
  * All rights reserved.
  */
 package com.thomaskuenneth.mintime;
@@ -36,7 +36,7 @@ public class RepeatingAlarm extends BroadcastReceiver {
             long end = intent.getLongExtra(MinTime.END, -1);
             long resumed = intent.getLongExtra(RESUMED, -1);
             long now = System.currentTimeMillis();
-            long notification_mins = MinTime.NOTIFICATION_INTERVAL_IN_MILLIS / 1000 / 60;
+            long notificationMinutes = MinTime.NOTIFICATION_INTERVAL_IN_MILLIS / 1000 / 60;
             long remaining = end - now;
             int resId;
             if (remaining < 0) {
@@ -48,7 +48,7 @@ public class RepeatingAlarm extends BroadcastReceiver {
             long secs = (remaining / 1000L);
             long mins = secs / 60;
             if (mins == 0) {
-                mins = notification_mins;
+                mins = notificationMinutes;
             }
             Intent intentCountDownActivity = new Intent(context,
                     MinTime.class);

@@ -1,8 +1,8 @@
 /*
  * Counter.java
  *
- * TKWeek (c) Thomas Künneth 2014 - 2022
- * Alle Rechte beim Autoren. All rights reserved.
+ * TKWeek (c) Thomas Künneth 2014 - 2023
+ * All rights reserved.
  */
 package com.thomaskuenneth.mintime;
 
@@ -33,6 +33,9 @@ public class Counter extends FrameLayout {
         this(context, attrs, 0);
     }
 
+    /**
+     * @noinspection resource close() just calls recycle() but isn't available on all supported API levels
+     */
     public Counter(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         int color = Color.WHITE;
@@ -98,7 +101,7 @@ public class Counter extends FrameLayout {
         updateUIAndNotifyListener(true);
     }
 
-    public void setValueUpdator(ValueUpdater updater) {
+    public void setValueUpdater(ValueUpdater updater) {
         cb = updater;
     }
 

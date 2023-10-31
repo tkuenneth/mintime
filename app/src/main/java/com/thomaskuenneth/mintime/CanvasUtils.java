@@ -1,8 +1,8 @@
 /*
  * CanvasUtils.java
  *
- * TKWeek (c) Thomas Künneth 2014 - 2022
- * Alle Rechte beim Autoren. All rights reserved.
+ * TKWeek (c) Thomas Künneth 2014 - 2023
+ * All rights reserved.
  */
 package com.thomaskuenneth.mintime;
 

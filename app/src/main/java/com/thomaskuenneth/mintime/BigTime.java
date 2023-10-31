@@ -1,8 +1,8 @@
 /*
  * BigTime.java
  *
- * Min Time (c) Thomas Künneth 2014 - 2022
- * Alle Rechte beim Autoren. All rights reserved.
+ * Min Time (c) Thomas Künneth 2014 - 2023
+ * All rights reserved.
  */
 package com.thomaskuenneth.mintime;
 
@@ -37,6 +37,9 @@ public class BigTime extends View {
         this(context, attrs, 0);
     }
 
+    /**
+     * @noinspection resource close() just calls recycle() but isn't available on all supported API levels
+     */
     public BigTime(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         backgroundColor = getBackgroundColor(context);
@@ -58,7 +61,7 @@ public class BigTime extends View {
     }
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+    protected void onSizeChanged(int w, int h, int oldW, int oldH) {
         String text = MinTimeUtils.millisToPrettyString(getContext(),
                 MinTime.ONE_MINUTE * 999);
         CanvasUtils.calcTextHeight(paint1, w, text);

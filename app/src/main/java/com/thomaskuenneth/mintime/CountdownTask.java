@@ -1,8 +1,8 @@
 /*
  * CountdownTask.java
  *
- * Min Time (c) Thomas Künneth 2015 - 2022
- * Alle Rechte beim Autoren. All rights reserved.
+ * Min Time (c) Thomas Künneth 2015 - 2023
+ * All rights reserved.
  */
 package com.thomaskuenneth.mintime;
 
@@ -35,8 +35,7 @@ class CountdownTask extends AsyncTask<Void, Long, Void> {
                     remaining = -remaining;
                 }
                 Thread.sleep(remaining >= 150000 ? 60000 : 1000);
-            } catch (InterruptedException e) {
-                // intentionally no logging
+            } catch (InterruptedException ignored) {
             }
             if (!i.taskShouldBeRunning()) {
                 cancel(true);

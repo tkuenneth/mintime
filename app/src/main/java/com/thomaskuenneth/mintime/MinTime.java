@@ -176,9 +176,9 @@ public class MinTime extends AppCompatActivity
             configureAlarms();
             updateUI();
         });
-        binding.counter1.setValueUpdator(this);
-        binding.counter2.setValueUpdator(this);
-        binding.counter3.setValueUpdator(this);
+        binding.counter1.setValueUpdater(this);
+        binding.counter2.setValueUpdater(this);
+        binding.counter3.setValueUpdater(this);
         // countdown
         binding.tapHere.setOnClickListener(v -> {
             prefs.edit().putLong(RESUMED, -1).apply();

@@ -1,8 +1,8 @@
 /*
  * MinTimeUtils.java
  *
- * Min Time (c) Thomas Künneth 2014 - 2022
- * Alle Rechte beim Autoren. All rights reserved.
+ * Min Time (c) Thomas Künneth 2014 - 2023
+ * All rights reserved.
  */
 package com.thomaskuenneth.mintime;
 
@@ -82,9 +82,9 @@ class MinTimeUtils {
         return sb.toString();
     }
 
-    public static int getBackgroundColor (final Context context) {
-        final TypedValue value = new TypedValue ();
-        context.getTheme ().resolveAttribute (android.R.attr.colorBackground, value, true);
+    public static int getBackgroundColor(final Context context) {
+        final TypedValue value = new TypedValue();
+        context.getTheme().resolveAttribute(android.R.attr.colorBackground, value, true);
         return value.data;
     }
 }

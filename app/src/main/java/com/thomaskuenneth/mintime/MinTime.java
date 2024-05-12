@@ -1,10 +1,12 @@
 /*
  * MinTime.java
  *
- * Min Time (c) Thomas Künneth 2014 - 2023
+ * Min Time (c) Thomas Künneth 2014 - 2024
  * All rights reserved.
  */
 package com.thomaskuenneth.mintime;
+
+import static com.thomaskuenneth.mintime.RepeatingAlarm.CHANNEL_ID;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
@@ -12,6 +14,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -20,6 +23,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -486,15 +490,32 @@ public class MinTime extends AppCompatActivity
             binding.parent.setVisibility(View.VISIBLE);
             binding.countdown.setVisibility(View.INVISIBLE);
             if (ab != null) ab.show();
-            if (RepeatingAlarm.shouldCheckNotificationSettings(getSystemService(NotificationManager.class))) {
-                linkToSettings(
-                        binding.info,
-                        R.string.check_notification_settings,
-                        R.string.notification_settings,
-                        this::launchNotificationSettings);
-                binding.info.setVisibility(View.VISIBLE);
-            } else {
-                binding.info.setVisibility(View.GONE);
+            switch (RepeatingAlarm.getNotificationStatus(getSystemService(NotificationManager.class))) {
+                case NOTIFICATIONS_OFF -> {
+                    linkToSettings(
+                            binding.info,
+                            R.string.check_notification_settings_off,
+                            R.string.notification_settings,
+                            this::launchNotificationSettings);
+                    binding.info.setVisibility(View.VISIBLE);
+                }
+                case NOTIFICATION_CHANNEL_OFF -> {
+                    linkToSettings(
+                            binding.info,
+                            R.string.check_notification_settings_channel_off,
+                            R.string.notification_settings,
+                            this::launchNotificationSettings);
+                    binding.info.setVisibility(View.VISIBLE);
+                }
+                case SILENT -> {
+                    linkToSettings(
+                            binding.info,
+                            R.string.check_notification_settings_channel_silent,
+                            R.string.notification_channel_settings,
+                            this::launchNotificationChannelSettings);
+                    binding.info.setVisibility(View.VISIBLE);
+                }
+                default -> binding.info.setVisibility(View.GONE);
             }
             if (canScheduleExactAlarms()) {
                 binding.infoScheduleExactAlarms.setVisibility(View.GONE);
@@ -536,12 +557,23 @@ public class MinTime extends AppCompatActivity
             }, pos, pos + clickableString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             textView.setMovementMethod(LinkMovementMethod.getInstance());
         }
+        pos = message.indexOf(getString(R.string.notification_channel_name));
+        if (pos >= 0) {
+            spannable.setSpan(new StyleSpan(Typeface.BOLD), pos, pos + getString(R.string.notification_channel_name).length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
         textView.setText(spannable);
     }
 
     private void launchNotificationSettings() {
         Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
         intent.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
+        startActivity(intent);
+    }
+
+    private void launchNotificationChannelSettings() {
+        Intent intent = new Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS);
+        intent.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
+        intent.putExtra(Settings.EXTRA_CHANNEL_ID, CHANNEL_ID);
         startActivity(intent);
     }
 

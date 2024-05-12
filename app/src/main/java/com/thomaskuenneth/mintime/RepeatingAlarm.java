@@ -1,7 +1,7 @@
 /*
  * RepeatingAlarm.java
  *
- * Min Time (c) Thomas Künneth 2014 - 2023
+ * Min Time (c) Thomas Künneth 2014 - 2024
  * All rights reserved.
  */
 package com.thomaskuenneth.mintime;
@@ -9,6 +9,10 @@ package com.thomaskuenneth.mintime;
 import static android.Manifest.permission.POST_NOTIFICATIONS;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static com.thomaskuenneth.mintime.MinTime.RESUMED;
+import static com.thomaskuenneth.mintime.NotificationStatus.DEFAULT;
+import static com.thomaskuenneth.mintime.NotificationStatus.NOTIFICATIONS_OFF;
+import static com.thomaskuenneth.mintime.NotificationStatus.NOTIFICATION_CHANNEL_OFF;
+import static com.thomaskuenneth.mintime.NotificationStatus.SILENT;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -94,15 +98,19 @@ public class RepeatingAlarm extends BroadcastReceiver {
         }
     }
 
-    public static boolean shouldCheckNotificationSettings(NotificationManager nm) {
+    public static NotificationStatus getNotificationStatus(NotificationManager nm) {
         if (!nm.areNotificationsEnabled())
-            return true;
+            return NOTIFICATIONS_OFF;
         List<NotificationChannel> channels = nm.getNotificationChannels();
         for (NotificationChannel channel : channels) {
-            if (channel.getImportance() <= NotificationManager.IMPORTANCE_LOW) {
-                return true;
+            int importance = channel.getImportance();
+            if (importance == NotificationManager.IMPORTANCE_NONE) {
+                return NOTIFICATION_CHANNEL_OFF;
+            }
+            if (importance <= NotificationManager.IMPORTANCE_LOW) {
+                return SILENT;
             }
         }
-        return false;
+        return DEFAULT;
     }
 }

@@ -5,7 +5,6 @@ android {
     defaultConfig {
         applicationId "com.thomaskuenneth.mintime"
         minSdk 26
-        //noinspection EditedTargetSdkVersion
         targetSdk 34
         versionName "1.6.6"
         versionCode 36

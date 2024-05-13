@@ -73,6 +73,7 @@ import androidx.window.layout.WindowLayoutInfo;
 import androidx.window.layout.WindowMetricsCalculator;
 
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.snackbar.Snackbar;
 import com.thomaskuenneth.mintime.databinding.MainBinding;
 
 import org.json.JSONArray;
@@ -210,12 +211,16 @@ public class MinTime extends AppCompatActivity
             prefs.edit().putLong(RESUMED, System.currentTimeMillis()).apply();
             configureAlarms();
             updateUI();
+            Snackbar snackbar = Snackbar.make(binding.mainUi,
+                    getString(R.string.hint),
+                    Snackbar.LENGTH_LONG);
+            snackbar.show();
         });
         binding.counter1.setValueUpdater(this);
         binding.counter2.setValueUpdater(this);
         binding.counter3.setValueUpdater(this);
         // countdown
-        binding.tapHere.setOnClickListener(v -> {
+        binding.timer.setOnClickListener(v -> {
             prefs.edit().putLong(RESUMED, -1).apply();
             cancelAlarms();
             NotificationManager m = getSystemService(NotificationManager.class);
@@ -345,10 +350,6 @@ public class MinTime extends AppCompatActivity
 
     public BigTime getTimer() {
         return binding.timer;
-    }
-
-    public TextView getTapHere() {
-        return binding.tapHere;
     }
 
     public Animation prepareAnimation() {

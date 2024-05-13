@@ -5,7 +5,7 @@
     <string name="sec">s</string>
     <string name="start">Start</string>
     <string name="resume">Weiter</string>
-    <string name="hint">Zum Beenden hier tippen</string>
+    <string name="hint">Zum Beenden an beliebiger Stelle tippen</string>
     <string name="delete">L\u00f6schen</string>
     <string name="save">Speichern</string>
     <string name="error1">Daten konnten nicht gespeichert werden</string>

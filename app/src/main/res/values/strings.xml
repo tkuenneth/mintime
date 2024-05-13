@@ -10,7 +10,7 @@
     <string name="template_two_dashes" translatable="false">%1$s - %2$s - %3$s</string>
     <string name="plus" translatable="false">+</string>
     <string name="minus" translatable="false">-</string>
-    <string name="hint">Tap here to finish</string>
+    <string name="hint">Tap anywhere to finish</string>
     <string name="delete">Delete</string>
     <string name="save">Save</string>
     <string name="error1">Could not save data</string>

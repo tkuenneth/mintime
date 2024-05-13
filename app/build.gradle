@@ -17,7 +17,7 @@ android {
                     'proguard-rules.txt'
         }
         debug {
-            minifyEnabled true
+            minifyEnabled false
         }
     }
 
@@ -40,4 +40,5 @@ dependencies {
     implementation "androidx.window:window-core:1.2.0"
     implementation "androidx.window:window-java:1.2.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0"
+    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.2.0'
 }

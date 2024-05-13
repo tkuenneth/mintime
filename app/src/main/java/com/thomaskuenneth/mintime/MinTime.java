@@ -50,13 +50,17 @@ import android.view.animation.Animation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
 import androidx.core.util.Consumer;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.preference.PreferenceManager;
 import androidx.window.core.layout.WindowHeightSizeClass;
 import androidx.window.core.layout.WindowSizeClass;
@@ -68,6 +72,7 @@ import androidx.window.layout.WindowInfoTracker;
 import androidx.window.layout.WindowLayoutInfo;
 import androidx.window.layout.WindowMetricsCalculator;
 
+import com.google.android.material.appbar.AppBarLayout;
 import com.thomaskuenneth.mintime.databinding.MainBinding;
 
 import org.json.JSONArray;
@@ -181,6 +186,7 @@ public class MinTime extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         adapter = new WindowInfoTrackerCallbackAdapter(
                 WindowInfoTracker.Companion.getOrCreate(
                         this
@@ -192,6 +198,13 @@ public class MinTime extends AppCompatActivity
         binding = MainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         // setup
+        ViewCompat.setOnApplyWindowInsetsListener(binding.toolbar, (view, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            AppBarLayout.LayoutParams layoutParams = (AppBarLayout.LayoutParams) view.getLayoutParams();
+            layoutParams.topMargin = insets.top;
+            view.setLayoutParams(layoutParams);
+            return WindowInsetsCompat.CONSUMED;
+        });
         setSupportActionBar(binding.toolbar);
         binding.start.setOnClickListener(v -> {
             prefs.edit().putLong(RESUMED, System.currentTimeMillis()).apply();

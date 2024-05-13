@@ -192,6 +192,7 @@ public class MinTime extends AppCompatActivity
         binding = MainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         // setup
+        setSupportActionBar(binding.toolbar);
         binding.start.setOnClickListener(v -> {
             prefs.edit().putLong(RESUMED, System.currentTimeMillis()).apply();
             configureAlarms();

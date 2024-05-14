@@ -59,13 +59,6 @@ public class RepeatingAlarm extends BroadcastReceiver {
             long now = System.currentTimeMillis();
             long notificationMinutes = MinTime.NOTIFICATION_INTERVAL_IN_MILLIS / 1000 / 60;
             long remaining = end - now;
-            int resId;
-            if (remaining < 0) {
-                remaining = -remaining;
-                resId = R.string.overrun;
-            } else {
-                resId = R.string.left;
-            }
             long secs = (remaining / 1000L);
             long mins = secs / 60;
             if (mins == 0) {
@@ -77,8 +70,8 @@ public class RepeatingAlarm extends BroadcastReceiver {
                     .getActivity(context, MinTime.RQ_NOTIFICATION,
                             intentCountDownActivity,
                             PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-            String str = context.getString(resId, mins,
-                    context.getString(R.string.min));
+            String str = remaining < 0 ? context.getString(R.string.time_is_up)
+                    : context.getString(R.string.left, mins, context.getString(R.string.min));
             StringBuilder sb = new StringBuilder();
             if (resumed != -1) {
                 long elapsed = now - resumed;

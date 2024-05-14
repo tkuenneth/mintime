@@ -23,8 +23,6 @@
  */
 package com.thomaskuenneth.mintime;
 
-import static com.thomaskuenneth.mintime.MinTimeUtils.getBackgroundColor;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -39,12 +37,10 @@ public class BigTime extends View {
 
     private static final String TAG = BigTime.class.getSimpleName();
 
-    private final Paint paint1;
-    private final int backgroundColor;
+    private final Paint textPaint;
 
     private int color;
     private String text;
-    private boolean redAlert;
 
     public BigTime(Context context) {
         this(context, null, 0);
@@ -59,7 +55,6 @@ public class BigTime extends View {
      */
     public BigTime(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        backgroundColor = getBackgroundColor(context);
         text = "";
         TextView tv = new TextView(context);
         color = tv.getCurrentTextColor();
@@ -70,50 +65,28 @@ public class BigTime extends View {
         } catch (Exception e) {
             Log.e(TAG, "getColor()", e);
         }
-        redAlert = false;
         a.recycle();
-        paint1 = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint1.setTypeface(Typeface.DEFAULT);
-        paint1.setTextAlign(Paint.Align.CENTER);
-    }
-
-    @Override
-    protected void onSizeChanged(int w, int h, int oldW, int oldH) {
-        String text = MinTimeUtils.millisToPrettyString(getContext(),
-                MinTime.ONE_MINUTE * 999);
-        CanvasUtils.calcTextHeight(paint1, w, text);
+        textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        textPaint.setTypeface(Typeface.DEFAULT);
+        textPaint.setTextAlign(Paint.Align.CENTER);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         float width = getWidth();
         float height = getHeight();
-        if (redAlert) {
-            setBackgroundColor(color);
-            paint1.setColor(backgroundColor);
-        } else {
-            setBackgroundColor(backgroundColor);
-            paint1.setColor(color);
-        }
-        CanvasUtils.drawText(canvas, width / 2, height / 2, text, paint1);
+        CanvasUtils.drawText(canvas, width / 2, height / 2, text, textPaint);
     }
 
     public void setColor(int color) {
         this.color = color;
+        textPaint.setColor(color);
         postInvalidate();
     }
 
     public void setText(String text) {
         this.text = text;
+        CanvasUtils.calcTextHeight(textPaint, getWidth(), text);
         postInvalidate();
-    }
-
-    public void setRedAlert(boolean redAlert) {
-        this.redAlert = redAlert;
-        postInvalidate();
-    }
-
-    public boolean isRedAlert() {
-        return redAlert;
     }
 }

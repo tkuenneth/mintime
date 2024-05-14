@@ -25,7 +25,6 @@ package com.thomaskuenneth.mintime;
 
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.view.animation.Animation;
 
 import androidx.preference.PreferenceManager;
 
@@ -38,7 +37,6 @@ class CountdownTask extends AsyncTask<Void, Long, Void> {
     CountdownTask(MinTime i) {
         this.i = i;
         prefs = PreferenceManager.getDefaultSharedPreferences(i);
-        i.getTimer().setRedAlert(false);
         onProgressUpdate(i.getRemaining());
     }
 
@@ -65,11 +63,7 @@ class CountdownTask extends AsyncTask<Void, Long, Void> {
     protected void onProgressUpdate(Long... values) {
         BigTime timer = i.getTimer();
         long remaining = values[0];
-        boolean startAnimation = false;
-        if (remaining < 0) {
-            startAnimation = true;
-            remaining = -remaining;
-        }
+        boolean timeIsUp = remaining < 1;
         long elapsed = i.getElapsed();
         long now = System.currentTimeMillis();
         int color;
@@ -83,20 +77,17 @@ class CountdownTask extends AsyncTask<Void, Long, Void> {
         }
         int intColor = i.getResources().getColor(color, null);
         timer.setColor(intColor);
-        long secs = remaining / 1000;
-        if (secs >= 60) {
-            long rounded = secs >= 100 ? (secs + 59) : secs;
-            timer.setText(i.getString(R.string.template, rounded / 60,
-                    i.getString(R.string.min)));
+        if (timeIsUp) {
+            timer.setText(i.getString(R.string.time_is_up));
         } else {
-            timer.setText(i.getString(R.string.template, secs,
-                    i.getString(R.string.sec)));
-        }
-        if ((startAnimation) && !timer.isRedAlert()) {
-            timer.setRedAlert(true);
-            Animation anim = i.prepareAnimation();
-            if (anim != null) {
-                timer.startAnimation(anim);
+            long secs = remaining / 1000;
+            if (secs >= 60) {
+                long rounded = secs >= 100 ? (secs + 59) : secs;
+                timer.setText(i.getString(R.string.template, rounded / 60,
+                        i.getString(R.string.min)));
+            } else {
+                timer.setText(i.getString(R.string.template, secs,
+                        i.getString(R.string.sec)));
             }
         }
     }

@@ -12,6 +12,8 @@
         android:layout_centerVertical="true"
         android:ems="1"
         android:gravity="center"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
         android:text="@string/minus"
         android:textSize="20pt" />
 
@@ -23,6 +25,8 @@
         android:layout_centerVertical="true"
         android:ems="1"
         android:gravity="center"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
         android:text="@string/plus"
         android:textSize="20pt" />
 

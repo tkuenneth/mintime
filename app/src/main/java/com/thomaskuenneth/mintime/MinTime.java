@@ -45,8 +45,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -113,7 +111,6 @@ public class MinTime extends AppCompatActivity
     private static PendingIntent alarmIntentRepeating = null;
 
     private boolean taskShouldBeRunning;
-    private Animation anim;
     private AlarmManager alarmMgr;
     private MainBinding binding;
     private List<String> distributions;
@@ -227,17 +224,16 @@ public class MinTime extends AppCompatActivity
             if (m != null) {
                 m.cancel(NOTIFICATION_ID);
             }
-            stopAnimationAndTask();
+            stopTask();
             updateUI();
         });
-        anim = null;
         RepeatingAlarm.initNotificationChannels(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        stopAnimationAndTask();
+        stopTask();
     }
 
     @Override
@@ -350,10 +346,6 @@ public class MinTime extends AppCompatActivity
 
     public BigTime getTimer() {
         return binding.timer;
-    }
-
-    public Animation prepareAnimation() {
-        return anim;
     }
 
     public boolean taskShouldBeRunning() {
@@ -508,19 +500,15 @@ public class MinTime extends AppCompatActivity
             alarmMgr.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                     elapsedRealtime, NOTIFICATION_INTERVAL_IN_MILLIS,
                     alarmIntentRepeating);
-            anim = new AlphaAnimation(0.0f, 1.0f);
-            anim.setDuration(1000);
-            anim.setRepeatMode(Animation.REVERSE);
-            anim.setRepeatCount(Animation.INFINITE);
             taskShouldBeRunning = true;
             CountdownTask task = new CountdownTask(this);
             task.execute();
-            binding.countdown.setVisibility(View.VISIBLE);
+            binding.timer.setVisibility(View.VISIBLE);
             binding.parent.setVisibility(View.INVISIBLE);
             if (ab != null) ab.hide();
         } else {
             binding.parent.setVisibility(View.VISIBLE);
-            binding.countdown.setVisibility(View.INVISIBLE);
+            binding.timer.setVisibility(View.INVISIBLE);
             if (ab != null) ab.show();
             switch (RepeatingAlarm.getNotificationStatus(getSystemService(NotificationManager.class))) {
                 case NOTIFICATIONS_OFF -> {
@@ -566,12 +554,7 @@ public class MinTime extends AppCompatActivity
         return Build.VERSION.SDK_INT < Build.VERSION_CODES.S || alarmMgr.canScheduleExactAlarms();
     }
 
-    private void stopAnimationAndTask() {
-        binding.timer.clearAnimation();
-        if (anim != null) {
-            anim.cancel();
-            anim = null;
-        }
+    private void stopTask() {
         taskShouldBeRunning = false;
     }
 

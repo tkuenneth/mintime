@@ -119,6 +119,11 @@
                             custom:drawableStartCompat="@drawable/baseline_alarm_off_24"
                             custom:drawableTint="?colorControlNormal" />
 
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="64dp"
+                            android:layout_below="@id/info_schedule_exact_alarms" />
+
                     </RelativeLayout>
 
                 </androidx.core.widget.NestedScrollView>
@@ -147,17 +152,10 @@
 
         </LinearLayout>
 
-        <FrameLayout
-            android:id="@+id/countdown"
+        <com.thomaskuenneth.mintime.BigTime
+            android:id="@+id/timer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <com.thomaskuenneth.mintime.BigTime
-                android:id="@+id/timer"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </FrameLayout>
+            android:layout_height="match_parent" />
 
     </FrameLayout>
 

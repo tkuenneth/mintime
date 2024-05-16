@@ -37,7 +37,7 @@ class CanvasUtils {
         canvas.drawText(text, posX, textY, paint);
     }
 
-    static void calcTextHeight(Paint paint, int width, String text) {
+    static void calcTextHeight(Paint paint, int width, int height, String text) {
         int size = 48;
         int last = size;
         boolean first = true;
@@ -50,7 +50,7 @@ class CanvasUtils {
                 first = false;
             } else {
                 if (offset > 0) {
-                    if (currentWidth >= width) {
+                    if (currentWidth >= width || size > height) {
                         break;
                     }
                 } else {

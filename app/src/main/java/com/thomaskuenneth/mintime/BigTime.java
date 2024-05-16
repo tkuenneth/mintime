@@ -86,7 +86,7 @@ public class BigTime extends View {
 
     public void setText(String text) {
         this.text = text;
-        CanvasUtils.calcTextHeight(textPaint, getWidth(), text);
+        CanvasUtils.calcTextHeight(textPaint, getWidth(), getHeight(), text);
         postInvalidate();
     }
 }

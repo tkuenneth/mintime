@@ -7,7 +7,7 @@ android {
         minSdk 26
         targetSdk 34
         versionName "1.6.6"
-        versionCode 37
+        versionCode 38
     }
 
     buildTypes {
@@ -35,10 +35,10 @@ android {
 
 dependencies {
     implementation "com.google.android.material:material:1.12.0"
-    implementation "androidx.appcompat:appcompat:1.7.0-beta01"
+    implementation "androidx.appcompat:appcompat:1.7.0-rc01"
     implementation "androidx.preference:preference:1.2.1"
     implementation "androidx.window:window-core:1.2.0"
     implementation "androidx.window:window-java:1.2.0"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.0"
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.2.0'
 }

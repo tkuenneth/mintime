@@ -152,10 +152,25 @@
 
         </LinearLayout>
 
-        <com.thomaskuenneth.mintime.BigTime
-            android:id="@+id/timer"
+        <LinearLayout
+            android:id="@+id/timer_parent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.thomaskuenneth.mintime.BigTime
+                android:id="@+id/timer"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.5" />
+
+            <Space
+                android:id="@+id/timer_space"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.5" />
+
+        </LinearLayout>
 
     </FrameLayout>
 

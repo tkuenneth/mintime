@@ -132,6 +132,7 @@ public class MinTime extends AppCompatActivity
         WindowSizeClass windowSizeClass = WindowSizeClass.compute(windowWidth / screenPixelDensity, windowHeight / screenPixelDensity);
         boolean hasFoldingFeature = false;
         hideDescriptions = true;
+        var isTableTop = false;
         List<DisplayFeature> displayFeatures = windowLayoutInfo.getDisplayFeatures();
         for (DisplayFeature displayFeature : displayFeatures) {
             FoldingFeature foldingFeature = (FoldingFeature) displayFeature;
@@ -141,7 +142,9 @@ public class MinTime extends AppCompatActivity
                 final var foldingFeatureBounds = foldingFeature.getBounds();
                 hingeLayoutParams.width = foldingFeatureBounds.width();
                 hingeLayoutParams.height = foldingFeatureBounds.height();
-                if (foldingFeature.getOrientation() == FoldingFeature.Orientation.VERTICAL) {
+                FoldingFeature.Orientation orientation = foldingFeature.getOrientation();
+                isTableTop = (orientation == FoldingFeature.Orientation.HORIZONTAL && foldingFeature.getState() == FoldingFeature.State.HALF_OPENED);
+                if (orientation == FoldingFeature.Orientation.VERTICAL) {
                     binding.parent.setOrientation(LinearLayout.HORIZONTAL);
                     mainUiLayoutParams.width = foldingFeatureBounds.left;
                     mainUiLayoutParams.height = LinearLayout.LayoutParams.MATCH_PARENT;
@@ -158,6 +161,8 @@ public class MinTime extends AppCompatActivity
                 }
             }
         }
+        binding.timerParent.setWeightSum(isTableTop ? 1F : 0.5F);
+        binding.timerSpace.setVisibility(isTableTop ? View.VISIBLE : View.GONE);
         if (!hasFoldingFeature) {
             final float density = getResources().getDisplayMetrics().density;
             final float dp = windowMetrics.getBounds().width() / density;
@@ -217,7 +222,7 @@ public class MinTime extends AppCompatActivity
         binding.counter2.setValueUpdater(this);
         binding.counter3.setValueUpdater(this);
         // countdown
-        binding.timer.setOnClickListener(v -> {
+        binding.timerParent.setOnClickListener(v -> {
             prefs.edit().putLong(RESUMED, -1).apply();
             cancelAlarms();
             NotificationManager m = getSystemService(NotificationManager.class);
@@ -503,12 +508,12 @@ public class MinTime extends AppCompatActivity
             taskShouldBeRunning = true;
             CountdownTask task = new CountdownTask(this);
             task.execute();
-            binding.timer.setVisibility(View.VISIBLE);
+            binding.timerParent.setVisibility(View.VISIBLE);
             binding.parent.setVisibility(View.INVISIBLE);
             if (ab != null) ab.hide();
         } else {
             binding.parent.setVisibility(View.VISIBLE);
-            binding.timer.setVisibility(View.INVISIBLE);
+            binding.timerParent.setVisibility(View.INVISIBLE);
             if (ab != null) ab.show();
             switch (RepeatingAlarm.getNotificationStatus(getSystemService(NotificationManager.class))) {
                 case NOTIFICATIONS_OFF -> {

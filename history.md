@@ -1,5 +1,10 @@
 # History
 
+### 1.6.7
+
+- Targets Android 15
+- Supports tabletop mode on foldable devices
+
 ### 1.6.4
 
 - Targets Android 13

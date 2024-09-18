@@ -51,5 +51,4 @@ captures/
 ### Android Patch ###
 gen-external-apklibs
 
-.idea/caches/
 local.properties

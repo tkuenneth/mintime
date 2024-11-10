@@ -12,3 +12,7 @@
 /workspace.xml
 /misc.xml
 /deploymentTargetSelector.xml
+
+compiler.xml
+other.xml
+runConfigurations.xml

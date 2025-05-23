@@ -52,3 +52,6 @@ captures/
 gen-external-apklibs
 
 local.properties
+*.lock
+
+/docs/_site

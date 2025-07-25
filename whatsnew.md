@@ -1,0 +1,2 @@
+- Library and tools upgrades
+- Added Cancel button to the notifications

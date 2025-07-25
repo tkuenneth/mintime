@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2014 - 2024 Thomas Künneth
+ * Copyright (c) 2014 - 2025 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,6 +27,7 @@ import static com.thomaskuenneth.mintime.RepeatingAlarm.CHANNEL_ID;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
+import android.app.ComponentCaller;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -89,6 +90,10 @@ public class MinTime extends AppCompatActivity
     public static final int RQ_ALARM_RED = 2;
     public static final int RQ_ALARM_REPEATING = 3;
     public static final int RQ_NOTIFICATION = 4;
+
+    public static final int RQ_CANCEL = 5;
+    public static final String ACTION_CANCEL = "com.thomaskuenneth.mintime.ACTION_CANCEL";
+
     public static final String COUNTER1 = "counter1";
     public static final String COUNTER2 = "counter2";
     public static final String COUNTER3 = "counter3";
@@ -223,16 +228,17 @@ public class MinTime extends AppCompatActivity
         binding.counter3.setValueUpdater(this);
         // countdown
         binding.timerParent.setOnClickListener(v -> {
-            prefs.edit().putLong(RESUMED, -1).apply();
-            cancelAlarms();
-            NotificationManager m = getSystemService(NotificationManager.class);
-            if (m != null) {
-                m.cancel(NOTIFICATION_ID);
-            }
-            stopTask();
-            updateUI();
+            cancel();
         });
         RepeatingAlarm.initNotificationChannels(this);
+    }
+
+    @Override
+    public void onNewIntent(@NonNull Intent intent, @NonNull ComponentCaller caller) {
+        super.onNewIntent(intent, caller);
+        if (ACTION_CANCEL.equals(intent.getAction())) {
+            cancel();
+        }
     }
 
     @Override
@@ -600,5 +606,16 @@ public class MinTime extends AppCompatActivity
     @RequiresApi(api = Build.VERSION_CODES.S)
     private void launchAlarmsAndRemindersSettings() {
         startActivity(new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM));
+    }
+
+    private void cancel() {
+        prefs.edit().putLong(RESUMED, -1).apply();
+        cancelAlarms();
+        NotificationManager m = getSystemService(NotificationManager.class);
+        if (m != null) {
+            m.cancel(NOTIFICATION_ID);
+        }
+        stopTask();
+        updateUI();
     }
 }

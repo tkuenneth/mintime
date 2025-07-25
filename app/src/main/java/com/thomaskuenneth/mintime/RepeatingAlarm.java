@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2014 - 2024 Thomas Künneth
+ * Copyright (c) 2014 - 2025 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -70,6 +70,14 @@ public class RepeatingAlarm extends BroadcastReceiver {
                     .getActivity(context, MinTime.RQ_NOTIFICATION,
                             intentCountDownActivity,
                             PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+            Intent cancelIntent = new Intent(context, MinTime.class);
+            cancelIntent.setAction(MinTime.ACTION_CANCEL);
+            PendingIntent cancelPendingIntent = PendingIntent.getActivity(
+                    context,
+                    MinTime.RQ_CANCEL,
+                    cancelIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+            );
             String str = remaining < 0 ? context.getString(R.string.time_is_up)
                     : context.getString(R.string.left, mins, context.getString(R.string.min));
             StringBuilder sb = new StringBuilder();
@@ -85,7 +93,10 @@ public class RepeatingAlarm extends BroadcastReceiver {
                     .setSmallIcon(R.drawable.ic_mintime_monochrome)
                     .setOngoing(true)
                     .setContentText(sb.toString())
-                    .setContentIntent(notificationClickedIntent);
+                    .setContentIntent(notificationClickedIntent)
+                   .addAction(R.drawable.outline_cancel_24,
+                    context.getString(R.string.cancel),
+                    cancelPendingIntent);
             NotificationManagerCompat notificationManager = NotificationManagerCompat
                     .from(context);
             if (context.checkSelfPermission(POST_NOTIFICATIONS) == PERMISSION_GRANTED) {

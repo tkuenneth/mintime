@@ -45,6 +45,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -208,9 +209,19 @@ public class MinTime extends AppCompatActivity
         // setup
         ViewCompat.setOnApplyWindowInsetsListener(binding.toolbar, (view, windowInsets) -> {
             Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
-            AppBarLayout.LayoutParams layoutParams = (AppBarLayout.LayoutParams) view.getLayoutParams();
-            layoutParams.topMargin = insets.top;
-            view.setLayoutParams(layoutParams);
+            AppBarLayout.LayoutParams appBarLayoutParams = (AppBarLayout.LayoutParams) view.getLayoutParams();
+            appBarLayoutParams.topMargin = insets.top;
+            view.setLayoutParams(appBarLayoutParams);
+            float dpValue = 16F;
+            float density = getResources().getDisplayMetrics().density;
+            int pixelValue = (int) (dpValue * density);
+            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) binding.start.getLayoutParams();
+            params.setMargins(
+                    params.leftMargin,
+                    params.topMargin,
+                    pixelValue + insets.right,
+                    pixelValue + insets.bottom
+            );
             return WindowInsetsCompat.CONSUMED;
         });
         setSupportActionBar(binding.toolbar);
@@ -236,11 +247,14 @@ public class MinTime extends AppCompatActivity
     @Override
     public void onNewIntent(@NonNull Intent intent) {
         super.onNewIntent(intent);
-        switch (intent.getAction()) {
-            case ACTION_CANCEL -> cancel();
-            case ACTION_COUNTDOWN -> {
-                cancelNotification();
-                updateUI();
+        String action = intent.getAction();
+        if (action != null) {
+            switch (action) {
+                case ACTION_CANCEL -> cancel();
+                case ACTION_COUNTDOWN -> {
+                    cancelNotification();
+                    updateUI();
+                }
             }
         }
     }

@@ -1,2 +1,1 @@
-- Optimizations for ChromeOS
-- Added Open app button to the notifications
+- Library and tools upgrades

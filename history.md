@@ -1,5 +1,9 @@
 # History
 
+### 1.7.0
+- Optimizations for ChromeOS
+- Added Open app button to the notifications
+
 ### 1.6.9
 - Library and tools upgrades
 - Added Cancel button to the notifications

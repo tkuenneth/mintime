@@ -14,6 +14,7 @@
     <string name="clear">Leeren</string>
     <string name="time_is_up">Zeit ist abgelaufen</string>
     <string name="cancel">Abbruch</string>
+    <string name="open_app">App \u00f6ffnen</string>
 
     <string name="info1">Unterteilen Sie Ihren Vortrag in drei Teile.</string>
     <string name="info2">Grün repräsentiert die Einleitung.</string>

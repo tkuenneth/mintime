@@ -25,6 +25,7 @@ package com.thomaskuenneth.mintime;
 
 import static android.Manifest.permission.POST_NOTIFICATIONS;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+import static com.thomaskuenneth.mintime.MinTime.ACTION_COUNTDOWN;
 import static com.thomaskuenneth.mintime.MinTime.RESUMED;
 import static com.thomaskuenneth.mintime.NotificationStatus.DEFAULT;
 import static com.thomaskuenneth.mintime.NotificationStatus.NOTIFICATIONS_OFF;
@@ -64,11 +65,12 @@ public class RepeatingAlarm extends BroadcastReceiver {
             if (mins == 0) {
                 mins = notificationMinutes;
             }
-            Intent intentCountDownActivity = new Intent(context,
+            Intent countdownIntent = new Intent(context,
                     MinTime.class);
-            PendingIntent notificationClickedIntent = PendingIntent
-                    .getActivity(context, MinTime.RQ_NOTIFICATION,
-                            intentCountDownActivity,
+            countdownIntent.setAction(ACTION_COUNTDOWN);
+            PendingIntent countdownPendingIntent = PendingIntent
+                    .getActivity(context, MinTime.RQ_COUNTDOWN,
+                            countdownIntent,
                             PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
             Intent cancelIntent = new Intent(context, MinTime.class);
             cancelIntent.setAction(MinTime.ACTION_CANCEL);
@@ -93,10 +95,13 @@ public class RepeatingAlarm extends BroadcastReceiver {
                     .setSmallIcon(R.drawable.ic_mintime_monochrome)
                     .setOngoing(true)
                     .setContentText(sb.toString())
-                    .setContentIntent(notificationClickedIntent)
-                   .addAction(R.drawable.outline_cancel_24,
-                    context.getString(R.string.cancel),
-                    cancelPendingIntent);
+                    .setContentIntent(countdownPendingIntent)
+                    .addAction(R.drawable.outline_cancel_24,
+                            context.getString(R.string.cancel),
+                            cancelPendingIntent)
+                    .addAction(R.drawable.ic_mintime_monochrome,
+                            context.getString(R.string.open_app),
+                            countdownPendingIntent);
             NotificationManagerCompat notificationManager = NotificationManagerCompat
                     .from(context);
             if (context.checkSelfPermission(POST_NOTIFICATIONS) == PERMISSION_GRANTED) {

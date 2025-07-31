@@ -27,7 +27,6 @@ import static com.thomaskuenneth.mintime.RepeatingAlarm.CHANNEL_ID;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
-import android.app.ComponentCaller;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -89,10 +88,11 @@ public class MinTime extends AppCompatActivity
     public static final int RQ_ALARM_ORANGE = 1;
     public static final int RQ_ALARM_RED = 2;
     public static final int RQ_ALARM_REPEATING = 3;
-    public static final int RQ_NOTIFICATION = 4;
+    public static final int RQ_COUNTDOWN = 4;
 
     public static final int RQ_CANCEL = 5;
     public static final String ACTION_CANCEL = "com.thomaskuenneth.mintime.ACTION_CANCEL";
+    public static final String ACTION_COUNTDOWN = "com.thomaskuenneth.mintime.ACTION_COUNTDOWN";
 
     public static final String COUNTER1 = "counter1";
     public static final String COUNTER2 = "counter2";
@@ -234,10 +234,14 @@ public class MinTime extends AppCompatActivity
     }
 
     @Override
-    public void onNewIntent(@NonNull Intent intent, @NonNull ComponentCaller caller) {
-        super.onNewIntent(intent, caller);
-        if (ACTION_CANCEL.equals(intent.getAction())) {
-            cancel();
+    public void onNewIntent(@NonNull Intent intent) {
+        super.onNewIntent(intent);
+        switch (intent.getAction()) {
+            case ACTION_CANCEL -> cancel();
+            case ACTION_COUNTDOWN -> {
+                cancelNotification();
+                updateUI();
+            }
         }
     }
 
@@ -253,6 +257,10 @@ public class MinTime extends AppCompatActivity
         adapter.addWindowLayoutInfoListener(this,
                 ContextCompat.getMainExecutor(this),
                 callback);
+        Intent intent = getIntent();
+        if (intent != null) {
+            onNewIntent(intent);
+        }
         updateUI();
     }
 
@@ -451,7 +459,6 @@ public class MinTime extends AppCompatActivity
         alarmIntentRepeating = PendingIntent.getBroadcast(this,
                 RQ_ALARM_REPEATING, intentRepeating,
                 INTENT_FLAGS);
-
         Intent intentOrange = new Intent(this, AlarmReceiver.class);
         intentOrange.putExtra(AlarmReceiver.PATTERN, PATTERN1);
         alarmIntentOrange = PendingIntent.getBroadcast(this,
@@ -610,12 +617,16 @@ public class MinTime extends AppCompatActivity
 
     private void cancel() {
         prefs.edit().putLong(RESUMED, -1).apply();
+        cancelNotification();
         cancelAlarms();
+        stopTask();
+        updateUI();
+    }
+
+    private void cancelNotification() {
         NotificationManager m = getSystemService(NotificationManager.class);
         if (m != null) {
             m.cancel(NOTIFICATION_ID);
         }
-        stopTask();
-        updateUI();
     }
 }

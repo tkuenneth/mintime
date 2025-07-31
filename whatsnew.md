@@ -1,2 +1,2 @@
-- Library and tools upgrades
-- Added Cancel button to the notifications
+- Optimizations for ChromeOS
+- Added Open app button to the notifications

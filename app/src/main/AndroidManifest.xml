@@ -30,6 +30,9 @@
             <intent-filter>
                 <action android:name="com.thomaskuenneth.mintime.ACTION_CANCEL" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="com.thomaskuenneth.mintime.ACTION_COUNTDOWN" />
+            </intent-filter>
         </activity>
 
         <receiver

@@ -19,6 +19,7 @@
     <string name="clear">Clear</string>
     <string name="time_is_up">Time is up</string>
     <string name="cancel">Cancel</string>
+    <string name="open_app">Open app</string>
 
     <string name="info1">Divide your talk into three parts.</string>
     <string name="info2">Green represents the introduction.</string>

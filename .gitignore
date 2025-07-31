@@ -1,6 +1,7 @@
 app/release/**
 
-.DS_Store
+**/.DS_Store
+**/Browse.plb
 
 ### Android ###
 # Built application files

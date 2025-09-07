@@ -2,14 +2,6 @@
 layout: home
 ---
 
-<table style="width: 100%; border: none">
-<tr style="background-color: transparent;">
-<td align="center" style="border: none">
-<strong>About</strong>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="privacy.html">Privacy Policy</a>
-</td>
-</tr>
-</table>
-
 <p>
 <img style="box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2); display: block; margin-left: auto; margin-right: auto; width: 50%;" src="./assets/Min Time-animated.gif" width="50%">
 <br>

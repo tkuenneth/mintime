@@ -25,6 +25,9 @@
     <string name="info2">Green represents the introduction.</string>
     <string name="info3">Yellow should represent the main part.</string>
     <string name="info4">Red represents wrap up and closing.</string>
+    <string name="info2_short">Introduction</string>
+    <string name="info3_short">Main part</string>
+    <string name="info4_short">Closing</string>
     <string name="info5">You can save time distributions and easily pick them later.</string>
     <string name="info6">You can remove a certain time distribution.</string>
 

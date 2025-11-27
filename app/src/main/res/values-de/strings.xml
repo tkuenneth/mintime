@@ -20,6 +20,9 @@
     <string name="info2">Grün repräsentiert die Einleitung.</string>
     <string name="info3">Gelb entspricht dem Hauptteil.</string>
     <string name="info4">Rot repräsentiert die Zusammenfassung.</string>
+    <string name="info2_short">Einleitung</string>
+    <string name="info3_short">Hauptteil</string>
+    <string name="info4_short">Zusammenfassung</string>
     <string name="info5">Sie können Zeitverteilungen speichern und später einfach abrufen.</string>
     <string name="info6">Sie können einzelne Zeitverteilungen entfernen.</string>
 

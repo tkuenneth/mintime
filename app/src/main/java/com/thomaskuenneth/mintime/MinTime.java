@@ -511,11 +511,11 @@ public class MinTime extends AppCompatActivity
 
     private void updateStaticViews() {
         int visibility = hideDescriptions ? View.GONE : View.VISIBLE;
-        binding.counter1.setInfoText(getString(R.string.info2));
+        binding.counter1.setInfoText(getString(R.string.info2_short));
         binding.counter1.setInfoVisibility(visibility);
-        binding.counter2.setInfoText(getString(R.string.info3));
+        binding.counter2.setInfoText(getString(R.string.info3_short));
         binding.counter2.setInfoVisibility(visibility);
-        binding.counter3.setInfoText(getString(R.string.info4));
+        binding.counter3.setInfoText(getString(R.string.info4_short));
         binding.counter3.setInfoVisibility(visibility);
         updateViews(prefs.getLong(COUNTER1, 0),
                 prefs.getLong(COUNTER2, 0),

@@ -501,82 +501,114 @@ public class MinTime extends AppCompatActivity
     }
 
     private void updateUI() {
-        binding.info1.setVisibility(hideDescriptions ? View.INVISIBLE : View.VISIBLE);
-        binding.info2.setVisibility(hideDescriptions ? View.INVISIBLE : View.VISIBLE);
-        binding.info3.setVisibility(hideDescriptions ? View.INVISIBLE : View.VISIBLE);
-        binding.info4.setVisibility(hideDescriptions ? View.INVISIBLE : View.VISIBLE);
+        updateStaticViews();
+        if (isResumed()) {
+            showCountdownView();
+        } else {
+            showSetupView();
+        }
+    }
+
+    private void updateStaticViews() {
+        int visibility = hideDescriptions ? View.INVISIBLE : View.VISIBLE;
+        binding.info1.setVisibility(visibility);
+        binding.info2.setVisibility(visibility);
+        binding.info3.setVisibility(visibility);
+        binding.info4.setVisibility(visibility);
         updateViews(prefs.getLong(COUNTER1, 0),
                 prefs.getLong(COUNTER2, 0),
                 prefs.getLong(COUNTER3, 0));
+    }
+
+    private void showCountdownView() {
+        startCountdown();
+        binding.timerParent.setVisibility(View.VISIBLE);
+        binding.parent.setVisibility(View.INVISIBLE);
         ActionBar ab = getSupportActionBar();
-        if (isResumed()) {
-            long now = System.currentTimeMillis();
-            long elapsedRealtime = SystemClock.elapsedRealtime();
-            long offset = now
-                    - prefs.getLong(RESUMED, now);
-            elapsedRealtime -= offset;
-            long phaseGreen = prefs.getLong(COUNTER1, now);
-            long phaseOrange = prefs.getLong(COUNTER2, now);
-            if (canScheduleExactAlarms()) {
-                if (offset <= phaseGreen) {
-                    alarmMgr.setExactAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP, elapsedRealtime
-                            + phaseGreen, alarmIntentOrange);
-                }
-                if (offset <= phaseGreen + phaseOrange) {
-                    alarmMgr.setExactAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP, elapsedRealtime
-                            + phaseGreen + phaseOrange, alarmIntentRed);
-                }
+        if (ab != null) ab.hide();
+    }
+
+    private void showSetupView() {
+        binding.parent.setVisibility(View.VISIBLE);
+        binding.timerParent.setVisibility(View.INVISIBLE);
+        ActionBar ab = getSupportActionBar();
+        if (ab != null) ab.show();
+        showPermissionWarnings();
+    }
+
+    private void startCountdown() {
+        scheduleAlarms();
+        taskShouldBeRunning = true;
+        new CountdownTask(this).execute();
+    }
+
+    private void scheduleAlarms() {
+        long now = System.currentTimeMillis();
+        long elapsedRealtime = SystemClock.elapsedRealtime();
+        long offset = now - prefs.getLong(RESUMED, now);
+        elapsedRealtime -= offset;
+        long phaseGreen = prefs.getLong(COUNTER1, now);
+        long phaseOrange = prefs.getLong(COUNTER2, now);
+        if (canScheduleExactAlarms()) {
+            if (offset <= phaseGreen) {
+                alarmMgr.setExactAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP, elapsedRealtime
+                        + phaseGreen, alarmIntentOrange);
             }
-            alarmMgr.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                    elapsedRealtime, NOTIFICATION_INTERVAL_IN_MILLIS,
-                    alarmIntentRepeating);
-            taskShouldBeRunning = true;
-            CountdownTask task = new CountdownTask(this);
-            task.execute();
-            binding.timerParent.setVisibility(View.VISIBLE);
-            binding.parent.setVisibility(View.INVISIBLE);
-            if (ab != null) ab.hide();
-        } else {
-            binding.parent.setVisibility(View.VISIBLE);
-            binding.timerParent.setVisibility(View.INVISIBLE);
-            if (ab != null) ab.show();
-            switch (RepeatingAlarm.getNotificationStatus(getSystemService(NotificationManager.class))) {
-                case NOTIFICATIONS_OFF -> {
-                    linkToSettings(
-                            binding.info,
-                            R.string.check_notification_settings_off,
-                            R.string.notification_settings,
-                            this::launchNotificationSettings);
-                    binding.info.setVisibility(View.VISIBLE);
-                }
-                case NOTIFICATION_CHANNEL_OFF -> {
-                    linkToSettings(
-                            binding.info,
-                            R.string.check_notification_settings_channel_off,
-                            R.string.notification_settings,
-                            this::launchNotificationSettings);
-                    binding.info.setVisibility(View.VISIBLE);
-                }
-                case SILENT -> {
-                    linkToSettings(
-                            binding.info,
-                            R.string.check_notification_settings_channel_silent,
-                            R.string.notification_channel_settings,
-                            this::launchNotificationChannelSettings);
-                    binding.info.setVisibility(View.VISIBLE);
-                }
-                default -> binding.info.setVisibility(View.GONE);
+            if (offset <= phaseGreen + phaseOrange) {
+                alarmMgr.setExactAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP, elapsedRealtime
+                        + phaseGreen + phaseOrange, alarmIntentRed);
             }
-            if (canScheduleExactAlarms()) {
-                binding.infoScheduleExactAlarms.setVisibility(View.GONE);
-            } else {
+        }
+        alarmMgr.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                elapsedRealtime, NOTIFICATION_INTERVAL_IN_MILLIS,
+                alarmIntentRepeating);
+    }
+
+    private void showPermissionWarnings() {
+        showNotificationStatusWarning();
+        showExactAlarmPermissionWarning();
+    }
+
+    private void showNotificationStatusWarning() {
+        switch (RepeatingAlarm.getNotificationStatus(getSystemService(NotificationManager.class))) {
+            case NOTIFICATIONS_OFF -> {
                 linkToSettings(
-                        binding.infoScheduleExactAlarms,
-                        R.string.exact_alarms_are_off,
-                        R.string.alarms_and_reminders,
-                        this::launchAlarmsAndRemindersSettings);
-                binding.infoScheduleExactAlarms.setVisibility(View.VISIBLE);
+                        binding.info,
+                        R.string.check_notification_settings_off,
+                        R.string.notification_settings,
+                        this::launchNotificationSettings);
+                binding.info.setVisibility(View.VISIBLE);
             }
+            case NOTIFICATION_CHANNEL_OFF -> {
+                linkToSettings(
+                        binding.info,
+                        R.string.check_notification_settings_channel_off,
+                        R.string.notification_settings,
+                        this::launchNotificationSettings);
+                binding.info.setVisibility(View.VISIBLE);
+            }
+            case SILENT -> {
+                linkToSettings(
+                        binding.info,
+                        R.string.check_notification_settings_channel_silent,
+                        R.string.notification_channel_settings,
+                        this::launchNotificationChannelSettings);
+                binding.info.setVisibility(View.VISIBLE);
+            }
+            default -> binding.info.setVisibility(View.GONE);
+        }
+    }
+
+    private void showExactAlarmPermissionWarning() {
+        if (canScheduleExactAlarms()) {
+            binding.infoScheduleExactAlarms.setVisibility(View.GONE);
+        } else {
+            linkToSettings(
+                    binding.infoScheduleExactAlarms,
+                    R.string.exact_alarms_are_off,
+                    R.string.alarms_and_reminders,
+                    this::launchAlarmsAndRemindersSettings);
+            binding.infoScheduleExactAlarms.setVisibility(View.VISIBLE);
         }
     }
 

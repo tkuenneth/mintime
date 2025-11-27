@@ -510,11 +510,13 @@ public class MinTime extends AppCompatActivity
     }
 
     private void updateStaticViews() {
-        int visibility = hideDescriptions ? View.INVISIBLE : View.VISIBLE;
-        binding.info1.setVisibility(visibility);
-        binding.info2.setVisibility(visibility);
-        binding.info3.setVisibility(visibility);
-        binding.info4.setVisibility(visibility);
+        int visibility = hideDescriptions ? View.GONE : View.VISIBLE;
+        binding.counter1.setInfoText(getString(R.string.info2));
+        binding.counter1.setInfoVisibility(visibility);
+        binding.counter2.setInfoText(getString(R.string.info3));
+        binding.counter2.setInfoVisibility(visibility);
+        binding.counter3.setInfoText(getString(R.string.info4));
+        binding.counter3.setInfoVisibility(visibility);
         updateViews(prefs.getLong(COUNTER1, 0),
                 prefs.getLong(COUNTER2, 0),
                 prefs.getLong(COUNTER3, 0));
@@ -573,29 +575,26 @@ public class MinTime extends AppCompatActivity
         switch (RepeatingAlarm.getNotificationStatus(getSystemService(NotificationManager.class))) {
             case NOTIFICATIONS_OFF -> {
                 linkToSettings(
-                        binding.info,
+                        binding.infoNotifications,
                         R.string.check_notification_settings_off,
                         R.string.notification_settings,
                         this::launchNotificationSettings);
-                binding.info.setVisibility(View.VISIBLE);
             }
             case NOTIFICATION_CHANNEL_OFF -> {
                 linkToSettings(
-                        binding.info,
+                        binding.infoNotifications,
                         R.string.check_notification_settings_channel_off,
                         R.string.notification_settings,
                         this::launchNotificationSettings);
-                binding.info.setVisibility(View.VISIBLE);
             }
             case SILENT -> {
                 linkToSettings(
-                        binding.info,
+                        binding.infoNotifications,
                         R.string.check_notification_settings_channel_silent,
                         R.string.notification_channel_settings,
                         this::launchNotificationChannelSettings);
-                binding.info.setVisibility(View.VISIBLE);
             }
-            default -> binding.info.setVisibility(View.GONE);
+            default -> binding.infoNotifications.setVisibility(View.GONE);
         }
     }
 
@@ -608,7 +607,6 @@ public class MinTime extends AppCompatActivity
                     R.string.exact_alarms_are_off,
                     R.string.alarms_and_reminders,
                     this::launchAlarmsAndRemindersSettings);
-            binding.infoScheduleExactAlarms.setVisibility(View.VISIBLE);
         }
     }
 
@@ -639,6 +637,7 @@ public class MinTime extends AppCompatActivity
             spannable.setSpan(new StyleSpan(Typeface.BOLD), pos, pos + getString(R.string.notification_channel_name).length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         textView.setText(spannable);
+        textView.setVisibility(View.VISIBLE);
     }
 
     private void launchNotificationSettings() {

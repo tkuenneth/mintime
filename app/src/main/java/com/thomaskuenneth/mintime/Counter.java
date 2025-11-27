@@ -39,6 +39,7 @@ import com.google.android.material.slider.Slider;
 public class Counter extends FrameLayout {
 
     private final TextView text;
+    private final TextView info;
     private final Slider seekbar;
 
     private boolean useMinutes;
@@ -73,7 +74,6 @@ public class Counter extends FrameLayout {
         }
         a.recycle();
         View counter = inflate(context, R.layout.counter, this);
-
         MaterialButton minus = counter.findViewById(R.id.minus);
         minus.setOnClickListener(view -> changeValue(false));
         MaterialButton plus = counter.findViewById(R.id.plus);
@@ -98,6 +98,15 @@ public class Counter extends FrameLayout {
             }
             updateUIAndNotifyListener(false);
         });
+        info = counter.findViewById(R.id.info);
+    }
+
+    public void setInfoText(CharSequence text) {
+        info.setText(text);
+    }
+
+    public void setInfoVisibility(int visibility) {
+        info.setVisibility(visibility);
     }
 
     public long getValueInMillis() {

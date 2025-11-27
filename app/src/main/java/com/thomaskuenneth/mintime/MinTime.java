@@ -61,9 +61,7 @@ import androidx.core.util.Consumer;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.preference.PreferenceManager;
-import androidx.window.core.layout.WindowHeightSizeClass;
 import androidx.window.core.layout.WindowSizeClass;
-import androidx.window.core.layout.WindowWidthSizeClass;
 import androidx.window.java.layout.WindowInfoTrackerCallbackAdapter;
 import androidx.window.layout.DisplayFeature;
 import androidx.window.layout.FoldingFeature;
@@ -143,8 +141,8 @@ public class MinTime extends AppCompatActivity
         for (DisplayFeature displayFeature : displayFeatures) {
             FoldingFeature foldingFeature = (FoldingFeature) displayFeature;
             if (foldingFeature != null) {
-                hasFoldingFeature = windowSizeClass.getWindowWidthSizeClass() != WindowWidthSizeClass.COMPACT &&
-                        windowSizeClass.getWindowHeightSizeClass() != WindowHeightSizeClass.COMPACT;
+                hasFoldingFeature = windowSizeClass.isWidthAtLeastBreakpoint(WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND) &&
+                        windowSizeClass.isHeightAtLeastBreakpoint(WindowSizeClass.HEIGHT_DP_MEDIUM_LOWER_BOUND);
                 final var foldingFeatureBounds = foldingFeature.getBounds();
                 hingeLayoutParams.width = foldingFeatureBounds.width();
                 hingeLayoutParams.height = foldingFeatureBounds.height();

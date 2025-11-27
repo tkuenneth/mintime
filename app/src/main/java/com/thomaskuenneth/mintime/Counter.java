@@ -54,7 +54,7 @@ public class Counter extends FrameLayout {
     }
 
     /**
-     * @noinspection resource close() just calls recycle() but isn't available on all supported API levels
+     * @noinspection resource
      */
     public Counter(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -73,21 +73,19 @@ public class Counter extends FrameLayout {
         }
         a.recycle();
         View counter = inflate(context, R.layout.counter, this);
+
         MaterialButton minus = counter.findViewById(R.id.minus);
         minus.setOnClickListener(view -> changeValue(false));
         MaterialButton plus = counter.findViewById(R.id.plus);
         plus.setOnClickListener(view -> changeValue(true));
+        int iconColor = MaterialColors.getColor(context, com.google.android.material.R.attr.colorOnSurface, Color.WHITE);
+        minus.setIconTint(ColorStateList.valueOf(iconColor));
+        plus.setIconTint(ColorStateList.valueOf(iconColor));
         text = counter.findViewById(R.id.text);
-        text.setTextColor(color);
+        text.setTextColor(iconColor);
         seekbar = findViewById(R.id.seekbar);
 
         ColorStateList csl = ColorStateList.valueOf(color);
-        minus.setBackgroundTintList(csl);
-        plus.setBackgroundTintList(csl);
-
-        int iconColor = MaterialColors.getColor(context, com.google.android.material.R.attr.colorSurface, Color.WHITE);
-        minus.setIconTint(ColorStateList.valueOf(iconColor));
-        plus.setIconTint(ColorStateList.valueOf(iconColor));
 
         seekbar.setThumbTintList(csl);
         seekbar.setTrackActiveTintList(csl);
@@ -100,6 +98,11 @@ public class Counter extends FrameLayout {
             }
             updateUIAndNotifyListener(false);
         });
+
+        int expressiveBackgroundColor = MaterialColors.getColor(context, com.google.android.material.R.attr.colorSurfaceContainerLow, Color.DKGRAY);
+        counter.setBackgroundColor(expressiveBackgroundColor);
+        int padding = (int) (16 * getResources().getDisplayMetrics().density);
+        counter.setPadding(padding, padding, padding, padding);
     }
 
     public long getValueInMillis() {

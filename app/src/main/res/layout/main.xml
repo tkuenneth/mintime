@@ -29,7 +29,7 @@
                     <RelativeLayout xmlns:custom="http://schemas.android.com/apk/res-auto"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="16dp">
+                        android:padding="24dp">
 
                         <com.thomaskuenneth.mintime.Counter
                             android:id="@+id/counter1"
@@ -96,6 +96,7 @@
                             android:drawablePadding="8dp"
                             android:gravity="center_vertical"
                             android:hyphenationFrequency="full"
+                            android:textAppearance="?attr/textAppearanceBodyMedium"
                             custom:drawableStartCompat="@drawable/ic_baseline_notifications_off_24"
                             custom:drawableTint="?colorControlNormal" />
 
@@ -109,6 +110,7 @@
                             android:drawablePadding="8dp"
                             android:gravity="center_vertical"
                             android:hyphenationFrequency="full"
+                            android:textAppearance="?attr/textAppearanceBodyMedium"
                             custom:drawableStartCompat="@drawable/baseline_alarm_off_24"
                             custom:drawableTint="?colorControlNormal" />
 

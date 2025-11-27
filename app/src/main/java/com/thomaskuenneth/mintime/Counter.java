@@ -33,6 +33,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.color.MaterialColors;
 import com.google.android.material.slider.Slider;
 
 public class Counter extends FrameLayout {
@@ -79,7 +80,15 @@ public class Counter extends FrameLayout {
         text = counter.findViewById(R.id.text);
         text.setTextColor(color);
         seekbar = findViewById(R.id.seekbar);
+
         ColorStateList csl = ColorStateList.valueOf(color);
+        minus.setBackgroundTintList(csl);
+        plus.setBackgroundTintList(csl);
+
+        int iconColor = MaterialColors.getColor(context, com.google.android.material.R.attr.colorSurface, Color.WHITE);
+        minus.setIconTint(ColorStateList.valueOf(iconColor));
+        plus.setIconTint(ColorStateList.valueOf(iconColor));
+
         seekbar.setThumbTintList(csl);
         seekbar.setTrackActiveTintList(csl);
         seekbar.setTrackInactiveTintList(csl);

@@ -30,13 +30,15 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
+
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.slider.Slider;
 
 public class Counter extends FrameLayout {
 
     private final TextView text;
-    private final SeekBar seekbar;
+    private final Slider seekbar;
 
     private boolean useMinutes;
     private long value;
@@ -70,35 +72,24 @@ public class Counter extends FrameLayout {
         }
         a.recycle();
         View counter = inflate(context, R.layout.counter, this);
-        TextView minus = counter.findViewById(R.id.minus);
-        minus.setTextColor(color);
+        MaterialButton minus = counter.findViewById(R.id.minus);
         minus.setOnClickListener(view -> changeValue(false));
-        TextView plus = counter.findViewById(R.id.plus);
-        plus.setTextColor(color);
+        MaterialButton plus = counter.findViewById(R.id.plus);
         plus.setOnClickListener(view -> changeValue(true));
         text = counter.findViewById(R.id.text);
         text.setTextColor(color);
         seekbar = findViewById(R.id.seekbar);
         ColorStateList csl = ColorStateList.valueOf(color);
         seekbar.setThumbTintList(csl);
-        seekbar.setProgressTintList(csl);
-        seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                if (b) {
-                    value = i;
-                    useMinutes = true;
-                }
-                updateUIAndNotifyListener(false);
+        seekbar.setTrackActiveTintList(csl);
+        seekbar.setTrackInactiveTintList(csl);
+        seekbar.setLabelFormatter(value -> context.getString(R.string.template, (int) value, context.getString(R.string.min)));
+        seekbar.addOnChangeListener((slider, v, fromUser) -> {
+            if (fromUser) {
+                value = (long) v;
+                useMinutes = true;
             }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
+            updateUIAndNotifyListener(false);
         });
     }
 
@@ -109,8 +100,10 @@ public class Counter extends FrameLayout {
     public void setValueInMillis(long value) {
         value /= 1000;
         if ((value >= 60) || (value == 0)) {
-            this.value = value / 60;
             useMinutes = true;
+            long minutes = value / 60;
+            // Round to the nearest multiple of 10
+            this.value = Math.round(minutes / 10.0) * 10;
         } else {
             this.value = value;
             useMinutes = false;
@@ -123,17 +116,22 @@ public class Counter extends FrameLayout {
     }
 
     private void changeValue(boolean increase) {
-        value += increase ? 1 : -1;
-        if (value < 0) {
-            if (useMinutes) {
+        if (useMinutes) {
+            value += increase ? 10 : -10;
+            if (value > 90) {
+                value = 0;
+            } else if (value < 0) {
                 useMinutes = false;
+                value = 59;
             }
-            value = 59;
-        } else if ((value > 90) && useMinutes) {
-            value = 0;
-        } else if ((value > 59) && !useMinutes) {
-            useMinutes = true;
-            value = 0;
+        } else {
+            value += increase ? 1 : -1;
+            if (value > 59) {
+                useMinutes = true;
+                value = 0;
+            } else if (value < 0) {
+                value = 59;
+            }
         }
         updateUIAndNotifyListener(true);
     }
@@ -141,9 +139,9 @@ public class Counter extends FrameLayout {
     private void updateUIAndNotifyListener(boolean updateSeekBar) {
         if (updateSeekBar) {
             if (useMinutes) {
-                seekbar.setProgress((int) value);
+                seekbar.setValue(value);
             } else {
-                seekbar.setProgress(0);
+                seekbar.setValue(0);
             }
         }
         text.setText(MinTimeUtils.millisToPrettyString(getContext(), getValueInMillis()));

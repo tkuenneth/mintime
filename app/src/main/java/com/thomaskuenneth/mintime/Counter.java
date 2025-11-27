@@ -98,11 +98,6 @@ public class Counter extends FrameLayout {
             }
             updateUIAndNotifyListener(false);
         });
-
-        int expressiveBackgroundColor = MaterialColors.getColor(context, com.google.android.material.R.attr.colorSurfaceContainerLow, Color.DKGRAY);
-        counter.setBackgroundColor(expressiveBackgroundColor);
-        int padding = (int) (16 * getResources().getDisplayMetrics().density);
-        counter.setPadding(padding, padding, padding, padding);
     }
 
     public long getValueInMillis() {

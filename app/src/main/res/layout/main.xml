@@ -83,7 +83,7 @@
                             android:gravity="center"
                             android:padding="8dp"
                             android:textAlignment="center"
-                            android:textSize="20pt" />
+                            android:textAppearance="?attr/textAppearanceHeadlineLarge" />
 
                         <TextView
                             android:id="@+id/info_notifications"

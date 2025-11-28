@@ -19,3 +19,4 @@ runConfigurations.xml
 detekt.xml
 AndroidProjectSystem.xml
 deviceManager.xml
+markdown.xml

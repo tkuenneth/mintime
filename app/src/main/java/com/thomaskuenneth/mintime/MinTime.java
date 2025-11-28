@@ -24,6 +24,7 @@
 package com.thomaskuenneth.mintime;
 
 import static com.thomaskuenneth.mintime.RepeatingAlarm.CHANNEL_ID;
+import static java.lang.Math.max;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
@@ -217,9 +218,12 @@ public class MinTime extends AppCompatActivity
             params.setMargins(
                     params.leftMargin,
                     params.topMargin,
-                    pixelValue + insets.right,
+                    insets.right,
                     pixelValue + insets.bottom
             );
+            Insets displayCutoutInsets = windowInsets.getInsets(WindowInsetsCompat.Type.displayCutout());
+            int padding = max(displayCutoutInsets.right, max(24, displayCutoutInsets.left));
+            binding.mainUi.setPadding(padding, 0, padding, 0);
             return WindowInsetsCompat.CONSUMED;
         });
         setSupportActionBar(binding.toolbar);

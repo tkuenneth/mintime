@@ -79,8 +79,6 @@ public class Counter extends FrameLayout {
         MaterialButton plus = counter.findViewById(R.id.plus);
         plus.setOnClickListener(view -> changeValue(true));
         int iconColor = MaterialColors.getColor(context, com.google.android.material.R.attr.colorOnSurface, Color.WHITE);
-        minus.setIconTint(ColorStateList.valueOf(iconColor));
-        plus.setIconTint(ColorStateList.valueOf(iconColor));
         text = counter.findViewById(R.id.text);
         text.setTextColor(iconColor);
         seekbar = findViewById(R.id.seekbar);
@@ -117,9 +115,7 @@ public class Counter extends FrameLayout {
         value /= 1000;
         if ((value >= 60) || (value == 0)) {
             useMinutes = true;
-            long minutes = value / 60;
-            // Round to the nearest multiple of 10
-            this.value = Math.round(minutes / 10.0) * 10;
+            this.value = value / 60;
         } else {
             this.value = value;
             useMinutes = false;
@@ -133,9 +129,9 @@ public class Counter extends FrameLayout {
 
     private void changeValue(boolean increase) {
         if (useMinutes) {
-            value += increase ? 10 : -10;
+            value += increase ? 1 : -1;
             if (value > 90) {
-                value = 0;
+                value = 90;
             } else if (value < 0) {
                 useMinutes = false;
                 value = 59;
@@ -144,7 +140,7 @@ public class Counter extends FrameLayout {
             value += increase ? 1 : -1;
             if (value > 59) {
                 useMinutes = true;
-                value = 0;
+                value = 1;
             } else if (value < 0) {
                 value = 59;
             }

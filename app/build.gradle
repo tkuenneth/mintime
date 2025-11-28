@@ -8,8 +8,8 @@ android {
         applicationId "com.thomaskuenneth.mintime"
         minSdk 26
         targetSdk 36
-        versionName "1.8.0"
-        versionCode 52
+        versionName "1.8.1"
+        versionCode 53
     }
 
     buildTypes {

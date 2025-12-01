@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:keepScreenOn="true">
@@ -11,159 +10,13 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
+        <include
             android:id="@+id/parent"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            layout="@layout/parent" />
 
-            <FrameLayout
-                android:id="@+id/main_ui"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <androidx.core.widget.NestedScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <RelativeLayout xmlns:custom="http://schemas.android.com/apk/res-auto"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <com.thomaskuenneth.mintime.Counter
-                            android:id="@+id/counter1"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentTop="true"
-                            android:background="@drawable/top_corners"
-                            android:backgroundTint="?attr/colorSurfaceContainerLow"
-                            custom:mintime_color="@color/green" />
-
-                        <Space
-                            android:id="@+id/space_1"
-                            android:layout_width="match_parent"
-                            android:layout_height="8dp"
-                            android:layout_below="@id/counter1" />
-
-                        <com.thomaskuenneth.mintime.Counter
-                            android:id="@+id/counter2"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/space_1"
-                            android:background="?attr/colorSurfaceContainerLow"
-                            custom:mintime_color="@color/orange" />
-
-                        <Space
-                            android:id="@+id/space_2"
-                            android:layout_width="match_parent"
-                            android:layout_height="8dp"
-                            android:layout_below="@id/counter2" />
-
-                        <com.thomaskuenneth.mintime.Counter
-                            android:id="@+id/counter3"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/space_2"
-                            android:background="?attr/colorSurfaceContainerLow"
-                            custom:mintime_color="@color/red" />
-
-                        <Space
-                            android:id="@+id/space_3"
-                            android:layout_width="match_parent"
-                            android:layout_height="8dp"
-                            android:layout_below="@id/counter3" />
-
-                        <TextView
-                            android:id="@+id/total"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/space_3"
-                            android:background="@drawable/bottom_corners"
-                            android:backgroundTint="?attr/colorSurfaceContainerLow"
-                            android:gravity="center"
-                            android:padding="8dp"
-                            android:textAlignment="center"
-                            android:textAppearance="?attr/textAppearanceHeadlineLarge" />
-
-                        <TextView
-                            android:id="@+id/info_notifications"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/total"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginBottom="0dp"
-                            android:drawablePadding="8dp"
-                            android:gravity="center_vertical"
-                            android:hyphenationFrequency="full"
-                            android:textAppearance="?attr/textAppearanceBodyMedium"
-                            custom:drawableStartCompat="@drawable/ic_baseline_notifications_off_24" />
-
-                        <TextView
-                            android:id="@+id/info_schedule_exact_alarms"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/info_notifications"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginBottom="0dp"
-                            android:drawablePadding="8dp"
-                            android:gravity="center_vertical"
-                            android:hyphenationFrequency="full"
-                            android:textAppearance="?attr/textAppearanceBodyMedium"
-                            custom:drawableStartCompat="@drawable/baseline_alarm_off_24" />
-
-                        <Space
-                            android:id="@+id/buffer"
-                            android:layout_width="match_parent"
-                            android:layout_height="96dp"
-                            android:layout_below="@id/info_schedule_exact_alarms" />
-
-                    </RelativeLayout>
-
-                </androidx.core.widget.NestedScrollView>
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/start"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end|bottom"
-                    android:contentDescription="@string/start"
-                    android:minWidth="48dp"
-                    android:minHeight="48dp"
-                    android:src="@drawable/baseline_start_24"
-                    tools:layout_margin="16dp" />
-
-            </FrameLayout>
-
-            <View
-                android:id="@+id/hinge"
-                android:layout_width="0dp"
-                android:layout_height="match_parent" />
-
-            <include
-                android:id="@+id/info_panel"
-                layout="@layout/info_panel" />
-
-        </LinearLayout>
-
-        <LinearLayout
+        <include
             android:id="@+id/timer_parent"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <com.thomaskuenneth.mintime.BigTime
-                android:id="@+id/timer"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.5" />
-
-            <Space
-                android:id="@+id/timer_space"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.5" />
-
-        </LinearLayout>
+            layout="@layout/timer_parent" />
 
     </FrameLayout>
 

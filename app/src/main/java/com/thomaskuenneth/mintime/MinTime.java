@@ -121,9 +121,9 @@ public class MinTime extends AppCompatActivity
                 .computeCurrentWindowMetrics(this);
         final var windowWidth = windowMetrics.getBounds().width();
         final var windowHeight = windowMetrics.getBounds().height();
-        final var mainUiLayoutParams = binding.mainUi.getLayoutParams();
-        final var infoPanelLayoutParams = binding.infoPanel.getRoot().getLayoutParams();
-        final var hingeLayoutParams = binding.hinge.getLayoutParams();
+        final var mainUiLayoutParams = binding.parent.mainUi.getLayoutParams();
+        final var infoPanelLayoutParams = binding.parent.infoPanel.getRoot().getLayoutParams();
+        final var hingeLayoutParams = binding.parent.hinge.getLayoutParams();
         float screenPixelDensity = getResources().getDisplayMetrics().density;
         WindowSizeClass windowSizeClass = WindowSizeClass.compute(windowWidth / screenPixelDensity, windowHeight / screenPixelDensity);
         boolean hasFoldingFeature = false;
@@ -141,15 +141,15 @@ public class MinTime extends AppCompatActivity
                 FoldingFeature.Orientation orientation = foldingFeature.getOrientation();
                 isTableTop = (orientation == FoldingFeature.Orientation.HORIZONTAL && foldingFeature.getState() == FoldingFeature.State.HALF_OPENED);
                 if (orientation == FoldingFeature.Orientation.VERTICAL) {
-                    binding.parent.setOrientation(LinearLayout.HORIZONTAL);
+                    binding.parent.getRoot().setOrientation(LinearLayout.HORIZONTAL);
                     mainUiLayoutParams.width = foldingFeatureBounds.left;
                     mainUiLayoutParams.height = LinearLayout.LayoutParams.MATCH_PARENT;
                     infoPanelLayoutParams.width = windowWidth - foldingFeatureBounds.right;
                     infoPanelLayoutParams.height = LinearLayout.LayoutParams.MATCH_PARENT;
                 } else {
                     int[] intArray = new int[2];
-                    binding.mainUi.getLocationOnScreen(intArray);
-                    binding.parent.setOrientation(LinearLayout.VERTICAL);
+                    binding.parent.mainUi.getLocationOnScreen(intArray);
+                    binding.parent.getRoot().setOrientation(LinearLayout.VERTICAL);
                     mainUiLayoutParams.width = LinearLayout.LayoutParams.MATCH_PARENT;
                     mainUiLayoutParams.height = foldingFeatureBounds.top - intArray[1];
                     infoPanelLayoutParams.width = LinearLayout.LayoutParams.MATCH_PARENT;
@@ -157,12 +157,12 @@ public class MinTime extends AppCompatActivity
                 }
             }
         }
-        binding.timerParent.setWeightSum(isTableTop ? 1F : 0.5F);
-        binding.timerSpace.setVisibility(isTableTop ? View.VISIBLE : View.GONE);
+        binding.timerParent.getRoot().setWeightSum(isTableTop ? 1F : 0.5F);
+        binding.timerParent.timerSpace.setVisibility(isTableTop ? View.VISIBLE : View.GONE);
         if (!hasFoldingFeature) {
             final float density = getResources().getDisplayMetrics().density;
             final float dp = windowMetrics.getBounds().width() / density;
-            binding.parent.setOrientation(LinearLayout.HORIZONTAL);
+            binding.parent.getRoot().setOrientation(LinearLayout.HORIZONTAL);
             hingeLayoutParams.width = 0;
             hingeLayoutParams.height = 0;
             if (dp >= 600) {
@@ -181,7 +181,7 @@ public class MinTime extends AppCompatActivity
         float dpValue = 16F;
         float density = getResources().getDisplayMetrics().density;
         int pixelValue = (int) (dpValue * density);
-        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) binding.start.getLayoutParams();
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) binding.parent.start.getLayoutParams();
         WindowInsetsCompat windowInsets = ViewCompat.getRootWindowInsets(binding.getRoot());
         if (windowInsets != null) {
             Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -218,24 +218,24 @@ public class MinTime extends AppCompatActivity
             view.setLayoutParams(appBarLayoutParams);
             Insets displayCutoutInsets = windowInsets.getInsets(WindowInsetsCompat.Type.displayCutout());
             int padding = max(displayCutoutInsets.right, max(24, displayCutoutInsets.left));
-            binding.mainUi.setPadding(padding, 0, padding, 0);
+            binding.parent.mainUi.setPadding(padding, 0, padding, 0);
             return WindowInsetsCompat.CONSUMED;
         });
         setSupportActionBar(binding.toolbar);
-        binding.start.setOnClickListener(v -> {
+        binding.parent.start.setOnClickListener(v -> {
             prefs.edit().putLong(RESUMED, System.currentTimeMillis()).apply();
             configureAlarms();
             updateUI();
-            Snackbar snackbar = Snackbar.make(binding.mainUi,
+            Snackbar snackbar = Snackbar.make(binding.parent.mainUi,
                     getString(R.string.hint),
                     Snackbar.LENGTH_LONG);
             snackbar.show();
         });
-        binding.counter1.setValueUpdater(this);
-        binding.counter2.setValueUpdater(this);
-        binding.counter3.setValueUpdater(this);
+        binding.parent.counter1.setValueUpdater(this);
+        binding.parent.counter2.setValueUpdater(this);
+        binding.parent.counter3.setValueUpdater(this);
         // countdown
-        binding.timerParent.setOnClickListener(v -> {
+        binding.timerParent.getRoot().setOnClickListener(v -> {
             cancel();
         });
         RepeatingAlarm.initNotificationChannels(this);
@@ -312,9 +312,9 @@ public class MinTime extends AppCompatActivity
                     invalidateOptionsMenu();
                     return true;
                 });
-            } else if ((binding.counter1.getValueInMillis() > 0) ||
-                    (binding.counter2.getValueInMillis() > 0) ||
-                    (binding.counter3.getValueInMillis() > 0)) {
+            } else if ((binding.parent.counter1.getValueInMillis() > 0) ||
+                    (binding.parent.counter2.getValueInMillis() > 0) ||
+                    (binding.parent.counter3.getValueInMillis() > 0)) {
                 MenuItem save = menu.add(1, Menu.NONE, Menu.NONE, R.string.save);
                 save.setIcon(R.drawable.ic_save);
                 save.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
@@ -325,9 +325,9 @@ public class MinTime extends AppCompatActivity
                     return true;
                 });
             }
-            if ((binding.counter1.getValueInMillis() > 0) ||
-                    (binding.counter2.getValueInMillis() > 0) ||
-                    (binding.counter3.getValueInMillis() > 0)) {
+            if ((binding.parent.counter1.getValueInMillis() > 0) ||
+                    (binding.parent.counter2.getValueInMillis() > 0) ||
+                    (binding.parent.counter3.getValueInMillis() > 0)) {
                 MenuItem clear = menu
                         .add(1, Menu.NONE, Menu.NONE, R.string.clear);
                 clear.setIcon(R.drawable.ic_clear);
@@ -356,9 +356,9 @@ public class MinTime extends AppCompatActivity
 
     @Override
     public void updateValue() {
-        long val1 = binding.counter1.getValueInMillis();
-        long val2 = binding.counter2.getValueInMillis();
-        long val3 = binding.counter3.getValueInMillis();
+        long val1 = binding.parent.counter1.getValueInMillis();
+        long val2 = binding.parent.counter2.getValueInMillis();
+        long val3 = binding.parent.counter3.getValueInMillis();
         updateTotal(val1, val2, val3);
         updatePrefs(val1, val2, val3);
         invalidateOptionsMenu();
@@ -375,7 +375,7 @@ public class MinTime extends AppCompatActivity
     }
 
     public BigTime getTimer() {
-        return binding.timer;
+        return binding.timerParent.timer;
     }
 
     public boolean taskShouldBeRunning() {
@@ -383,9 +383,9 @@ public class MinTime extends AppCompatActivity
     }
 
     private void updateViews(long val1, long val2, long val3) {
-        binding.counter1.setValueInMillis(val1);
-        binding.counter2.setValueInMillis(val2);
-        binding.counter3.setValueInMillis(val3);
+        binding.parent.counter1.setValueInMillis(val1);
+        binding.parent.counter2.setValueInMillis(val2);
+        binding.parent.counter3.setValueInMillis(val3);
     }
 
     private void updatePrefs(long val1, long val2, long val3) {
@@ -396,8 +396,8 @@ public class MinTime extends AppCompatActivity
     }
 
     private void updateTotal(long val1, long val2, long val3) {
-        binding.total.setText(MinTimeUtils.millisToPrettyString(this, val1 + val2 + val3));
-        binding.start.setEnabled(val1 + val2 + val3 > 0);
+        binding.parent.total.setText(MinTimeUtils.millisToPrettyString(this, val1 + val2 + val3));
+        binding.parent.start.setEnabled(val1 + val2 + val3 > 0);
     }
 
     private long getTotal() {
@@ -461,12 +461,12 @@ public class MinTime extends AppCompatActivity
 
     private void updateStaticViews() {
         int visibility = hideDescriptions ? View.GONE : View.VISIBLE;
-        binding.counter1.setInfoText(getString(R.string.info2_short));
-        binding.counter1.setInfoVisibility(visibility);
-        binding.counter2.setInfoText(getString(R.string.info3_short));
-        binding.counter2.setInfoVisibility(visibility);
-        binding.counter3.setInfoText(getString(R.string.info4_short));
-        binding.counter3.setInfoVisibility(visibility);
+        binding.parent.counter1.setInfoText(getString(R.string.info2_short));
+        binding.parent.counter1.setInfoVisibility(visibility);
+        binding.parent.counter2.setInfoText(getString(R.string.info3_short));
+        binding.parent.counter2.setInfoVisibility(visibility);
+        binding.parent.counter3.setInfoText(getString(R.string.info4_short));
+        binding.parent.counter3.setInfoVisibility(visibility);
         updateViews(prefs.getLong(COUNTER1, 0),
                 prefs.getLong(COUNTER2, 0),
                 prefs.getLong(COUNTER3, 0));
@@ -474,15 +474,15 @@ public class MinTime extends AppCompatActivity
 
     private void showCountdownView() {
         startCountdown();
-        binding.timerParent.setVisibility(View.VISIBLE);
-        binding.parent.setVisibility(View.INVISIBLE);
+        binding.timerParent.getRoot().setVisibility(View.VISIBLE);
+        binding.parent.getRoot().setVisibility(View.INVISIBLE);
         ActionBar ab = getSupportActionBar();
         if (ab != null) ab.hide();
     }
 
     private void showSetupView() {
-        binding.parent.setVisibility(View.VISIBLE);
-        binding.timerParent.setVisibility(View.INVISIBLE);
+        binding.parent.getRoot().setVisibility(View.VISIBLE);
+        binding.timerParent.getRoot().setVisibility(View.INVISIBLE);
         ActionBar ab = getSupportActionBar();
         if (ab != null) ab.show();
         showPermissionWarnings();
@@ -525,35 +525,35 @@ public class MinTime extends AppCompatActivity
         switch (RepeatingAlarm.getNotificationStatus(getSystemService(NotificationManager.class))) {
             case NOTIFICATIONS_OFF -> {
                 linkToSettings(
-                        binding.infoNotifications,
+                        binding.parent.infoNotifications,
                         R.string.check_notification_settings_off,
                         R.string.notification_settings,
                         this::launchNotificationSettings);
             }
             case NOTIFICATION_CHANNEL_OFF -> {
                 linkToSettings(
-                        binding.infoNotifications,
+                        binding.parent.infoNotifications,
                         R.string.check_notification_settings_channel_off,
                         R.string.notification_settings,
                         this::launchNotificationSettings);
             }
             case SILENT -> {
                 linkToSettings(
-                        binding.infoNotifications,
+                        binding.parent.infoNotifications,
                         R.string.check_notification_settings_channel_silent,
                         R.string.notification_channel_settings,
                         this::launchNotificationChannelSettings);
             }
-            default -> binding.infoNotifications.setVisibility(View.GONE);
+            default -> binding.parent.infoNotifications.setVisibility(View.GONE);
         }
     }
 
     private void showExactAlarmPermissionWarning() {
         if (canScheduleExactAlarms()) {
-            binding.infoScheduleExactAlarms.setVisibility(View.GONE);
+            binding.parent.infoScheduleExactAlarms.setVisibility(View.GONE);
         } else {
             linkToSettings(
-                    binding.infoScheduleExactAlarms,
+                    binding.parent.infoScheduleExactAlarms,
                     R.string.exact_alarms_are_off,
                     R.string.alarms_and_reminders,
                     this::launchAlarmsAndRemindersSettings);

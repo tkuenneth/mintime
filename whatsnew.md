@@ -1,2 +1,1 @@
-- Library and tools upgrades
-- Completely new look
+- Dedicated Cancel button on foldables in tabletop mode

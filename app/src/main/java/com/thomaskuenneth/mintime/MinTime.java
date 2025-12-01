@@ -42,12 +42,10 @@ import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.StyleSpan;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowInsetsController;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -75,11 +73,6 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.snackbar.Snackbar;
 import com.thomaskuenneth.mintime.databinding.MainBinding;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class MinTime extends AppCompatActivity
@@ -104,9 +97,6 @@ public class MinTime extends AppCompatActivity
     public static final long NOTIFICATION_INTERVAL_IN_MILLIS = ONE_MINUTE;
 
     private static final int INTENT_FLAGS = PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE;
-    private static final String TAG = MinTime.class.getSimpleName();
-    private static final String FILENAME_DISTRIBUTIONS = TAG + ".dst";
-    private static final String DST = "distributions";
     private static final long[] PATTERN1 = new long[]{0, 800, 800, 800, 800,
             800};
     private static final long[] PATTERN2 = new long[]{0, 500, 500, 500, 500,
@@ -119,8 +109,8 @@ public class MinTime extends AppCompatActivity
     private boolean taskShouldBeRunning;
     private AlarmManager alarmMgr;
     private MainBinding binding;
-    private List<String> distributions;
     private SharedPreferences prefs;
+    private DistributionManager distributionManager;
 
     private WindowInfoTrackerCallbackAdapter adapter;
 
@@ -216,7 +206,7 @@ public class MinTime extends AppCompatActivity
                 )
         );
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        loadDistributions();
+        distributionManager = new DistributionManager(this, prefs);
         alarmMgr = getSystemService(AlarmManager.class);
         binding = MainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -295,7 +285,7 @@ public class MinTime extends AppCompatActivity
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.removeGroup(1);
         if (!isResumed()) {
-            for (String d : distributions) {
+            for (String d : distributionManager.getDistributions()) {
                 String[] values = d.split("\\|");
                 final long val1 = Long.parseLong(values[0]);
                 final long val2 = Long.parseLong(values[1]);
@@ -310,15 +300,15 @@ public class MinTime extends AppCompatActivity
                     return true;
                 });
             }
-            final String distribution = createDistribution();
-            if (isSavedDistribution(distribution)) {
+            final String distribution = distributionManager.createDistribution();
+            if (distributionManager.isSavedDistribution(distribution)) {
                 MenuItem delete = menu
                         .add(1, Menu.NONE, Menu.NONE, R.string.delete);
                 delete.setIcon(R.drawable.ic_delete);
                 delete.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
                 delete.setOnMenuItemClickListener(item -> {
-                    distributions.remove(distribution);
-                    saveDistributions();
+                    distributionManager.getDistributions().remove(distribution);
+                    distributionManager.saveDistributions();
                     invalidateOptionsMenu();
                     return true;
                 });
@@ -329,8 +319,8 @@ public class MinTime extends AppCompatActivity
                 save.setIcon(R.drawable.ic_save);
                 save.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
                 save.setOnMenuItemClickListener(item -> {
-                    distributions.add(distribution);
-                    saveDistributions();
+                    distributionManager.getDistributions().add(distribution);
+                    distributionManager.saveDistributions();
                     invalidateOptionsMenu();
                     return true;
                 });
@@ -403,55 +393,6 @@ public class MinTime extends AppCompatActivity
                 .putLong(COUNTER2, val2)
                 .putLong(COUNTER3, val3)
                 .apply();
-    }
-
-    private void saveDistributions() {
-        JSONObject data = new JSONObject();
-        JSONArray array = new JSONArray();
-        for (String s : distributions) {
-            array.put(s);
-        }
-        try {
-            data.put(DST, array);
-            if (!MinTimeUtils.saveJSONObject(this, data, FILENAME_DISTRIBUTIONS)) {
-                Log.w(TAG, "Saving file was not successful");
-            }
-        } catch (JSONException e) {
-            Log.e(TAG, "Error while writing the file", e);
-        }
-    }
-
-    private void loadDistributions() {
-        distributions = new ArrayList<>();
-        JSONObject data = MinTimeUtils
-                .loadJSONObject(this, FILENAME_DISTRIBUTIONS);
-        if (data != null) {
-            try {
-                JSONArray array = data.getJSONArray(DST);
-                for (int i = 0; i < array.length(); i++) {
-                    distributions.add(array.getString(i));
-                }
-            } catch (JSONException e) {
-                Log.e(TAG, "Error while reading data", e);
-            }
-        }
-    }
-
-    private String createDistribution() {
-        long now = System.currentTimeMillis();
-        long c1 = prefs.getLong(COUNTER1, now);
-        long c2 = prefs.getLong(COUNTER2, now);
-        long c3 = prefs.getLong(COUNTER3, now);
-        return c1 + "|" + c2 + "|" + c3;
-    }
-
-    private boolean isSavedDistribution(String distribution) {
-        for (String d : distributions) {
-            if (d.equals(distribution)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private void updateTotal(long val1, long val2, long val3) {

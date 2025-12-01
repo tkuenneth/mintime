@@ -158,7 +158,7 @@ public class MinTime extends AppCompatActivity
             }
         }
         binding.timerParent.getRoot().setWeightSum(isTableTop ? 1F : 0.5F);
-        binding.timerParent.timerSpace.setVisibility(isTableTop ? View.VISIBLE : View.GONE);
+        binding.timerParent.buttonContainer.setVisibility(isTableTop ? View.VISIBLE : View.GONE);
         if (!hasFoldingFeature) {
             final float density = getResources().getDisplayMetrics().density;
             final float dp = windowMetrics.getBounds().width() / density;
@@ -235,6 +235,7 @@ public class MinTime extends AppCompatActivity
         binding.parent.counter2.setValueUpdater(this);
         binding.parent.counter3.setValueUpdater(this);
         // countdown
+        binding.timerParent.cancel.setOnClickListener(v -> cancel());
         binding.timerParent.getRoot().setOnClickListener(v -> {
             cancel();
         });

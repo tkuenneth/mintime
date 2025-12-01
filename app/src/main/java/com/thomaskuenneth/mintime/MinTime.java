@@ -47,6 +47,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowInsetsController;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -187,6 +188,20 @@ public class MinTime extends AppCompatActivity
                 hideDescriptions = false;
             }
         }
+        float dpValue = 16F;
+        float density = getResources().getDisplayMetrics().density;
+        int pixelValue = (int) (dpValue * density);
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) binding.start.getLayoutParams();
+        WindowInsetsCompat windowInsets = ViewCompat.getRootWindowInsets(binding.getRoot());
+        if (windowInsets != null) {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            params.setMargins(
+                    params.leftMargin,
+                    params.topMargin,
+                    (hideDescriptions ? 0 : pixelValue) + insets.right,
+                    pixelValue + insets.bottom
+            );
+        }
         updateUI();
     });
 
@@ -211,16 +226,6 @@ public class MinTime extends AppCompatActivity
             AppBarLayout.LayoutParams appBarLayoutParams = (AppBarLayout.LayoutParams) view.getLayoutParams();
             appBarLayoutParams.topMargin = insets.top;
             view.setLayoutParams(appBarLayoutParams);
-            float dpValue = 16F;
-            float density = getResources().getDisplayMetrics().density;
-            int pixelValue = (int) (dpValue * density);
-            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) binding.start.getLayoutParams();
-            params.setMargins(
-                    params.leftMargin,
-                    params.topMargin,
-                    insets.right,
-                    pixelValue + insets.bottom
-            );
             Insets displayCutoutInsets = windowInsets.getInsets(WindowInsetsCompat.Type.displayCutout());
             int padding = max(displayCutoutInsets.right, max(24, displayCutoutInsets.left));
             binding.mainUi.setPadding(padding, 0, padding, 0);

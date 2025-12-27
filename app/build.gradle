@@ -16,7 +16,7 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
-                    'proguard-rules.txt'
+                    'proguard-rules.pro'
             // F-Droid: Reproducible Builds
             // Disables VCS info which can change between builds
             vcsInfo {

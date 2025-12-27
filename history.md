@@ -1,4 +1,4 @@
-# History
+# History (no longer maintained)
 
 ### 1.7.0
 - Optimizations for ChromeOS

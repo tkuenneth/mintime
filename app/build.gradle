@@ -8,8 +8,8 @@ android {
         applicationId "com.thomaskuenneth.mintime"
         minSdk 26
         targetSdk 36
-        versionName "1.8.2"
-        versionCode 54
+        versionName "1.8.3"
+        versionCode 55
     }
 
     buildTypes {
@@ -17,6 +17,11 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
                     'proguard-rules.txt'
+            // F-Droid: Reproducible Builds
+            // Disables VCS info which can change between builds
+            vcsInfo {
+                include false
+            }
         }
         debug {
             minifyEnabled false
@@ -33,6 +38,20 @@ android {
     }
     
     namespace 'com.thomaskuenneth.mintime'
+
+    // F-Droid: Reproducible Builds
+    // Disables a proprietary Google blob that changes every build
+    dependenciesInfo {
+        includeInApk false
+        includeInBundle false
+    }
+}
+
+// F-Droid: Reproducible Builds
+// https://f-droid.org/docs/Reproducible_Builds/#publishing-apks-with-the-upstream-developers-signature
+tasks.withType(AbstractArchiveTask).configureEach {
+    preserveFileTimestamps = false
+    reproducibleFileOrder = true
 }
 
 dependencies {

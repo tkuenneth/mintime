@@ -89,11 +89,15 @@ public class RepeatingAlarm extends BroadcastReceiver {
             String contentText = context.getString(R.string.running, (elapsed + 59999) / 60000);
 
             int progress = 0;
+            int segmentLengthGreen = 0;
+            int segmentLengthOrange = 0;
+            int segmentLengthRed = 0;
             if (duration > 0) {
                 progress = (int) Math.min(1000, (elapsed * 1000L) / duration);
+                segmentLengthGreen = (int) ((durationGreen * 1000) / duration);
+                segmentLengthOrange = (int) ((durationOrange * 1000) / duration);
+                segmentLengthRed = 1000 - segmentLengthGreen - segmentLengthOrange;
             }
-
-            long totalTime = Math.max(duration, durationGreen + durationOrange);
 
             String phaseName;
             if (elapsed < durationGreen) {
@@ -106,15 +110,11 @@ public class RepeatingAlarm extends BroadcastReceiver {
                 phaseName = context.getString(R.string.time_is_up);
             }
 
-            int s1 = (int) ((durationGreen * 1000) / totalTime);
-            int s2 = (int) ((durationOrange * 1000) / totalTime);
-            int s3 = 1000 - s1 - s2;
-
-            NotificationCompat.ProgressStyle.Segment segmentGreen = new NotificationCompat.ProgressStyle.Segment(s1)
+            NotificationCompat.ProgressStyle.Segment segmentGreen = new NotificationCompat.ProgressStyle.Segment(segmentLengthGreen)
                     .setColor(context.getColor(R.color.green));
-            NotificationCompat.ProgressStyle.Segment segmentOrange = new NotificationCompat.ProgressStyle.Segment(s2)
+            NotificationCompat.ProgressStyle.Segment segmentOrange = new NotificationCompat.ProgressStyle.Segment(segmentLengthOrange)
                     .setColor(context.getColor(R.color.orange));
-            NotificationCompat.ProgressStyle.Segment segmentRed = new NotificationCompat.ProgressStyle.Segment(s3)
+            NotificationCompat.ProgressStyle.Segment segmentRed = new NotificationCompat.ProgressStyle.Segment(segmentLengthRed)
                     .setColor(context.getColor(R.color.red));
             NotificationCompat.ProgressStyle progressStyle = new NotificationCompat.ProgressStyle()
                     .setProgressSegments(Arrays.asList(segmentGreen, segmentOrange, segmentRed))

@@ -39,12 +39,10 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.graphics.drawable.IconCompat;
-import androidx.preference.PreferenceManager;
 
 import java.util.Arrays;
 import java.util.List;
@@ -64,11 +62,9 @@ public class RepeatingAlarm extends BroadcastReceiver {
         if (resumed != -1) {
             initNotificationChannels(context);
             long now = System.currentTimeMillis();
-            long notificationMinutes = MinTime.NOTIFICATION_INTERVAL_IN_MILLIS / 1000 / 60;
             long remaining = end - now;
             long elapsed = now - resumed;
             long duration = end - resumed;
-            long secs = (remaining / 1000L);
             Intent countdownIntent = new Intent(context,
                     MinTime.class);
             countdownIntent.setAction(ACTION_COUNTDOWN);
@@ -85,7 +81,7 @@ public class RepeatingAlarm extends BroadcastReceiver {
                     PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
             );
             String contentTitle = remaining < 0 ? context.getString(R.string.time_is_up)
-                    : context.getString(R.string.left, (secs / 60 == 0 ? notificationMinutes : secs / 60), context.getString(R.string.min));
+                    : context.getString(R.string.left, ((remaining / 1000L) / 60 == 0 ? (MinTime.NOTIFICATION_INTERVAL_IN_MILLIS / 1000 / 60) : (remaining / 1000L) / 60), context.getString(R.string.min));
             String contentText = context.getString(R.string.running, (elapsed + 59999) / 60000);
 
             int progress = 0;

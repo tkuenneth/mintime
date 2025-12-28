@@ -32,6 +32,7 @@ import static com.thomaskuenneth.mintime.NotificationStatus.NOTIFICATIONS_OFF;
 import static com.thomaskuenneth.mintime.NotificationStatus.NOTIFICATION_CHANNEL_OFF;
 import static com.thomaskuenneth.mintime.NotificationStatus.SILENT;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -42,13 +43,16 @@ import android.content.SharedPreferences;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.graphics.drawable.IconCompat;
 import androidx.preference.PreferenceManager;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class RepeatingAlarm extends BroadcastReceiver {
 
-    public static final String CHANNEL_ID = RepeatingAlarm.class.getName();
+    public static final String CHANNEL_ID = "RepeatingAlarm_20251228";
+
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -88,14 +92,54 @@ public class RepeatingAlarm extends BroadcastReceiver {
                 long running = (elapsed + 59999) / 60000;
                 sb.append(context.getString(R.string.running, running));
             }
+            long elapsed = now - resumed;
+            long duration = end - resumed;
+
+            int progress = 0;
+            if (duration > 0) {
+                progress = (int) Math.min(1000, (elapsed * 1000L) / duration);
+            }
+
+            long c1 = prefs.getLong(MinTime.COUNTER1, 0);
+            long c2 = prefs.getLong(MinTime.COUNTER2, 0);
+            long totalTime = Math.max(duration, c1 + c2);
+
+            String phaseName;
+            if (elapsed <= c1) {
+                phaseName = context.getString(R.string.info2_short);
+            } else if (elapsed <= (c1 + c2)) {
+                phaseName = context.getString(R.string.info3_short);
+            } else {
+                phaseName = context.getString(R.string.info4_short);
+            }
+
+            int s1 = (int) ((c1 * 1000) / totalTime);
+            int s2 = (int) ((c2 * 1000) / totalTime);
+            int s3 = 1000 - s1 - s2;
+
+            NotificationCompat.ProgressStyle.Segment segmentGreen = new NotificationCompat.ProgressStyle.Segment(s1)
+                    .setColor(context.getColor(R.color.green));
+            NotificationCompat.ProgressStyle.Segment segmentOrange = new NotificationCompat.ProgressStyle.Segment(s2)
+                    .setColor(context.getColor(R.color.orange));
+            NotificationCompat.ProgressStyle.Segment segmentRed = new NotificationCompat.ProgressStyle.Segment(s3)
+                    .setColor(context.getColor(R.color.red));
+            NotificationCompat.ProgressStyle progressStyle = new NotificationCompat.ProgressStyle()
+                    .setProgressSegments(Arrays.asList(segmentGreen, segmentOrange, segmentRed))
+                    .setProgress(progress)
+                    .setProgressTrackerIcon(IconCompat.createWithResource(context, R.drawable.ic_launcher_mintime));
+
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     .setContentTitle(str)
                     .setShowWhen(false)
                     .setSmallIcon(R.drawable.ic_mintime_monochrome)
                     .setOngoing(true)
                     .setAutoCancel(false)
                     .setContentText(sb.toString())
+                    .setSubText(phaseName)
+                    .setStyle(progressStyle)
+                    .setCategory(NotificationCompat.CATEGORY_PROGRESS)
+                    .setRequestPromotedOngoing(true)
+                    .setOnlyAlertOnce(true)
                     .setContentIntent(countdownPendingIntent)
                     .addAction(R.drawable.outline_cancel_24,
                             context.getString(R.string.cancel),
@@ -118,9 +162,9 @@ public class RepeatingAlarm extends BroadcastReceiver {
             NotificationChannel channel = new NotificationChannel(
                     CHANNEL_ID,
                     context.getString(R.string.notification_channel_name),
-                    NotificationManager.IMPORTANCE_LOW);
+                    NotificationManager.IMPORTANCE_HIGH);
             channel.setDescription(context.getString(R.string.notification_channel_descr));
-            channel.setImportance(NotificationManager.IMPORTANCE_LOW);
+            channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
             nm.createNotificationChannel(channel);
         }
     }

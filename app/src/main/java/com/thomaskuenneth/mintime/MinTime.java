@@ -188,7 +188,7 @@ public class MinTime extends AppCompatActivity
             params.setMargins(
                     params.leftMargin,
                     params.topMargin,
-                    (hideDescriptions ? 0 : pixelValue) + insets.right,
+                    pixelValue + insets.right,
                     pixelValue + insets.bottom
             );
         }
@@ -217,8 +217,12 @@ public class MinTime extends AppCompatActivity
             appBarLayoutParams.topMargin = insets.top;
             view.setLayoutParams(appBarLayoutParams);
             Insets displayCutoutInsets = windowInsets.getInsets(WindowInsetsCompat.Type.displayCutout());
-            int padding = max(displayCutoutInsets.right, max(24, displayCutoutInsets.left));
-            binding.parent.mainUi.setPadding(padding, 0, padding, 0);
+            int padding = max(displayCutoutInsets.left, displayCutoutInsets.right);
+            if (binding.parent.getRoot().getOrientation() == LinearLayout.VERTICAL) {
+                binding.parent.mainUi.setPadding(padding, 0, padding, 0);
+            } else {
+                binding.parent.mainUi.setPadding(padding, 0, 0, 0);
+            }
             return WindowInsetsCompat.CONSUMED;
         });
         setSupportActionBar(binding.toolbar);

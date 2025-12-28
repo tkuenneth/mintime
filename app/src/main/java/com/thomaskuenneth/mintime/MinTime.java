@@ -101,6 +101,7 @@ public class MinTime extends AppCompatActivity
             800};
     private static final long[] PATTERN2 = new long[]{0, 500, 500, 500, 500,
             500, 500, 500};
+    private static final String PADDING_UPDATED = "paddingUpdated";
 
     private static PendingIntent alarmIntentOrange = null;
     private static PendingIntent alarmIntentRed = null;
@@ -192,12 +193,9 @@ public class MinTime extends AppCompatActivity
                     pixelValue + insets.bottom
             );
             binding.parent.start.post(() -> {
-                if (!"paddingUpdated".equals(binding.parent.nestedScrollView.getTag())) {
-                    binding.parent.nestedScrollView.setTag("paddingUpdated");
-                    int[] location = new int[2];
-                    binding.parent.start.getLocationInWindow(location);
-                    int fabY = location[1];
-                    int padding = binding.parent.nestedScrollView.getHeight() - fabY;
+                if (!PADDING_UPDATED.equals(binding.parent.nestedScrollView.getTag())) {
+                    binding.parent.nestedScrollView.setTag(PADDING_UPDATED);
+                    int padding = binding.parent.mainUi.getHeight() - (int) binding.parent.start.getY();
                     binding.parent.nestedScrollView.setPadding(binding.parent.nestedScrollView.getPaddingLeft(),
                             binding.parent.nestedScrollView.getPaddingTop(),
                             binding.parent.nestedScrollView.getPaddingRight(),
@@ -267,7 +265,6 @@ public class MinTime extends AppCompatActivity
             switch (action) {
                 case ACTION_CANCEL -> cancel();
                 case ACTION_COUNTDOWN -> {
-                    cancelNotification();
                     updateUI();
                 }
             }
@@ -431,11 +428,15 @@ public class MinTime extends AppCompatActivity
         return resumed + total;
     }
 
+    private Intent createRepeatingAlarmIntent() {
+        Intent intent = new Intent(this, RepeatingAlarm.class);
+        intent.putExtra(END, getEnd());
+        intent.putExtra(RESUMED, prefs.getLong(RESUMED, System.currentTimeMillis()));
+        return intent;
+    }
+
     private void configureAlarms() {
-        Intent intentRepeating = new Intent(this, RepeatingAlarm.class);
-        intentRepeating.putExtra(END, getEnd());
-        intentRepeating.putExtra(RESUMED,
-                prefs.getLong(RESUMED, System.currentTimeMillis()));
+        Intent intentRepeating = createRepeatingAlarmIntent();
         alarmIntentRepeating = PendingIntent.getBroadcast(this,
                 RQ_ALARM_REPEATING, intentRepeating,
                 INTENT_FLAGS);
@@ -507,6 +508,7 @@ public class MinTime extends AppCompatActivity
     }
 
     private void startCountdown() {
+        sendBroadcast(createRepeatingAlarmIntent());
         scheduleAlarms();
         taskShouldBeRunning = true;
         new CountdownTask(this).execute();
@@ -631,7 +633,7 @@ public class MinTime extends AppCompatActivity
         cancelNotification();
         cancelAlarms();
         stopTask();
-        updateUI();
+        recreate();
     }
 
     private void cancelNotification() {

@@ -123,7 +123,8 @@ public class RepeatingAlarm extends BroadcastReceiver {
 
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
                     .setContentTitle(contentTitle)
-                    .setShowWhen(false)
+                    .setWhen(end)
+                    .setShowWhen(true)
                     .setSmallIcon(R.drawable.ic_mintime_monochrome)
                     .setOngoing(true)
                     .setAutoCancel(false)

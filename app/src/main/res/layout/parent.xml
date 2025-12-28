@@ -14,9 +14,11 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:fillViewport="true"
             android:paddingHorizontal="16dp">
 
             <RelativeLayout
+                android:id="@+id/nested_scroll_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -103,12 +105,6 @@
                     android:hyphenationFrequency="full"
                     android:textAppearance="?attr/textAppearanceBodyMedium"
                     custom:drawableStartCompat="@drawable/baseline_alarm_off_24" />
-
-                <Space
-                    android:id="@+id/buffer"
-                    android:layout_width="match_parent"
-                    android:layout_height="96dp"
-                    android:layout_below="@id/info_schedule_exact_alarms" />
 
             </RelativeLayout>
 

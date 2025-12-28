@@ -191,6 +191,19 @@ public class MinTime extends AppCompatActivity
                     pixelValue + insets.right,
                     pixelValue + insets.bottom
             );
+            binding.parent.start.post(() -> {
+                if (!"paddingUpdated".equals(binding.parent.nestedScrollView.getTag())) {
+                    binding.parent.nestedScrollView.setTag("paddingUpdated");
+                    int[] location = new int[2];
+                    binding.parent.start.getLocationInWindow(location);
+                    int fabY = location[1];
+                    int padding = binding.parent.nestedScrollView.getHeight() - fabY;
+                    binding.parent.nestedScrollView.setPadding(binding.parent.nestedScrollView.getPaddingLeft(),
+                            binding.parent.nestedScrollView.getPaddingTop(),
+                            binding.parent.nestedScrollView.getPaddingRight(),
+                            padding);
+                }
+            });
         }
         updateUI();
     });

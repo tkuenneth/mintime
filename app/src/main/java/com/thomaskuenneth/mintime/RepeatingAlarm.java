@@ -94,6 +94,7 @@ public class RepeatingAlarm extends BroadcastReceiver {
                     .setShowWhen(false)
                     .setSmallIcon(R.drawable.ic_mintime_monochrome)
                     .setOngoing(true)
+                    .setAutoCancel(false)
                     .setContentText(sb.toString())
                     .setContentIntent(countdownPendingIntent)
                     .addAction(R.drawable.outline_cancel_24,
@@ -117,7 +118,7 @@ public class RepeatingAlarm extends BroadcastReceiver {
             NotificationChannel channel = new NotificationChannel(
                     CHANNEL_ID,
                     context.getString(R.string.notification_channel_name),
-                    NotificationManager.IMPORTANCE_HIGH);
+                    NotificationManager.IMPORTANCE_LOW);
             channel.setDescription(context.getString(R.string.notification_channel_descr));
             channel.setImportance(NotificationManager.IMPORTANCE_LOW);
             nm.createNotificationChannel(channel);

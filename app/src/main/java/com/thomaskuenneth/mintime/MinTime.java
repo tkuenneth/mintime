@@ -432,6 +432,9 @@ public class MinTime extends AppCompatActivity
         Intent intent = new Intent(this, RepeatingAlarm.class);
         intent.putExtra(END, getEnd());
         intent.putExtra(RESUMED, prefs.getLong(RESUMED, System.currentTimeMillis()));
+        intent.putExtra(COUNTER1, prefs.getLong(COUNTER1, 0));
+        intent.putExtra(COUNTER2, prefs.getLong(COUNTER2, 0));
+        intent.putExtra(COUNTER3, prefs.getLong(COUNTER3, 0));
         return intent;
     }
 

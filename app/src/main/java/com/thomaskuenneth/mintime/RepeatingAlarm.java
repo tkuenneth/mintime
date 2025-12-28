@@ -56,19 +56,19 @@ public class RepeatingAlarm extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        if (prefs.getLong(RESUMED, -1) != -1) {
+        long resumed = intent.getLongExtra(RESUMED, -1);
+        long end = intent.getLongExtra(MinTime.END, -1);
+        long durationGreen = intent.getLongExtra(MinTime.COUNTER1, 0);
+        long durationOrange = intent.getLongExtra(MinTime.COUNTER2, 0);
+        long durationRed = intent.getLongExtra(MinTime.COUNTER3, 0);
+        if (resumed != -1) {
             initNotificationChannels(context);
-            long end = intent.getLongExtra(MinTime.END, -1);
-            long resumed = intent.getLongExtra(RESUMED, -1);
             long now = System.currentTimeMillis();
             long notificationMinutes = MinTime.NOTIFICATION_INTERVAL_IN_MILLIS / 1000 / 60;
             long remaining = end - now;
+            long elapsed = now - resumed;
+            long duration = end - resumed;
             long secs = (remaining / 1000L);
-            long mins = secs / 60;
-            if (mins == 0) {
-                mins = notificationMinutes;
-            }
             Intent countdownIntent = new Intent(context,
                     MinTime.class);
             countdownIntent.setAction(ACTION_COUNTDOWN);
@@ -84,37 +84,30 @@ public class RepeatingAlarm extends BroadcastReceiver {
                     cancelIntent,
                     PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
             );
-            String str = remaining < 0 ? context.getString(R.string.time_is_up)
-                    : context.getString(R.string.left, mins, context.getString(R.string.min));
-            StringBuilder sb = new StringBuilder();
-            if (resumed != -1) {
-                long elapsed = now - resumed;
-                long running = (elapsed + 59999) / 60000;
-                sb.append(context.getString(R.string.running, running));
-            }
-            long elapsed = now - resumed;
-            long duration = end - resumed;
+            String contentTitle = remaining < 0 ? context.getString(R.string.time_is_up)
+                    : context.getString(R.string.left, (secs / 60 == 0 ? notificationMinutes : secs / 60), context.getString(R.string.min));
+            String contentText = context.getString(R.string.running, (elapsed + 59999) / 60000);
 
             int progress = 0;
             if (duration > 0) {
                 progress = (int) Math.min(1000, (elapsed * 1000L) / duration);
             }
 
-            long c1 = prefs.getLong(MinTime.COUNTER1, 0);
-            long c2 = prefs.getLong(MinTime.COUNTER2, 0);
-            long totalTime = Math.max(duration, c1 + c2);
+            long totalTime = Math.max(duration, durationGreen + durationOrange);
 
             String phaseName;
-            if (elapsed <= c1) {
+            if (elapsed < durationGreen) {
                 phaseName = context.getString(R.string.info2_short);
-            } else if (elapsed <= (c1 + c2)) {
+            } else if (elapsed < (durationGreen + durationOrange)) {
                 phaseName = context.getString(R.string.info3_short);
-            } else {
+            } else if (elapsed < (durationGreen + durationOrange + durationRed)) {
                 phaseName = context.getString(R.string.info4_short);
+            } else {
+                phaseName = context.getString(R.string.time_is_up);
             }
 
-            int s1 = (int) ((c1 * 1000) / totalTime);
-            int s2 = (int) ((c2 * 1000) / totalTime);
+            int s1 = (int) ((durationGreen * 1000) / totalTime);
+            int s2 = (int) ((durationOrange * 1000) / totalTime);
             int s3 = 1000 - s1 - s2;
 
             NotificationCompat.ProgressStyle.Segment segmentGreen = new NotificationCompat.ProgressStyle.Segment(s1)
@@ -129,12 +122,12 @@ public class RepeatingAlarm extends BroadcastReceiver {
                     .setProgressTrackerIcon(IconCompat.createWithResource(context, R.drawable.ic_launcher_mintime));
 
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                    .setContentTitle(str)
+                    .setContentTitle(contentTitle)
                     .setShowWhen(false)
                     .setSmallIcon(R.drawable.ic_mintime_monochrome)
                     .setOngoing(true)
                     .setAutoCancel(false)
-                    .setContentText(sb.toString())
+                    .setContentText(contentText)
                     .setSubText(phaseName)
                     .setStyle(progressStyle)
                     .setCategory(NotificationCompat.CATEGORY_PROGRESS)

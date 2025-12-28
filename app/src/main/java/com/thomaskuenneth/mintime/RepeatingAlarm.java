@@ -153,7 +153,7 @@ public class RepeatingAlarm extends BroadcastReceiver {
                     CHANNEL_ID,
                     context.getString(R.string.notification_channel_name),
                     NotificationManager.IMPORTANCE_HIGH);
-            channel.setDescription(context.getString(R.string.notification_channel_descr));
+            channel.setDescription(context.getString(R.string.notification_channel_description));
             channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
             nm.createNotificationChannel(channel);
         }

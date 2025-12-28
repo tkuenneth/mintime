@@ -36,7 +36,7 @@
     <string name="check_notification_settings_channel_off">The notification channel Time related notifications is off. Please check notification settings.</string>
     <string name="check_notification_settings_channel_silent">The notification channel Time related notifications is silent. Please check notification channel settings.</string>
     <string name="notification_channel_name">Time related notifications</string>
-    <string name="notification_channel_descr">Elapsed and remaining time</string>
+    <string name="notification_channel_description">Elapsed and remaining time</string>
     <string name="notification_channel_settings">notification channel settings</string>
 
     <string name="alarms_and_reminders">Alarms and reminders</string>

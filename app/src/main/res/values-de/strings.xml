@@ -31,7 +31,7 @@
     <string name="check_notification_settings_channel_off">Der Benachrichtigungskanal Zeitbezogene Benachrichtigungen ist ausgeschaltet. Bitte prüfen Sie die Benachrichtigungseinstellungen.</string>
     <string name="check_notification_settings_channel_silent">Der Benachrichtigungskanal Zeitbezogene Benachrichtigungen ist still. Bitte prüfen Sie die Benachrichtigungskanaleinstellungen.</string>
     <string name="notification_channel_name">Zeitbezogene Benachrichtigungen</string>
-    <string name="notification_channel_descr">Vergangene und verbleibende Zeit</string>
+    <string name="notification_channel_description">Vergangene und verbleibende Zeit</string>
     <string name="notification_channel_settings">Benachrichtigungskanaleinstellungen</string>
 
     <string name="alarms_and_reminders">Wecker und Erinnerungen</string>

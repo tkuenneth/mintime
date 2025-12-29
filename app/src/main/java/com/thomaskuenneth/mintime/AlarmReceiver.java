@@ -25,6 +25,7 @@ package com.thomaskuenneth.mintime;
 
 import static android.Manifest.permission.VIBRATE;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+import static com.thomaskuenneth.mintime.MinTime.RESUMED;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -34,12 +35,17 @@ import android.os.PowerManager;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 
+import androidx.preference.PreferenceManager;
+
 public class AlarmReceiver extends BroadcastReceiver {
 
     public static final String PATTERN = "pattern";
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        if (PreferenceManager.getDefaultSharedPreferences(context).getLong(RESUMED, -1) == -1) {
+            return;
+        }
         if (context.checkSelfPermission(VIBRATE) == PERMISSION_GRANTED) {
             final long[] pattern = intent.getLongArrayExtra(PATTERN);
             if (pattern != null) {

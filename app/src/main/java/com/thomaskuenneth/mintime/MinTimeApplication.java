@@ -33,5 +33,6 @@ public class MinTimeApplication extends Application {
     public void onCreate() {
         super.onCreate();
         DynamicColors.applyToActivitiesIfAvailable(this);
+        RepeatingAlarm.initNotificationChannels(this);
     }
 }

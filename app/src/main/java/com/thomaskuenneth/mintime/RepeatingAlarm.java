@@ -43,6 +43,7 @@ import android.content.Intent;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.graphics.drawable.IconCompat;
+import androidx.preference.PreferenceManager;
 
 import java.util.Arrays;
 import java.util.List;
@@ -54,13 +55,15 @@ public class RepeatingAlarm extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        if (PreferenceManager.getDefaultSharedPreferences(context).getLong(RESUMED, -1) == -1) {
+            return;
+        }
         long resumed = intent.getLongExtra(RESUMED, -1);
         long end = intent.getLongExtra(MinTime.END, -1);
         long durationGreen = intent.getLongExtra(MinTime.COUNTER1, 0);
         long durationOrange = intent.getLongExtra(MinTime.COUNTER2, 0);
         long durationRed = intent.getLongExtra(MinTime.COUNTER3, 0);
         if (resumed != -1) {
-            initNotificationChannels(context);
             long now = System.currentTimeMillis();
             long remaining = end - now;
             long elapsed = now - resumed;
@@ -149,6 +152,8 @@ public class RepeatingAlarm extends BroadcastReceiver {
     public static void initNotificationChannels(Context context) {
         NotificationManager nm = context.getSystemService(NotificationManager.class);
         if (nm != null) {
+            // an older, no longer used one
+            nm.deleteNotificationChannel(RepeatingAlarm.class.getName());
             NotificationChannel channel = new NotificationChannel(
                     CHANNEL_ID,
                     context.getString(R.string.notification_channel_name),

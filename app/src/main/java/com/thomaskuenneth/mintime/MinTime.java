@@ -254,7 +254,6 @@ public class MinTime extends AppCompatActivity
         binding.timerParent.getRoot().setOnClickListener(v -> {
             cancel();
         });
-        RepeatingAlarm.initNotificationChannels(this);
     }
 
     @Override

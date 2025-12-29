@@ -1,0 +1,2 @@
+- Make sure all alarms and notifications are properly canceled
+- Delete and old, no longer used notification channel
